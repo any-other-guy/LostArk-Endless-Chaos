@@ -11,6 +11,7 @@ newStates = {
     "moveToX": None,
     "moveToY": None,
     "instanceStartTime": None,
+    "deathCount": 0,
 }
 states = newStates.copy()
 
@@ -100,8 +101,8 @@ def doFloor1():
         sleep(config["delayedStart"] - 100, config["delayedStart"] + 100)
 
     # # move to a side
-    # sleep(300, 500)
-    # pyautogui.press(config['blink'])
+    # pyautogui.press(config["blink"])
+    # sleep(400, 500)
 
     # pyautogui.mouseDown(random.randint(800, 1120), random.randint(540, 580), button=config['move'])
     # sleep(2000,2200)
@@ -192,7 +193,9 @@ def quitChaos():
     states["clearCount"] = states["clearCount"] + 1
     lastRun = str((int(time.time_ns() / 1000000) - states["instanceStartTime"]) / 1000)
     print(
-        "Total runs completed: {}, last run: {}s".format(states["clearCount"], lastRun)
+        "Total runs completed: {}, total death: {}, last run: {}s".format(
+            states["clearCount"], states["deathCount"], lastRun
+        )
     )
     return
 
@@ -202,14 +205,21 @@ def useAbilities():
         diedCheck()
         if checkTimeout():
             return
-
+        # check boss
+        if states["status"] == "floor2" and checkFloor2Boss():
+            calculateMinimapRelative(states["moveToX"], states["moveToY"])
+            moveToMinimapRelative(states["moveToX"], states["moveToY"], 700, 800, True)
+            fightFloor2Boss()
+        # check elite and mobs
+        if states["status"] == "floor2" and checkFloor2Mob():
+            calculateMinimapRelative(states["moveToX"], states["moveToY"])
+            moveToMinimapRelative(states["moveToX"], states["moveToY"], 200, 300, False)
         if states["status"] == "floor2" and checkFloor2Elite():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
-
-            moveToMinimapRelative(states["moveToX"], states["moveToY"], 500, 600, True)
-        elif states["status"] == "floor2" and checkFloor2Mob():
-            calculateMinimapRelative(states["moveToX"], states["moveToY"])
-            moveToMinimapRelative(states["moveToX"], states["moveToY"], 300, 400, False)
+            moveToMinimapRelative(states["moveToX"], states["moveToY"], 300, 400, True)
+            # if config["useAwakening"]:
+            #     pyautogui.press("z")
+            # sleep(500, 600)
 
         # cast
         for i in range(0, len(states["abilityScreenshots"])):
@@ -223,13 +233,10 @@ def useAbilities():
             if states["status"] == "floor1" and checkPortal():
                 return
 
-            # check boss
-            if states["status"] == "floor2" and checkFloor2Boss():
-                calculateMinimapRelative(states["moveToX"], states["moveToY"])
-                moveToMinimapRelative(
-                    states["moveToX"], states["moveToY"], 500, 600, True
-                )
-                fightFloor2Boss()
+            # press health pot
+            if states["status"] == "floor2":
+                pyautogui.press("f1")
+
             # cast spells
             checkCDandCast(states["abilityScreenshots"][i])
 
@@ -349,7 +356,7 @@ def checkFloor2Elite():
             continue
         r, g, b = minimap.getpixel((entry[1], entry[0]))
         if (
-            (r in range(190, 220)) and (g in range(120, 152)) and (b in range(35, 65))
+            (r in range(200, 215)) and (g in range(125, 150)) and (b in range(30, 60))
         ):  # (r > 120 and r < 160 and g < 85 and g > 60 and b < 20) or (r > 190 and g > 130 and g < 150 and b > 30 and b < 60)
             left, top, _w, _h = config["regions"]["minimap"]
             states["moveToX"] = left + entry[1]
@@ -437,17 +444,15 @@ def moveToMinimapRelative(x, y, timeMin, timeMax, blink):
     # turn = True
     # deflect = 60
 
-    # optional blink here
-    if blink:
-        sleep(30, 50)
-        pyautogui.click(x=states["moveToX"], y=states["moveToY"], button=config["move"])
-        sleep(30, 50)
-        pyautogui.press(config["blink"])
-        sleep(100, 120)
-
     # moving in a straight line
     pyautogui.mouseDown(x=x, y=y, button=config["move"])
     sleep(timeMin, timeMax)
+
+    # optional blink here
+    if blink:
+        pyautogui.press(config["blink"])
+        sleep(300, 400)
+
     return
 
     # # snake moving
@@ -609,16 +614,17 @@ def diedCheck():  # get information about wait a few second to revive
     if pyautogui.locateOnScreen(
         "./screenshots/died.png", grayscale=True, confidence=0.9
     ):
+        states["deathCount"] = states["deathCount"] + 1
         sleep(5000, 5500)
-        while True:
-            if pyautogui.locateOnScreen("./screenshots/resReady.png", confidence=0.7):
-                pyautogui.moveTo(1275, 454)
-                sleep(800, 1000)
-                pyautogui.click(1275, 454, button="left")
-                sleep(800, 1000)
-                pyautogui.moveTo(config["screenCenterX"], config["screenCenterY"])
-                return
-            sleep(500, 600)
+        while (
+            pyautogui.locateOnScreen("./screenshots/resReady.png", confidence=0.7)
+            != None
+        ):
+            pyautogui.moveTo(1275, 454)
+            sleep(800, 1000)
+            pyautogui.click(1275, 454, button="left")
+            sleep(800, 1000)
+            pyautogui.moveTo(config["screenCenterX"], config["screenCenterY"])
     return
 
 
