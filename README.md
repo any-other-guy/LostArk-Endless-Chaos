@@ -7,6 +7,7 @@ Lost Ark chaos dungeon farming bot\
 resolution: 1920x1080 borderless window\
 HUD size: 110%\
 minimap transparency: 100%\
+desktop resolution: 1920x1080
 
 ### 2.Configure character ability settings in /config.py
 
