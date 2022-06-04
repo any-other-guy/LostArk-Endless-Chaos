@@ -12,6 +12,7 @@ newStates = {
     "moveToY": None,
     "instanceStartTime": None,
     "deathCount": 0,
+    "healthPotCount": 0,
 }
 states = newStates.copy()
 
@@ -50,24 +51,38 @@ def main():
 
 
 def enterChaos():
-    # FIXME: TODO: focus on game window without moving character
     rightClick = "right"
-    if config["move"] == "right":
-        rightClick = "left"
+    # if config["move"] == "right":
+    #     rightClick = "left"
 
     pyautogui.click(
         x=config["screenCenterX"], y=config["screenCenterY"], button=rightClick
     )
     sleep(500, 800)
 
+    # while True:
+    #     enterHand = pyautogui.locateOnScreen("./screenshots/enterChaos.png")
+    #     if enterHand != None:
+    #         print("entering chaos...")
+    #         pyautogui.press(config["interact"])
+    #         break
+    #     sleep(500, 800)
     while True:
-        enterHand = pyautogui.locateOnScreen("./screenshots/enterChaos.png")
-        if enterHand != None:
-            print("entering chaos...")
-            pyautogui.press(config["interact"])
+        im = pyautogui.screenshot(region=(1652, 168, 240, 210))
+        r, g, b = im.getpixel((1772 - 1652, 272 - 168))
+        if r != 0 and g != 0 and b != 0:
             break
-        sleep(500, 800)
     sleep(500, 800)
+    pyautogui.keyDown("alt")
+    sleep(200, 300)
+    pyautogui.press("q")
+    sleep(200, 300)
+    pyautogui.keyUp("alt")
+    sleep(800, 1000)
+    pyautogui.moveTo(886, 346)
+    sleep(800, 1000)
+    pyautogui.click(1182, 654, button="left")
+    sleep(800, 1000)
     while True:
         enterButton = pyautogui.locateCenterOnScreen(
             "./screenshots/enterButton.png", confidence=0.75
@@ -124,7 +139,7 @@ def doFloor2():
     pyautogui.mouseDown(x=1150, y=500, button=config["move"])
     sleep(800, 900)
     pyautogui.mouseDown(x=960, y=200, button=config["move"])
-    sleep(1000, 1200)
+    sleep(800, 900)
     pyautogui.click(x=945, y=550, button=config["move"])
 
     useAbilities()
@@ -203,6 +218,7 @@ def quitChaos():
 def useAbilities():
     while True:
         diedCheck()
+        healthCheck()
         if checkTimeout():
             return
         # check boss
@@ -214,17 +230,15 @@ def useAbilities():
         if states["status"] == "floor2" and checkFloor2Mob():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
             moveToMinimapRelative(states["moveToX"], states["moveToY"], 200, 300, False)
-        if states["status"] == "floor2" and checkFloor2Elite():
+        elif states["status"] == "floor2" and checkFloor2Elite():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
             moveToMinimapRelative(states["moveToX"], states["moveToY"], 300, 400, True)
-            # if config["useAwakening"]:
-            #     pyautogui.press("z")
-            # sleep(500, 600)
 
         # cast
         for i in range(0, len(states["abilityScreenshots"])):
             # pyautogui.moveTo(x=960, y=540)
             diedCheck()
+            healthCheck()
             # check portal 防止直接打死boss不小心
             if states["status"] == "floor2" and checkPortal():
                 return
@@ -233,44 +247,9 @@ def useAbilities():
             if states["status"] == "floor1" and checkPortal():
                 return
 
-            # press health pot
-            if states["status"] == "floor2":
-                pyautogui.press("f1")
-
             # cast spells
+            pyautogui.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
             checkCDandCast(states["abilityScreenshots"][i])
-
-        # diedCheck()
-        # if states['status'] == 'floor2' and checkFloor2Boss():
-        #     calculateMinimapRelative(states['moveToX'], states['moveToY'])
-        #     moveToMinimapRelative(states['moveToX'], states['moveToY'], 2500,3000)
-        #     fightFloor2Boss()
-        # elif states['status'] == 'floor2' and checkFloor2Elite():
-        #     calculateMinimapRelative(states['moveToX'], states['moveToY'])
-        #     moveToMinimapRelative(states['moveToX'], states['moveToY'], 1500,1600)
-        # elif states['status'] == 'floor2' and checkFloor2Mob():
-        #     calculateMinimapRelative(states['moveToX'], states['moveToY'])
-        #     moveToMinimapRelative(states['moveToX'], states['moveToY'], 500,600)
-
-        # # cast
-        # for i in range(math.floor(len(states['abilityScreenshots']) / 2), len(states['abilityScreenshots'])):
-        #     diedCheck()
-        #     # check portal 防止直接打死boss不小心
-        #     if states['status'] == 'floor2' and checkPortal():
-        #         return
-
-        #     # check portal
-        #     if states['status'] == 'floor1' and checkPortal():
-        #         return
-
-        #     # check boss
-        #     if states['status'] == 'floor2' and checkFloor2Boss():
-        #         calculateMinimapRelative(states['moveToX'], states['moveToY'])
-        #         moveToMinimapRelative(states['moveToX'], states['moveToY'], 2500,3000)
-        #         fightFloor2Boss()
-
-        #     # cast spells
-        #     checkCDandCast(states['abilityScreenshots'][i])
 
 
 def checkCDandCast(ability):
@@ -405,11 +384,36 @@ def checkFloor2Boss():
     return False
 
 
+# def checkFloor2Boss():
+#     sleep(100, 200)
+#     fightFloor2Boss()
+#     minimap = pyautogui.screenshot(region=config["regions"]["minimap"])  # Top Right
+#     width, height = minimap.size
+#     order = spiralSearch(width, height, math.floor(width / 2), math.floor(height / 2))
+#     for entry in order:
+#         if entry[1] >= width or entry[0] >= height:
+#             continue
+#         r, g, b = minimap.getpixel((entry[1], entry[0]))
+#         if (
+#             (r in range(153, 173)) and (g in range(25, 35)) and (b in range(25, 35))
+#         ):  # r == 199 and g == 28 and b == 30
+#             left, top, _w, _h = config["regions"]["minimap"]
+#             states["moveToX"] = left + entry[1]
+#             states["moveToY"] = top + entry[0]
+#             print(
+#                 "Boss x: {} y: {}, r: {} g: {} b: {}".format(
+#                     states["moveToX"], states["moveToY"], r, g, b
+#                 )
+#             )
+#             return True
+
+
 def fightFloor2Boss():
     if pyautogui.locateOnScreen("./screenshots/bossBar.png", confidence=0.75):
+        print("boss bar located")
         sleep(500, 700)
-        pyautogui.press("z")
-        sleep(1000, 1100)
+        # pyautogui.press("z")
+        # sleep(1000, 1100)
         pyautogui.press("V")
         sleep(1000, 1100)
 
@@ -424,10 +428,71 @@ def calculateMinimapRelative(x, y):
 
     x = x - selfLeft
     y = y - selfTop
-    moveToX = config["screenCenterX"] + x
-    moveToY = config["screenCenterY"] + y
-    states["moveToX"] = moveToX
-    states["moveToY"] = moveToY
+    print("relative to center pos x: {} y: {}".format(x, y))
+
+    dist = 200
+    if y < 0:
+        dist = -dist
+
+    if x == 0:
+        if y < 0:
+            newY = y - abs(dist)
+        else:
+            newY = y + abs(dist)
+        print("relative to center pos newX: {} newY: {}".format(0, int(newY)))
+        states["moveToX"] = 0 + config["screenCenterX"]
+        states["moveToY"] = int(newY) + config["screenCenterY"]
+        return
+    if y == 0:
+        if x < 0:
+            newX = x - abs(dist)
+        else:
+            newX = x + abs(dist)
+        print("relative to center pos newX: {} newY: {}".format(int(newX)), 0)
+        states["moveToX"] = int(newX) + config["screenCenterX"]
+        states["moveToY"] = 0 + config["screenCenterY"]
+        return
+
+    k = y / x
+    # newX = x + dist
+    newY = y + dist
+    # newY = k * (newX - x) + y
+    newX = (newY - y) / k + x
+
+    print("before confining newX: {} newY: {}".format(int(newX), int(newY)))
+    if newX < 0 and abs(newX) > config["clickableAreaX"]:
+        newX = -config["clickableAreaX"]
+        if newY < 0:
+            newY = newY + abs(dist) * 0.9
+        else:
+            newY = newY - abs(dist) * 0.9
+    elif newX > 0 and abs(newX) > config["clickableAreaX"]:
+        newX = config["clickableAreaX"]
+        if newY < 0:
+            newY = newY + abs(dist) * 0.9
+        else:
+            newY = newY - abs(dist) * 0.9
+
+    if newY < 0 and abs(newY) > config["clickableAreaY"]:
+        newY = -config["clickableAreaY"]
+        if newX < 0:
+            newX = newX + abs(dist) * 0.9
+        else:
+            newX = newX - abs(dist) * 0.9
+    elif newY > 0 and abs(newY) > config["clickableAreaY"]:
+        newY = config["clickableAreaY"]
+        if newX < 0:
+            newX = newX + abs(dist) * 0.9
+        else:
+            newX = newX - abs(dist) * 0.9
+
+    print(
+        "after confining relative to center pos newX: {} newY: {}".format(
+            int(newX), int(newY)
+        )
+    )
+    states["moveToX"] = int(newX) + config["screenCenterX"]
+    states["moveToY"] = int(newY) + config["screenCenterY"]
     return
 
 
@@ -445,8 +510,11 @@ def moveToMinimapRelative(x, y, timeMin, timeMax, blink):
     # deflect = 60
 
     # moving in a straight line
-    pyautogui.mouseDown(x=x, y=y, button=config["move"])
-    sleep(timeMin, timeMax)
+    pyautogui.click(x=x, y=y, button=config["move"])
+    sleep(200, 300)
+    pyautogui.click(x=x, y=y, button=config["move"])
+    sleep(200, 300)
+    # sleep(timeMin, timeMax)
 
     # optional blink here
     if blink:
@@ -577,7 +645,7 @@ def waitForLoading():
     while True:
         if pyautogui.locateOnScreen(
             "./screenshots/leave.png",
-            confidence=0.75,
+            confidence=0.8,
             region=config["regions"]["leaveMenu"],
         ):
             return True
@@ -649,6 +717,15 @@ def doRepair():
     sleep(800, 1000)
     pyautogui.press("esc")
     sleep(800, 1000)
+
+
+def healthCheck():
+    r, g, b = pyautogui.pixel(config["healthCheckX"], config["healthCheckY"])
+    if r < 20 and config["useHealthPot"]:
+        pyautogui.press(config["healthPot"])
+        states["healthPotCount"] = states["healthPotCount"] + 1
+        return
+    return
 
 
 def sleep(min, max):
