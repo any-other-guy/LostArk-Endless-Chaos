@@ -60,29 +60,30 @@ def enterChaos():
     )
     sleep(500, 800)
 
-    # while True:
-    #     enterHand = pyautogui.locateOnScreen("./screenshots/enterChaos.png")
-    #     if enterHand != None:
-    #         print("entering chaos...")
-    #         pyautogui.press(config["interact"])
-    #         break
-    #     sleep(500, 800)
     while True:
-        im = pyautogui.screenshot(region=(1652, 168, 240, 210))
-        r, g, b = im.getpixel((1772 - 1652, 272 - 168))
-        if r != 0 and g != 0 and b != 0:
+        enterHand = pyautogui.locateOnScreen("./screenshots/enterChaos.png")
+        if enterHand != None:
+            print("entering chaos...")
+            pyautogui.press(config["interact"])
             break
-    sleep(500, 800)
-    pyautogui.keyDown("alt")
-    sleep(200, 300)
-    pyautogui.press("q")
-    sleep(200, 300)
-    pyautogui.keyUp("alt")
-    sleep(800, 1000)
-    pyautogui.moveTo(886, 346)
-    sleep(800, 1000)
-    pyautogui.click(1182, 654, button="left")
-    sleep(800, 1000)
+        sleep(500, 800)
+    # while True:
+    #     im = pyautogui.screenshot(region=(1652, 168, 240, 210))
+    #     r, g, b = im.getpixel((1772 - 1652, 272 - 168))
+    #     if r != 0 and g != 0 and b != 0:
+    #         break
+    # sleep(500, 800)
+    # pyautogui.keyDown("alt")
+    # sleep(200, 300)
+    # pyautogui.press("q")
+    # sleep(200, 300)
+    # pyautogui.keyUp("alt")
+    # sleep(800, 1000)
+    # pyautogui.moveTo(886, 346)
+    # sleep(800, 1000)
+    # pyautogui.click(1182, 654, button="left")
+    # sleep(800, 1000)
+    # pyautogui.click(1182, 654, button="left")
     while True:
         enterButton = pyautogui.locateCenterOnScreen(
             "./screenshots/enterButton.png", confidence=0.75
@@ -177,20 +178,12 @@ def quitChaos():
                 pyautogui.locateCenterOnScreen("./screenshots/ok.png", confidence=0.75)
                 == None
             ):
-                pyautogui.click(x=x, y=y, button="left")
+                pyautogui.moveTo(x=x, y=y)
+                sleep(500, 600)
+                pyautogui.click(button="left")
                 sleep(150, 200)
             break
         break
-        # pyautogui.click(button='left')
-        # sleep(500,600)
-        # pyautogui.click(x=x, y=y, button='left')
-        # sleep(50,60)
-        # pyautogui.click(button='left')
-        # sleep(500,600)
-        # pyautogui.click(x=x, y=y, button='left')
-        # sleep(50,60)
-        # pyautogui.click(button='left')
-        # break
     sleep(500, 600)
     while True:
         okButton = pyautogui.locateCenterOnScreen(
@@ -224,15 +217,17 @@ def useAbilities():
         # check boss
         if states["status"] == "floor2" and checkFloor2Boss():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
-            moveToMinimapRelative(states["moveToX"], states["moveToY"], 700, 800, True)
+            moveToMinimapRelative(
+                states["moveToX"], states["moveToY"], 1000, 1100, True
+            )
             fightFloor2Boss()
         # check elite and mobs
-        if states["status"] == "floor2" and checkFloor2Mob():
+        if states["status"] == "floor2" and checkFloor2Elite():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
-            moveToMinimapRelative(states["moveToX"], states["moveToY"], 200, 300, False)
-        elif states["status"] == "floor2" and checkFloor2Elite():
+            moveToMinimapRelative(states["moveToX"], states["moveToY"], 800, 900, True)
+        elif states["status"] == "floor2" and checkFloor2Mob():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
-            moveToMinimapRelative(states["moveToX"], states["moveToY"], 300, 400, True)
+            moveToMinimapRelative(states["moveToX"], states["moveToY"], 400, 500, False)
 
         # cast
         for i in range(0, len(states["abilityScreenshots"])):
@@ -439,7 +434,7 @@ def calculateMinimapRelative(x, y):
             newY = y - abs(dist)
         else:
             newY = y + abs(dist)
-        print("relative to center pos newX: {} newY: {}".format(0, int(newY)))
+        print("relative to center pos newX: 0 newY: {}".format(int(newY)))
         states["moveToX"] = 0 + config["screenCenterX"]
         states["moveToY"] = int(newY) + config["screenCenterY"]
         return
@@ -448,7 +443,7 @@ def calculateMinimapRelative(x, y):
             newX = x - abs(dist)
         else:
             newX = x + abs(dist)
-        print("relative to center pos newX: {} newY: {}".format(int(newX)), 0)
+        print("relative to center pos newX: {} newY: 0".format(int(newX)))
         states["moveToX"] = int(newX) + config["screenCenterX"]
         states["moveToY"] = 0 + config["screenCenterY"]
         return
@@ -511,9 +506,9 @@ def moveToMinimapRelative(x, y, timeMin, timeMax, blink):
 
     # moving in a straight line
     pyautogui.click(x=x, y=y, button=config["move"])
-    sleep(200, 300)
+    sleep(int(timeMin / 2), int(timeMax / 2))
     pyautogui.click(x=x, y=y, button=config["move"])
-    sleep(200, 300)
+    sleep(int(timeMin / 2), int(timeMax / 2))
     # sleep(timeMin, timeMax)
 
     # optional blink here
@@ -689,9 +684,9 @@ def diedCheck():  # get information about wait a few second to revive
             != None
         ):
             pyautogui.moveTo(1275, 454)
-            sleep(800, 1000)
+            sleep(600, 800)
             pyautogui.click(1275, 454, button="left")
-            sleep(800, 1000)
+            sleep(600, 800)
             pyautogui.moveTo(config["screenCenterX"], config["screenCenterY"])
     return
 
