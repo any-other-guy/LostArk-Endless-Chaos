@@ -60,41 +60,49 @@ def enterChaos():
     )
     sleep(500, 800)
 
-    while True:
-        enterHand = pyautogui.locateOnScreen("./screenshots/enterChaos.png")
-        if enterHand != None:
-            print("entering chaos...")
-            pyautogui.press(config["interact"])
-            break
-        sleep(500, 800)
-    # while True:
-    #     im = pyautogui.screenshot(region=(1652, 168, 240, 210))
-    #     r, g, b = im.getpixel((1772 - 1652, 272 - 168))
-    #     if r != 0 and g != 0 and b != 0:
-    #         break
-    # sleep(500, 800)
-    # pyautogui.keyDown("alt")
-    # sleep(200, 300)
-    # pyautogui.press("q")
-    # sleep(200, 300)
-    # pyautogui.keyUp("alt")
-    # sleep(800, 1000)
-    # pyautogui.moveTo(886, 346)
-    # sleep(800, 1000)
-    # pyautogui.click(1182, 654, button="left")
-    # sleep(800, 1000)
-    # pyautogui.click(1182, 654, button="left")
-    while True:
-        enterButton = pyautogui.locateCenterOnScreen(
-            "./screenshots/enterButton.png", confidence=0.75
-        )
-        if enterButton != None:
-            x, y = enterButton
-            pyautogui.moveTo(x=x, y=y)
+    if config["shortcutEnterChaos"] == True:
+        while True:
+            im = pyautogui.screenshot(region=(1652, 168, 240, 210))
+            r, g, b = im.getpixel((1772 - 1652, 272 - 168))
+            if r != 0 and g != 0 and b != 0:
+                break
             sleep(500, 800)
-            pyautogui.click(x=x, y=y, button="left")
-            break
-    sleep(500, 800)
+        sleep(600, 800)
+        while True:
+            pyautogui.keyDown("alt")
+            sleep(600, 800)
+            pyautogui.press("q")
+            sleep(300, 400)
+            pyautogui.keyUp("alt")
+            sleep(300, 400)
+            pyautogui.moveTo(886, 346)
+            sleep(600, 800)
+            pyautogui.click(button="left")
+            sleep(600, 800)
+
+            enterButton = pyautogui.locateCenterOnScreen(
+                "./screenshots/enterButton.png", confidence=0.75
+            )
+            if enterButton != None:
+                x, y = enterButton
+                pyautogui.moveTo(x=x, y=y)
+                sleep(600, 800)
+                pyautogui.click(x=x, y=y, button="left")
+                break
+            else:
+                pyautogui.moveTo(886, 346)
+                sleep(600, 800)
+                pyautogui.click(button="left")
+                sleep(600, 800)
+    else:
+        while True:
+            enterHand = pyautogui.locateOnScreen("./screenshots/enterChaos.png")
+            if enterHand != None:
+                print("entering chaos...")
+                pyautogui.press(config["interact"])
+                break
+            sleep(500, 800)
+    sleep(600, 800)
     while True:
         acceptButton = pyautogui.locateCenterOnScreen(
             "./screenshots/acceptButton.png", confidence=0.75
@@ -102,9 +110,10 @@ def enterChaos():
         if acceptButton != None:
             x, y = acceptButton
             pyautogui.moveTo(x=x, y=y)
-            sleep(500, 800)
+            sleep(600, 800)
             pyautogui.click(x=x, y=y, button="left")
             break
+        sleep(500, 800)
     states["status"] = "floor1"
     return
 
@@ -699,19 +708,19 @@ def doRepair():
     pyautogui.press("p")
     sleep(200, 300)
     pyautogui.keyUp("alt")
-    sleep(800, 1000)
+    sleep(800, 900)
     pyautogui.moveTo(1182, 654)
-    sleep(800, 1000)
+    sleep(800, 900)
     pyautogui.click(1182, 654, button="left")
-    sleep(800, 1000)
+    sleep(800, 900)
     pyautogui.moveTo(1068, 644)
-    sleep(800, 1000)
+    sleep(800, 900)
     pyautogui.click(1068, 644, button="left")
-    sleep(800, 1000)
+    sleep(800, 900)
     pyautogui.press("esc")
-    sleep(800, 1000)
+    sleep(800, 900)
     pyautogui.press("esc")
-    sleep(800, 1000)
+    sleep(800, 900)
 
 
 def healthCheck():
