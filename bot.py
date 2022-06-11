@@ -10,23 +10,34 @@ newStates = {
     "clearCount": 0,
     "moveToX": None,
     "moveToY": None,
+    "botStartTime": None,
     "instanceStartTime": None,
     "deathCount": 0,
     "healthPotCount": 0,
+    "timeoutCount": 0,
 }
 states = newStates.copy()
 
 
 def main():
     print("Endless Chaos started...")
+    # save bot start time
+    states["botStartTime"] = int(time.time_ns() / 1000000)
     while True:
         if states["status"] == "inCity":
             # states = newStates
             states["abilityScreenshots"] = []
             enterChaos()
+            # save instance start time
+            states["instanceStartTime"] = int(time.time_ns() / 1000000)
+
         elif states["status"] == "floor1":
+            print("floor1")
             # wait for loading
             waitForLoading()
+            if checkTimeout():
+                quitChaos()
+                return
             sleep(1000, 1200)
             print("floor1 loaded")
 
@@ -37,14 +48,15 @@ def main():
             if config["autoRepair"]:
                 doRepair()
 
-            # save instance start time
-            states["instanceStartTime"] = int(time.time_ns() / 1000000)
-
             # do floor one
             doFloor1()
         elif states["status"] == "floor2":
+            print("floor2")
             # wait for loading
             waitForLoading()
+            if checkTimeout():
+                quitChaos()
+                return
             print("floor2 loaded")
             # do floor two
             doFloor2()
@@ -55,9 +67,9 @@ def enterChaos():
     # if config["move"] == "right":
     #     rightClick = "left"
 
-    pyautogui.click(
-        x=config["screenCenterX"], y=config["screenCenterY"], button=rightClick
-    )
+    pyautogui.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
+    sleep(500, 800)
+    pyautogui.click(button=rightClick)
     sleep(500, 800)
 
     if config["shortcutEnterChaos"] == True:
@@ -158,7 +170,7 @@ def doFloor2():
         quitChaos()
         return
 
-    # quit chaos after floor 2 clera for now
+    # quit chaos after floor 2 clear for now
     quitChaos()
 
     # TODO: going floor 3 here
@@ -209,9 +221,19 @@ def quitChaos():
     states["status"] = "inCity"
     states["clearCount"] = states["clearCount"] + 1
     lastRun = str((int(time.time_ns() / 1000000) - states["instanceStartTime"]) / 1000)
+    avgTime = str(
+        int(
+            ((int(time.time_ns() / 1000000) - states["botStartTime"]) / 1000)
+            / states["clearCount"]
+        )
+    )
     print(
-        "Total runs completed: {}, total death: {}, last run: {}s".format(
-            states["clearCount"], states["deathCount"], lastRun
+        "Total runs completed: {}, total death: {}, last run: {}s, \navg time: {}s, timeout count: {}".format(
+            states["clearCount"],
+            states["deathCount"],
+            lastRun,
+            avgTime,
+            states["timeoutCount"],
         )
     )
     return
@@ -647,13 +669,27 @@ def enterPortal():
 def waitForLoading():
     print("loading")
     while True:
-        if pyautogui.locateOnScreen(
+        leaveButton = pyautogui.locateOnScreen(
             "./screenshots/leave.png",
-            confidence=0.8,
+            grayscale=True,
+            confidence=0.7,
             region=config["regions"]["leaveMenu"],
-        ):
+        )
+        if leaveButton != None:
             return True
         sleep(222, 333)
+        if checkTimeout():
+            quitChaos()
+            return
+    # while True:
+    #     im = pyautogui.screenshot()
+    #     r, g, b = im.getpixel((688, 849))
+    #     if r == 162 and g == 14 and b == 7:
+    #         break
+    #     sleep(400, 500)
+    #     if checkTimeout():
+    #         quitChaos()
+    #         return
 
 
 def saveAbilitiesScreenshots():
@@ -704,9 +740,9 @@ def doRepair():
     # Check if repair needed
     # if pyautogui.locateOnScreen("./screenshots/repair.png", grayscale = True, confidence = 0.8):
     pyautogui.keyDown("alt")
-    sleep(200, 300)
+    sleep(800, 900)
     pyautogui.press("p")
-    sleep(200, 300)
+    sleep(800, 900)
     pyautogui.keyUp("alt")
     sleep(800, 900)
     pyautogui.moveTo(1182, 654)
@@ -781,6 +817,7 @@ def checkTimeout():
         print("timeout triggered")
         timeout = pyautogui.screenshot()
         timeout.save("./timeout/timeout" + str(currentTime) + ".png")
+        states["timeoutCount"] = states["timeoutCount"] + 1
         return True
     return False
 

@@ -110,7 +110,7 @@ config = {
     "regions": {
         "minimap": (1680, 190, 190, 160),  # (1700, 200, 125, 120)
         "abilities": (625, 779, 719, 155),
-        "leaveMenu": (40, 154, 460, 250),
+        "leaveMenu": (40, 154, 250, 300),
     },
     "screenResolutionX": 1920,
     "screenResolutionY": 1080,
@@ -120,7 +120,7 @@ config = {
     "screenCenterY": 540,
     "minimapCenterX": 1772,
     "minimapCenterY": 272,
-    "timeLimit": 240000,
+    "timeLimit": 300000,
     "delayedStart": 3000,
     "healthCheckX": 741,
     "healthCheckY": 854,
