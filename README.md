@@ -1,7 +1,7 @@
 # Endless-Chaos
 Lost Ark chaos dungeon farming bot\
 Fully automatic mob/elite/boss detecting and clearing\
-Background running is supported with RDP Wrapper\
+Background running is supported with RDP Wrapper
 
 Features:
 - [x] Floor 1 clear
@@ -28,7 +28,7 @@ python3 -m pip install --upgrade pip
 
 
 ### 1.Please change game settings to: 
-resolution: 1920x1080 borderless window\
+resolution: 1920x1080 borderless window, force 21:9 aspect ratio\
 HUD size: 110%\
 minimap transparency: 100%\
 desktop resolution: 1920x1080
@@ -41,4 +41,6 @@ cd Endless-Chaos
 pip install -r requirements.txt
 python3 bot.py
 ```
+
+IMPORTANT: by running the script, you agree to use it at your own risk!
 
