@@ -1,5 +1,20 @@
 # Endless-Chaos
 Lost Ark chaos dungeon farming bot\
+Fully automatic mob/elite/boss detecting and clearing\
+Background running is supported with RDP Wrapper\
+
+Features:
+- [x] Floor 1 clear
+- [x] Floor 2 clear
+- [x] Gold Portal
+- [ ] Red Boss Portal
+- [ ] Floor 3 clear
+
+Utilities:
+- [x] Auto repair
+- [x] Auto health pot at low hp
+- [x] Anti-stuck detection and time limit customization
+- [ ] todo
 
 ## Getting started
 
