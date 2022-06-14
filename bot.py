@@ -27,9 +27,13 @@ def main():
         if states["status"] == "inCity":
             # states = newStates
             states["abilityScreenshots"] = []
-            enterChaos()
             # save instance start time
             states["instanceStartTime"] = int(time.time_ns() / 1000000)
+
+            enterChaos()
+            if checkTimeout():
+                quitChaos()
+                continue
 
         elif states["status"] == "floor1":
             print("floor1")
@@ -37,7 +41,7 @@ def main():
             waitForLoading()
             if checkTimeout():
                 quitChaos()
-                return
+                continue
             sleep(1000, 1200)
             print("floor1 loaded")
 
@@ -56,10 +60,20 @@ def main():
             waitForLoading()
             if checkTimeout():
                 quitChaos()
-                return
+                continue
             print("floor2 loaded")
             # do floor two
             doFloor2()
+        elif states["status"] == "floor3":
+            print("floor3")
+            # wait for loading
+            waitForLoading()
+            if checkTimeout():
+                quitChaos()
+                continue
+            print("floor3 loaded")
+            # do floor 3
+            doFloor3()
 
 
 def enterChaos():
@@ -102,6 +116,9 @@ def enterChaos():
                 pyautogui.click(x=x, y=y, button="left")
                 break
             else:
+                if checkTimeout():
+                    # quitChaos()
+                    return
                 pyautogui.moveTo(886, 346)
                 sleep(600, 800)
                 pyautogui.click(button="left")
@@ -132,7 +149,10 @@ def enterChaos():
 
 def doFloor1():
     # trigger start floor 1
-    pyautogui.click(x=945, y=550, button=config["move"])
+    pyautogui.moveTo(x=945, y=550)
+    sleep(400, 500)
+    pyautogui.click(button=config["move"])
+
     # delayed start for better aoe abiltiy usage at floor1 beginning
     if config["delayedStart"] != None:
         sleep(config["delayedStart"] - 100, config["delayedStart"] + 100)
@@ -153,6 +173,9 @@ def doFloor1():
         return
     calculateMinimapRelative(states["moveToX"], states["moveToY"])
     enterPortal()
+    if checkTimeout():
+        quitChaos()
+        return
     states["status"] = "floor2"
     return
 
@@ -171,15 +194,42 @@ def doFloor2():
         return
 
     # quit chaos after floor 2 clear for now
-    quitChaos()
+    # quitChaos()
 
     # TODO: going floor 3 here
-    # print('floor 2 clear')
-    # calculateMinimapRelative(states['moveToX'], states['moveToY'])
-    # enterPortal()
-    # states['status'] = 'floor3'
+    print("floor 2 clear")
+    calculateMinimapRelative(states["moveToX"], states["moveToY"])
+    enterPortal()
+    if checkTimeout():
+        quitChaos()
+        return
+    states["status"] = "floor3"
 
     return
+
+
+def doFloor3():
+    # trigger start floor 3
+    pyautogui.moveTo(x=945, y=550)
+    sleep(400, 500)
+    pyautogui.click(button=config["move"])
+
+    sleep(1800, 2000)
+
+    if not checkFloor3GoldMob():
+        quitChaos()
+        return
+    print("gold mob located")
+
+    useAbilities()
+
+    # bad run quit
+    if checkTimeout():
+        quitChaos()
+        return
+    print("gold mob done")
+    # quit chaos after floor 3 clear for now
+    quitChaos()
 
 
 def quitChaos():
@@ -228,12 +278,11 @@ def quitChaos():
         )
     )
     print(
-        "Total runs completed: {}, total death: {}, last run: {}s, \navg time: {}s, timeout count: {}".format(
+        "Total runs completed: {}, total death: {}, last run: {}s, avg time: {}s".format(
             states["clearCount"],
             states["deathCount"],
             lastRun,
             avgTime,
-            states["timeoutCount"],
         )
     )
     return
@@ -259,6 +308,9 @@ def useAbilities():
         elif states["status"] == "floor2" and checkFloor2Mob():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
             moveToMinimapRelative(states["moveToX"], states["moveToY"], 400, 500, False)
+        elif states["status"] == "floor3" and checkFloor3GoldMob():
+            calculateMinimapRelative(states["moveToX"], states["moveToY"])
+            moveToMinimapRelative(states["moveToX"], states["moveToY"], 800, 900, True)
 
         # cast
         for i in range(0, len(states["abilityScreenshots"])):
@@ -266,12 +318,29 @@ def useAbilities():
             diedCheck()
             healthCheck()
             # check portal 防止直接打死boss不小心
+            if states["status"] == "floor3" and checkPortal():
+                return
+
             if states["status"] == "floor2" and checkPortal():
                 return
 
             # check portal
             if states["status"] == "floor1" and checkPortal():
                 return
+
+            if states["status"] == "floor3" and checkFloor3GoldMob():
+                calculateMinimapRelative(states["moveToX"], states["moveToY"])
+                moveToMinimapRelative(
+                    states["moveToX"], states["moveToY"], 400, 500, False
+                )
+
+            # check boss
+            if states["status"] == "floor2" and checkFloor2Boss():
+                calculateMinimapRelative(states["moveToX"], states["moveToY"])
+                moveToMinimapRelative(
+                    states["moveToX"], states["moveToY"], 1000, 1100, True
+                )
+                fightFloor2Boss()
 
             # cast spells
             pyautogui.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
@@ -325,7 +394,10 @@ def checkPortal():
         print("portal image x: {} y: {}".format(states["moveToX"], states["moveToY"]))
         return True
 
-    # check pixel
+    # # only check with portal image on floor 2
+    # if states["status"] == "floor2":
+    #     return False
+
     minimap = pyautogui.screenshot(region=config["regions"]["minimap"])  # Top Right
     width, height = minimap.size
     order = spiralSearch(width, height, math.floor(width / 2), math.floor(height / 2))
@@ -395,6 +467,28 @@ def checkFloor2Mob():
             return True
 
 
+def checkFloor3GoldMob():
+    sleep(100, 200)
+    minimap = pyautogui.screenshot(region=config["regions"]["minimap"])  # Top Right
+    width, height = minimap.size
+    order = spiralSearch(width, height, math.floor(width / 2), math.floor(height / 2))
+    for entry in order:
+        if entry[1] >= width or entry[0] >= height:
+            continue
+        r, g, b = minimap.getpixel((entry[1], entry[0]))
+        if r == 255 and g == 188 and b == 30:
+            left, top, _w, _h = config["regions"]["minimap"]
+            states["moveToX"] = left + entry[1]
+            states["moveToY"] = top + entry[0]
+            print(
+                "gold x: {} y: {}, r: {} g: {} b: {}".format(
+                    states["moveToX"], states["moveToY"], r, g, b
+                )
+            )
+            return True
+    return False
+
+
 def checkFloor2Boss():
     fightFloor2Boss()
     bossLocation = pyautogui.locateCenterOnScreen(
@@ -435,19 +529,19 @@ def checkFloor2Boss():
 
 
 def fightFloor2Boss():
-    if pyautogui.locateOnScreen("./screenshots/bossBar.png", confidence=0.75):
+    if pyautogui.locateOnScreen("./screenshots/bossBar.png", confidence=0.7):
         print("boss bar located")
-        sleep(500, 700)
+        sleep(200, 300)
         # pyautogui.press("z")
         # sleep(1000, 1100)
         pyautogui.press("V")
-        sleep(1000, 1100)
+        # sleep(1000, 1100)
 
 
 def calculateMinimapRelative(x, y):
     selfLeft = config["minimapCenterX"]
     selfTop = config["minimapCenterY"]
-    if abs(selfLeft - x) <= 11 and abs(selfTop - y) <= 11:
+    if abs(selfLeft - x) <= 7 and abs(selfTop - y) <= 7:
         states["moveToX"] = config["screenCenterX"]
         states["moveToY"] = config["screenCenterY"]
         return
@@ -489,28 +583,28 @@ def calculateMinimapRelative(x, y):
     if newX < 0 and abs(newX) > config["clickableAreaX"]:
         newX = -config["clickableAreaX"]
         if newY < 0:
-            newY = newY + abs(dist) * 0.9
+            newY = newY + abs(dist) * 0.25
         else:
-            newY = newY - abs(dist) * 0.9
+            newY = newY - abs(dist) * 0.25
     elif newX > 0 and abs(newX) > config["clickableAreaX"]:
         newX = config["clickableAreaX"]
         if newY < 0:
-            newY = newY + abs(dist) * 0.9
+            newY = newY + abs(dist) * 0.25
         else:
-            newY = newY - abs(dist) * 0.9
+            newY = newY - abs(dist) * 0.25
 
     if newY < 0 and abs(newY) > config["clickableAreaY"]:
         newY = -config["clickableAreaY"]
         if newX < 0:
-            newX = newX + abs(dist) * 0.9
+            newX = newX + abs(dist) * 0.7
         else:
-            newX = newX - abs(dist) * 0.9
+            newX = newX - abs(dist) * 0.7
     elif newY > 0 and abs(newY) > config["clickableAreaY"]:
         newY = config["clickableAreaY"]
         if newX < 0:
-            newX = newX + abs(dist) * 0.9
+            newX = newX + abs(dist) * 0.7
         else:
-            newX = newX - abs(dist) * 0.9
+            newX = newX - abs(dist) * 0.7
 
     print(
         "after confining relative to center pos newX: {} newY: {}".format(
@@ -589,7 +683,14 @@ def enterPortal():
     # repeatedly move and press g until black screen
     sleep(2200, 2500)
     print("moving to portal x: {} y: {}".format(states["moveToX"], states["moveToY"]))
+    enterTime = int(time.time_ns() / 1000000)
     while True:
+        nowTime = int(time.time_ns() / 1000000)
+        if nowTime - enterTime > 10000:
+            # FIXME:
+            states["instanceStartTime"] = states["instanceStartTime"] - 300000
+            return
+
         im = pyautogui.screenshot(region=(1652, 168, 240, 210))
         r, g, b = im.getpixel((1772 - 1652, 272 - 168))
         if r == 0 and g == 0 and b == 0:
@@ -602,67 +703,81 @@ def enterPortal():
             pyautogui.press(config["interact"])
             sleep(100, 120)
         else:
-            pyautogui.mouseDown(
+            pyautogui.press(config["interact"])
+            pyautogui.click(
                 x=states["moveToX"], y=states["moveToY"], button=config["move"]
             )
-            sleep(100, 120)
+            sleep(50, 60)
+            pyautogui.press(config["interact"])
+            pyautogui.click(
+                x=states["moveToX"], y=states["moveToY"], button=config["move"]
+            )
+            sleep(50, 60)
             pyautogui.press(config["interact"])
 
 
 # def enterPortal():
 #     # repeatedly move and press g until black screen
-#     print('moving to portal x: {} y: {}'.format(states['moveToX'], states['moveToY']))
+#     print("moving to portal x: {} y: {}".format(states["moveToX"], states["moveToY"]))
 #     turn = True
-#     deflect = 60
+#     deflect = 80
 #     while True:
 #         im = pyautogui.screenshot(region=(1652, 168, 240, 210))
-#         r,g,b = im.getpixel((1772 - 1652,272 - 168))
+#         r, g, b = im.getpixel((1772 - 1652, 272 - 168))
 #         if r == 0 and g == 0 and b == 0:
 #             return
 
-#         x = states['moveToX']
-#         y = states['moveToY']
+#         x = states["moveToX"]
+#         y = states["moveToY"]
 #         if x > 960 and y < 540:
 #             if turn:
-#                 x = x - deflect* 2.5
+#                 x = x - deflect * 2.5
 #                 y = y - deflect
 #             else:
-#                 x = x + deflect* 2.5
+#                 x = x + deflect * 2.5
 #                 y = y + deflect
 #         elif x > 960 and y > 540:
 #             if turn:
-#                 x = x + deflect* 2.5
+#                 x = x + deflect * 2.5
 #                 y = y - deflect
 #             else:
 #                 x = x - deflect * 2.5
 #                 y = y + deflect
 #         elif x < 960 and y > 540:
 #             if turn:
-#                 x = x + deflect* 2.5
+#                 x = x + deflect * 2.5
 #                 y = y + deflect
 #             else:
-#                 x = x - deflect* 2.5
+#                 x = x - deflect * 2.5
 #                 y = y - deflect
 #         elif x < 960 and y < 540:
 #             if turn:
-#                 x = x - deflect* 2.5
+#                 x = x - deflect * 2.5
 #                 y = y + deflect
 #             else:
-#                 x = x + deflect* 2.5
+#                 x = x + deflect * 2.5
 #                 y = y - deflect
 #         # print('movex: {} movey: {} x:{} y: {} turn: {}'.format(states['moveToX'], states['moveToY'], x,y,turn))
 #         count = 0
 #         while count < 5:
-#             pyautogui.press(config['interact'])
+#             pyautogui.press(config["interact"])
 #             im = pyautogui.screenshot(region=(1652, 168, 240, 210))
-#             r,g,b = im.getpixel((1772 - 1652,272 - 168))
+#             r, g, b = im.getpixel((1772 - 1652, 272 - 168))
 #             if r == 0 and g == 0 and b == 0:
 #                 return
 
-#             pyautogui.click(x=x, y=y, button=config['move'])
-#             sleep(50,60)
-#             count = count + 1
-#         turn = not turn
+#             if (
+#                 states["moveToX"] == config["screenCenterX"]
+#                 and states["moveToY"] == config["screenCenterY"]
+#             ):
+#                 pyautogui.press(config["interact"])
+#                 sleep(100, 120)
+#             else:
+#                 pyautogui.click(x=x, y=y, button=config["move"])
+#                 sleep(50, 60)
+#                 pyautogui.press(config["interact"])
+#                 count = count + 1
+#             turn = not turn
 #     return
 
 
@@ -676,10 +791,10 @@ def waitForLoading():
             region=config["regions"]["leaveMenu"],
         )
         if leaveButton != None:
-            return True
+            return
         sleep(222, 333)
         if checkTimeout():
-            quitChaos()
+            # quitChaos()
             return
     # while True:
     #     im = pyautogui.screenshot()
@@ -738,25 +853,30 @@ def diedCheck():  # get information about wait a few second to revive
 
 def doRepair():
     # Check if repair needed
-    # if pyautogui.locateOnScreen("./screenshots/repair.png", grayscale = True, confidence = 0.8):
-    pyautogui.keyDown("alt")
-    sleep(800, 900)
-    pyautogui.press("p")
-    sleep(800, 900)
-    pyautogui.keyUp("alt")
-    sleep(800, 900)
-    pyautogui.moveTo(1182, 654)
-    sleep(800, 900)
-    pyautogui.click(1182, 654, button="left")
-    sleep(800, 900)
-    pyautogui.moveTo(1068, 644)
-    sleep(800, 900)
-    pyautogui.click(1068, 644, button="left")
-    sleep(800, 900)
-    pyautogui.press("esc")
-    sleep(800, 900)
-    pyautogui.press("esc")
-    sleep(800, 900)
+    if pyautogui.locateOnScreen(
+        "./screenshots/repair.png",
+        grayscale=True,
+        confidence=0.5,
+        region=(1500, 134, 100, 100),
+    ):
+        pyautogui.keyDown("alt")
+        sleep(800, 900)
+        pyautogui.press("p")
+        sleep(800, 900)
+        pyautogui.keyUp("alt")
+        sleep(800, 900)
+        pyautogui.moveTo(1182, 654)
+        sleep(800, 900)
+        pyautogui.click(1182, 654, button="left")
+        sleep(800, 900)
+        pyautogui.moveTo(1068, 644)
+        sleep(800, 900)
+        pyautogui.click(1068, 644, button="left")
+        sleep(800, 900)
+        pyautogui.press("esc")
+        sleep(800, 900)
+        pyautogui.press("esc")
+        sleep(800, 900)
 
 
 def healthCheck():
