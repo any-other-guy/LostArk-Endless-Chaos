@@ -108,7 +108,7 @@ config = {
     "skipLogin": False,
     "endTime": False,
     "regions": {
-        "minimap": (1680, 190, 190, 160),  # (1700, 200, 125, 120)
+        "minimap": (1655, 170, 260, 200),  # (1700, 200, 125, 120)
         "abilities": (625, 779, 719, 155),
         "leaveMenu": (40, 154, 250, 300),
     },

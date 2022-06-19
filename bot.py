@@ -15,6 +15,8 @@ newStates = {
     "deathCount": 0,
     "healthPotCount": 0,
     "timeoutCount": 0,
+    "goldPortalCount": 0,
+    "purplePortalCount": 0,
 }
 states = newStates.copy()
 
@@ -37,6 +39,8 @@ def main():
 
         elif states["status"] == "floor1":
             print("floor1")
+            pyautogui.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
+            sleep(200, 300)
             # wait for loading
             waitForLoading()
             if checkTimeout():
@@ -56,6 +60,8 @@ def main():
             doFloor1()
         elif states["status"] == "floor2":
             print("floor2")
+            pyautogui.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
+            sleep(200, 300)
             # wait for loading
             waitForLoading()
             if checkTimeout():
@@ -66,6 +72,8 @@ def main():
             doFloor2()
         elif states["status"] == "floor3":
             print("floor3")
+            pyautogui.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
+            sleep(200, 300)
             # wait for loading
             waitForLoading()
             if checkTimeout():
@@ -78,13 +86,13 @@ def main():
 
 def enterChaos():
     rightClick = "right"
-    # if config["move"] == "right":
-    #     rightClick = "left"
+    if config["move"] == "right":
+        rightClick = "left"
 
     pyautogui.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
-    sleep(500, 800)
+    sleep(200, 300)
     pyautogui.click(button=rightClick)
-    sleep(500, 800)
+    sleep(200, 300)
 
     if config["shortcutEnterChaos"] == True:
         while True:
@@ -149,7 +157,7 @@ def enterChaos():
 
 def doFloor1():
     # trigger start floor 1
-    pyautogui.moveTo(x=945, y=550)
+    pyautogui.moveTo(x=845, y=600)
     sleep(400, 500)
     pyautogui.click(button=config["move"])
 
@@ -167,10 +175,13 @@ def doFloor1():
 
     # smash available abilities
     useAbilities()
+
     # bad run quit
     if checkTimeout():
         quitChaos()
         return
+
+    print("floor 1 cleared")
     calculateMinimapRelative(states["moveToX"], states["moveToY"])
     enterPortal()
     if checkTimeout():
@@ -188,16 +199,13 @@ def doFloor2():
     pyautogui.click(x=945, y=550, button=config["move"])
 
     useAbilities()
+
     # bad run quit
     if checkTimeout():
         quitChaos()
         return
 
-    # quit chaos after floor 2 clear for now
-    # quitChaos()
-
-    # TODO: going floor 3 here
-    print("floor 2 clear")
+    print("floor 2 cleared")
     calculateMinimapRelative(states["moveToX"], states["moveToY"])
     enterPortal()
     if checkTimeout():
@@ -210,24 +218,39 @@ def doFloor2():
 
 def doFloor3():
     # trigger start floor 3
-    pyautogui.moveTo(x=945, y=550)
+    pyautogui.moveTo(x=1045, y=450)
     sleep(400, 500)
     pyautogui.click(button=config["move"])
 
-    sleep(1800, 2000)
+    sleep(1500, 1600)
+    bossBar = pyautogui.locateOnScreen("./screenshots/bossBar.png", confidence=0.7)
+    goldMob = checkFloor3GoldMob()
+    for i in range(0, 4):
+        if goldMob or bossBar != None:
+            break
+        goldMob = checkFloor3GoldMob()
+        bossBar = pyautogui.locateOnScreen("./screenshots/bossBar.png", confidence=0.7)
+        sleep(300, 350)
 
-    if not checkFloor3GoldMob():
+    if not goldMob and bossBar == None:
         quitChaos()
         return
-    print("gold mob located")
 
-    useAbilities()
+    if bossBar != None:
+        print("purple boss bar located")
+        states["purplePortalCount"] = states["purplePortalCount"] + 1
+        pyautogui.press("V")
+        useAbilities()
+    else:
+        print("gold mob located")
+        states["goldPortalCount"] = states["goldPortalCount"] + 1
+        useAbilities()
 
     # bad run quit
     if checkTimeout():
         quitChaos()
         return
-    print("gold mob done")
+    print("special portal cleared")
     # quit chaos after floor 3 clear for now
     quitChaos()
 
@@ -238,23 +261,23 @@ def quitChaos():
     while True:
         leaveButton = pyautogui.locateCenterOnScreen(
             "./screenshots/leave.png",
-            confidence=0.75,
+            grayscale=True,
+            confidence=0.7,
             region=config["regions"]["leaveMenu"],
         )
         if leaveButton != None:
             x, y = leaveButton
-            # pyautogui.moveTo(x=x, y=y)
-            # sleep(500,600)
-            while (
-                pyautogui.locateCenterOnScreen("./screenshots/ok.png", confidence=0.75)
-                == None
-            ):
-                pyautogui.moveTo(x=x, y=y)
-                sleep(500, 600)
-                pyautogui.click(button="left")
-                sleep(150, 200)
+
+            # while (
+            #     pyautogui.locateCenterOnScreen("./screenshots/ok.png", confidence=0.75)
+            #     == None
+            # ):
+            pyautogui.moveTo(x=x, y=y)
+            sleep(500, 600)
+            pyautogui.click(button="left")
+            sleep(150, 200)
             break
-        break
+        sleep(500, 600)
     sleep(500, 600)
     while True:
         okButton = pyautogui.locateCenterOnScreen(
@@ -285,6 +308,11 @@ def quitChaos():
             avgTime,
         )
     )
+    print(
+        "gold portal count: {}, purple portal count: {}".format(
+            states["goldPortalCount"], states["purplePortalCount"]
+        )
+    )
     return
 
 
@@ -309,6 +337,9 @@ def useAbilities():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
             moveToMinimapRelative(states["moveToX"], states["moveToY"], 400, 500, False)
         elif states["status"] == "floor3" and checkFloor3GoldMob():
+            calculateMinimapRelative(states["moveToX"], states["moveToY"])
+            moveToMinimapRelative(states["moveToX"], states["moveToY"], 800, 900, True)
+        elif states["status"] == "floor3" and checkFloor2Boss():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
             moveToMinimapRelative(states["moveToX"], states["moveToY"], 800, 900, True)
 
@@ -541,7 +572,7 @@ def fightFloor2Boss():
 def calculateMinimapRelative(x, y):
     selfLeft = config["minimapCenterX"]
     selfTop = config["minimapCenterY"]
-    if abs(selfLeft - x) <= 7 and abs(selfTop - y) <= 7:
+    if abs(selfLeft - x) <= 3 and abs(selfTop - y) <= 7:
         states["moveToX"] = config["screenCenterX"]
         states["moveToY"] = config["screenCenterY"]
         return
@@ -632,14 +663,16 @@ def moveToMinimapRelative(x, y, timeMin, timeMax, blink):
     # moving in a straight line
     pyautogui.click(x=x, y=y, button=config["move"])
     sleep(int(timeMin / 2), int(timeMax / 2))
-    pyautogui.click(x=x, y=y, button=config["move"])
-    sleep(int(timeMin / 2), int(timeMax / 2))
-    # sleep(timeMin, timeMax)
 
     # optional blink here
     if blink:
         pyautogui.press(config["blink"])
-        sleep(300, 400)
+        sleep(300, 350)
+
+    # moving in a straight line
+    pyautogui.click(x=x, y=y, button=config["move"])
+    sleep(int(timeMin / 2), int(timeMax / 2))
+    # sleep(timeMin, timeMax)
 
     return
 
@@ -685,15 +718,16 @@ def enterPortal():
     print("moving to portal x: {} y: {}".format(states["moveToX"], states["moveToY"]))
     enterTime = int(time.time_ns() / 1000000)
     while True:
-        nowTime = int(time.time_ns() / 1000000)
-        if nowTime - enterTime > 10000:
-            # FIXME:
-            states["instanceStartTime"] = states["instanceStartTime"] - 300000
-            return
 
         im = pyautogui.screenshot(region=(1652, 168, 240, 210))
         r, g, b = im.getpixel((1772 - 1652, 272 - 168))
         if r == 0 and g == 0 and b == 0:
+            return
+
+        nowTime = int(time.time_ns() / 1000000)
+        if nowTime - enterTime > 7000:
+            # FIXME:
+            states["instanceStartTime"] = states["instanceStartTime"] - 300000
             return
 
         if (
@@ -936,7 +970,7 @@ def checkTimeout():
     if currentTime - states["instanceStartTime"] > config["timeLimit"]:
         print("timeout triggered")
         timeout = pyautogui.screenshot()
-        timeout.save("./timeout/timeout" + str(currentTime) + ".png")
+        # timeout.save("./timeout/timeout" + str(currentTime) + ".png")
         states["timeoutCount"] = states["timeoutCount"] + 1
         return True
     return False
