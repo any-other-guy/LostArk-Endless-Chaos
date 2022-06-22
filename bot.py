@@ -8,6 +8,7 @@ newStates = {
     "status": "inCity",
     "abilityScreenshots": [],
     "clearCount": 0,
+    "fullClearCount": 0,
     "moveToX": None,
     "moveToY": None,
     "botStartTime": None,
@@ -17,6 +18,9 @@ newStates = {
     "timeoutCount": 0,
     "goldPortalCount": 0,
     "purplePortalCount": 0,
+    "badRunCount": 0,
+    "minTime": config["timeLimit"],
+    "maxTime": -1,
 }
 states = newStates.copy()
 
@@ -81,6 +85,10 @@ def main():
                 continue
             print("floor3 loaded")
             # do floor 3
+            doFloor3Portal()
+            if checkTimeout():
+                quitChaos()
+                continue
             doFloor3()
 
 
@@ -216,7 +224,7 @@ def doFloor2():
     return
 
 
-def doFloor3():
+def doFloor3Portal():
     # trigger start floor 3
     pyautogui.moveTo(x=1045, y=450)
     sleep(400, 500)
@@ -225,14 +233,18 @@ def doFloor3():
     sleep(1500, 1600)
     bossBar = pyautogui.locateOnScreen("./screenshots/bossBar.png", confidence=0.7)
     goldMob = checkFloor3GoldMob()
-    for i in range(0, 4):
+    normalMob = checkFloor2Mob()
+    for i in range(0, 2):
+        if normalMob == True:
+            return
         if goldMob or bossBar != None:
             break
         goldMob = checkFloor3GoldMob()
+        normalMob = checkFloor2Mob()
         bossBar = pyautogui.locateOnScreen("./screenshots/bossBar.png", confidence=0.7)
         sleep(300, 350)
 
-    if not goldMob and bossBar == None:
+    if not goldMob and bossBar == None and config["floor3"] == False:
         quitChaos()
         return
 
@@ -241,23 +253,62 @@ def doFloor3():
         states["purplePortalCount"] = states["purplePortalCount"] + 1
         pyautogui.press("V")
         useAbilities()
-    else:
+        print("special portal cleared")
+        calculateMinimapRelative(states["moveToX"], states["moveToY"])
+        enterPortal()
+    elif normalMob == True:
+        return
+    elif goldMob == True:
         print("gold mob located")
         states["goldPortalCount"] = states["goldPortalCount"] + 1
         useAbilities()
+        print("special portal cleared")
+        calculateMinimapRelative(states["moveToX"], states["moveToY"])
+        enterPortal()
+    else:
+        # hacky quit
+        states["instanceStartTime"] == -1
+        return
+
+    # bad run quit
+    if checkTimeout():
+        return
+
+
+def doFloor3():
+    # trigger start floor 3
+    pyautogui.moveTo(x=845, y=600)
+    sleep(400, 500)
+    pyautogui.click(button=config["move"])
+    sleep(1500, 1600)
+
+    useAbilities()
 
     # bad run quit
     if checkTimeout():
         quitChaos()
         return
-    print("special portal cleared")
-    # quit chaos after floor 3 clear for now
-    quitChaos()
+
+    print("Chaos Dungeon Full cleared")
+    restartChaos()
 
 
 def quitChaos():
     # quit
     print("quitting")
+    clearOk = pyautogui.locateCenterOnScreen(
+        "./screenshots/clearOk.png", confidence=0.75
+    )
+    if clearOk != None:
+        x, y = clearOk
+        pyautogui.moveTo(x=x, y=y)
+        sleep(600, 800)
+        pyautogui.click(x=x, y=y, button="left")
+        sleep(200, 300)
+        pyautogui.moveTo(x=x, y=y)
+        sleep(200, 300)
+        pyautogui.click(x=x, y=y, button="left")
+    sleep(500, 600)
     while True:
         leaveButton = pyautogui.locateCenterOnScreen(
             "./screenshots/leave.png",
@@ -293,19 +344,87 @@ def quitChaos():
         sleep(500, 600)
     states["status"] = "inCity"
     states["clearCount"] = states["clearCount"] + 1
-    lastRun = str((int(time.time_ns() / 1000000) - states["instanceStartTime"]) / 1000)
-    avgTime = str(
-        int(
-            ((int(time.time_ns() / 1000000) - states["botStartTime"]) / 1000)
-            / states["clearCount"]
+    printResult()
+
+    return
+
+
+def restartChaos():
+    states["fullClearCount"] = states["fullClearCount"] + 1
+    states["clearCount"] = states["clearCount"] + 1
+    printResult()
+    sleep(1000, 1200)
+    # states["abilityScreenshots"] = []
+    states["instanceStartTime"] = int(time.time_ns() / 1000000)
+
+    while True:
+        leaveButton = pyautogui.locateCenterOnScreen(
+            "./screenshots/leave.png",
+            grayscale=True,
+            confidence=0.7,
+            region=config["regions"]["leaveMenu"],
+        )
+        if leaveButton != None:
+            x, y = leaveButton
+
+            pyautogui.moveTo(x=x - 100, y=y)
+            sleep(500, 600)
+            pyautogui.click(button="left")
+            sleep(150, 200)
+            break
+        sleep(500, 600)
+    sleep(500, 600)
+    while True:
+        enterButton = pyautogui.locateCenterOnScreen(
+            "./screenshots/enterButton.png", confidence=0.75
+        )
+        if enterButton != None:
+            x, y = enterButton
+            pyautogui.moveTo(x=x, y=y)
+            sleep(600, 800)
+            pyautogui.click(x=x, y=y, button="left")
+            break
+        sleep(500, 600)
+    sleep(500, 600)
+    while True:
+        acceptButton = pyautogui.locateCenterOnScreen(
+            "./screenshots/acceptButton.png", confidence=0.75
+        )
+        if acceptButton != None:
+            x, y = acceptButton
+            pyautogui.moveTo(x=x, y=y)
+            sleep(600, 800)
+            pyautogui.click(x=x, y=y, button="left")
+            break
+        sleep(500, 800)
+    sleep(2000, 2200)
+    states["status"] = "floor1"
+    return
+
+
+def printResult():
+    lastRun = (int(time.time_ns() / 1000000) - states["instanceStartTime"]) / 1000
+    avgTime = int(
+        ((int(time.time_ns() / 1000000) - states["botStartTime"]) / 1000)
+        / states["clearCount"]
+    )
+    if states["instanceStartTime"] != -1:
+        states["minTime"] = int(min(lastRun, states["minTime"]))
+        states["maxTime"] = int(max(lastRun, states["maxTime"]))
+    print(
+        "Total runs completed: {}, full clears: {}, total death: {}, bad run: {}".format(
+            states["clearCount"],
+            states["fullClearCount"],
+            states["deathCount"],
+            states["timeoutCount"],
+            states["badRunCount"],
         )
     )
     print(
-        "Total runs completed: {}, total death: {}, last run: {}s, avg time: {}s".format(
-            states["clearCount"],
-            states["deathCount"],
-            lastRun,
+        "Average time: {}, fastest time: {}, slowest time: {}".format(
             avgTime,
+            states["minTime"],
+            states["maxTime"],
         )
     )
     print(
@@ -313,7 +432,6 @@ def quitChaos():
             states["goldPortalCount"], states["purplePortalCount"]
         )
     )
-    return
 
 
 def useAbilities():
@@ -322,13 +440,44 @@ def useAbilities():
         healthCheck()
         if checkTimeout():
             return
-        # check boss
+
+        # check portal
+        if states["status"] == "floor3" and checkPortal():
+            pyautogui.click(
+                x=config["screenCenterX"],
+                y=config["screenCenterY"],
+                button=config["move"],
+            )
+            sleep(200, 300)
+            checkPortal()
+            return
+        if states["status"] == "floor2" and checkPortal():
+            pyautogui.click(
+                x=config["screenCenterX"],
+                y=config["screenCenterY"],
+                button=config["move"],
+            )
+            sleep(200, 300)
+            checkPortal()
+            return
+        if states["status"] == "floor1" and checkPortal():
+            pyautogui.click(
+                x=config["screenCenterX"],
+                y=config["screenCenterY"],
+                button=config["move"],
+            )
+            sleep(200, 300)
+            checkPortal()
+            return
+
+        # check floor2 boss
         if states["status"] == "floor2" and checkFloor2Boss():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
             moveToMinimapRelative(
                 states["moveToX"], states["moveToY"], 1000, 1100, True
             )
             fightFloor2Boss()
+
         # check elite and mobs
         if states["status"] == "floor2" and checkFloor2Elite():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
@@ -342,40 +491,92 @@ def useAbilities():
         elif states["status"] == "floor3" and checkFloor2Boss():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
             moveToMinimapRelative(states["moveToX"], states["moveToY"], 800, 900, True)
+        elif states["status"] == "floor3" and checkFloor3Tower():
+            calculateMinimapRelative(states["moveToX"], states["moveToY"])
+            moveToMinimapRelative(states["moveToX"], states["moveToY"], 900, 1000, True)
+        elif states["status"] == "floor3" and checkFloor2Mob():
+            calculateMinimapRelative(states["moveToX"], states["moveToY"])
+            moveToMinimapRelative(states["moveToX"], states["moveToY"], 400, 500, False)
+        elif states["status"] == "floor3" and checkFloor2Elite():
+            calculateMinimapRelative(states["moveToX"], states["moveToY"])
+            moveToMinimapRelative(states["moveToX"], states["moveToY"], 400, 500, False)
 
-        # cast
+        # cast sequence
         for i in range(0, len(states["abilityScreenshots"])):
             # pyautogui.moveTo(x=960, y=540)
+            if states["status"] == "floor3" and checkChaosFinish():
+                return
             diedCheck()
             healthCheck()
-            # check portal 防止直接打死boss不小心
+
+            # check portal
             if states["status"] == "floor3" and checkPortal():
+                pyautogui.click(
+                    x=config["screenCenterX"],
+                    y=config["screenCenterY"],
+                    button=config["move"],
+                )
+                sleep(200, 300)
+                checkPortal()
                 return
 
             if states["status"] == "floor2" and checkPortal():
+                pyautogui.click(
+                    x=config["screenCenterX"],
+                    y=config["screenCenterY"],
+                    button=config["move"],
+                )
+                sleep(200, 300)
+                checkPortal()
                 return
 
-            # check portal
             if states["status"] == "floor1" and checkPortal():
+                pyautogui.click(
+                    x=config["screenCenterX"],
+                    y=config["screenCenterY"],
+                    button=config["move"],
+                )
+                sleep(200, 300)
+                checkPortal()
                 return
 
-            if states["status"] == "floor3" and checkFloor3GoldMob():
+            # check high-priority mobs
+            if states["status"] == "floor2" and checkFloor2Boss():
+                calculateMinimapRelative(states["moveToX"], states["moveToY"])
+                moveToMinimapRelative(
+                    states["moveToX"], states["moveToY"], 950, 1050, True
+                )
+                fightFloor2Boss()
+            elif states["status"] == "floor2" and checkFloor2Elite():
+                calculateMinimapRelative(states["moveToX"], states["moveToY"])
+                moveToMinimapRelative(
+                    states["moveToX"], states["moveToY"], 400, 500, True
+                )
+            elif states["status"] == "floor3" and checkFloor3GoldMob():
+                calculateMinimapRelative(states["moveToX"], states["moveToY"])
+                moveToMinimapRelative(
+                    states["moveToX"], states["moveToY"], 400, 500, False
+                )
+            elif states["status"] == "floor3" and checkFloor3Tower():
+                if not checkFloor2Elite():
+                    randomMove()
+                calculateMinimapRelative(states["moveToX"], states["moveToY"])
+                moveToMinimapRelative(
+                    states["moveToX"], states["moveToY"], 700, 800, True
+                )
+            elif states["status"] == "floor3" and checkFloor2Mob():
                 calculateMinimapRelative(states["moveToX"], states["moveToY"])
                 moveToMinimapRelative(
                     states["moveToX"], states["moveToY"], 400, 500, False
                 )
 
-            # check boss
-            if states["status"] == "floor2" and checkFloor2Boss():
-                calculateMinimapRelative(states["moveToX"], states["moveToY"])
-                moveToMinimapRelative(
-                    states["moveToX"], states["moveToY"], 1000, 1100, True
-                )
-                fightFloor2Boss()
-
             # cast spells
             pyautogui.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
             checkCDandCast(states["abilityScreenshots"][i])
+
+        # 防止卡先试试这样
+        if states["status"] == "floor3" and not checkFloor2Elite():
+            randomMove()
 
 
 def checkCDandCast(ability):
@@ -475,6 +676,7 @@ def checkFloor2Elite():
                 )
             )
             return True
+    return False
 
 
 def checkFloor2Mob():
@@ -496,6 +698,7 @@ def checkFloor2Mob():
                 )
             )
             return True
+    return False
 
 
 def checkFloor3GoldMob():
@@ -559,6 +762,63 @@ def checkFloor2Boss():
 #             return True
 
 
+def checkFloor3Tower():
+    sleep(100, 200)
+
+    tower = pyautogui.locateCenterOnScreen(
+        "./screenshots/tower.png", region=config["regions"]["minimap"], confidence=0.7
+    )
+    if tower != None:
+        x, y = tower
+        states["moveToX"] = x
+        states["moveToY"] = y
+        print("tower image x: {} y: {}".format(states["moveToX"], states["moveToY"]))
+        return True
+
+    minimap = pyautogui.screenshot(region=config["regions"]["minimap"])  # Top Right
+    width, height = minimap.size
+    order = spiralSearch(width, height, math.floor(width / 2), math.floor(height / 2))
+    for entry in order:
+        if entry[1] >= width or entry[0] >= height:
+            continue
+        r, g, b = minimap.getpixel((entry[1], entry[0]))
+        if (
+            r in range(98, 105) and g in range(98, 105) and b in range(98, 105)
+        ):  # bot, -7
+            left, top, _w, _h = config["regions"]["minimap"]
+            states["moveToX"] = left + entry[1]
+            states["moveToY"] = top + entry[0]
+            # pos offset
+            if r in range(98, 105) and g in range(98, 105) and b in range(98, 105):
+                states["moveToY"] = states["moveToY"] - 7
+            print(
+                "tower pixel pos x: {} y: {}, r: {} g: {} b: {}".format(
+                    states["moveToX"], states["moveToY"], r, g, b
+                )
+            )
+            return True
+
+    return False
+
+
+def checkChaosFinish():
+    while True:
+        clearOk = pyautogui.locateCenterOnScreen(
+            "./screenshots/clearOk.png", confidence=0.75
+        )
+        if clearOk != None:
+            x, y = clearOk
+            pyautogui.moveTo(x=x, y=y)
+            sleep(600, 800)
+            pyautogui.click(x=x, y=y, button="left")
+            sleep(200, 300)
+            pyautogui.moveTo(x=x, y=y)
+            sleep(200, 300)
+            pyautogui.click(x=x, y=y, button="left")
+            return True
+        return False
+
+
 def fightFloor2Boss():
     if pyautogui.locateOnScreen("./screenshots/bossBar.png", confidence=0.7):
         print("boss bar located")
@@ -572,14 +832,14 @@ def fightFloor2Boss():
 def calculateMinimapRelative(x, y):
     selfLeft = config["minimapCenterX"]
     selfTop = config["minimapCenterY"]
-    if abs(selfLeft - x) <= 3 and abs(selfTop - y) <= 7:
+    if abs(selfLeft - x) <= 2 and abs(selfTop - y) <= 2:
         states["moveToX"] = config["screenCenterX"]
         states["moveToY"] = config["screenCenterY"]
         return
 
     x = x - selfLeft
     y = y - selfTop
-    print("relative to center pos x: {} y: {}".format(x, y))
+    # print("relative to center pos x: {} y: {}".format(x, y))
 
     dist = 200
     if y < 0:
@@ -590,7 +850,7 @@ def calculateMinimapRelative(x, y):
             newY = y - abs(dist)
         else:
             newY = y + abs(dist)
-        print("relative to center pos newX: 0 newY: {}".format(int(newY)))
+        # print("relative to center pos newX: 0 newY: {}".format(int(newY)))
         states["moveToX"] = 0 + config["screenCenterX"]
         states["moveToY"] = int(newY) + config["screenCenterY"]
         return
@@ -599,7 +859,7 @@ def calculateMinimapRelative(x, y):
             newX = x - abs(dist)
         else:
             newX = x + abs(dist)
-        print("relative to center pos newX: {} newY: 0".format(int(newX)))
+        # print("relative to center pos newX: {} newY: 0".format(int(newX)))
         states["moveToX"] = int(newX) + config["screenCenterX"]
         states["moveToY"] = 0 + config["screenCenterY"]
         return
@@ -610,7 +870,7 @@ def calculateMinimapRelative(x, y):
     # newY = k * (newX - x) + y
     newX = (newY - y) / k + x
 
-    print("before confining newX: {} newY: {}".format(int(newX), int(newY)))
+    # print("before confining newX: {} newY: {}".format(int(newX), int(newY)))
     if newX < 0 and abs(newX) > config["clickableAreaX"]:
         newX = -config["clickableAreaX"]
         if newY < 0:
@@ -637,11 +897,11 @@ def calculateMinimapRelative(x, y):
         else:
             newX = newX - abs(dist) * 0.7
 
-    print(
-        "after confining relative to center pos newX: {} newY: {}".format(
-            int(newX), int(newY)
-        )
-    )
+    # print(
+    #     "after confining relative to center pos newX: {} newY: {}".format(
+    #         int(newX), int(newY)
+    #     )
+    # )
     states["moveToX"] = int(newX) + config["screenCenterX"]
     states["moveToY"] = int(newY) + config["screenCenterY"]
     return
@@ -712,6 +972,30 @@ def moveToMinimapRelative(x, y, timeMin, timeMax, blink):
     #     count = count + 1
 
 
+def randomMove():
+    x = random.randint(
+        config["screenCenterX"] - config["clickableAreaX"],
+        config["screenCenterX"] + config["clickableAreaX"],
+    )
+    y = random.randint(
+        config["screenCenterY"] - config["clickableAreaY"],
+        config["screenCenterY"] + config["clickableAreaY"],
+    )
+    # # not going to the 4th quadrant, since there is a chaos dungeon map with curvey route
+    # if x < config["screenCenterX"] and y < config["screenCenterY"]:
+    #     y = config["screenCenterY"] - y + config["screenCenterY"]
+
+    print("random move to x: {} y: {}".format(x, y))
+    pyautogui.click(x=x, y=y, button=config["move"])
+    sleep(300, 400)
+    pyautogui.click(x=x, y=y, button=config["move"])
+    sleep(200, 300)
+    pyautogui.click(
+        x=config["screenCenterX"], y=config["screenCenterY"], button=config["move"]
+    )
+    sleep(100, 200)
+
+
 def enterPortal():
     # repeatedly move and press g until black screen
     sleep(2200, 2500)
@@ -727,7 +1011,7 @@ def enterPortal():
         nowTime = int(time.time_ns() / 1000000)
         if nowTime - enterTime > 7000:
             # FIXME:
-            states["instanceStartTime"] = states["instanceStartTime"] - 300000
+            states["instanceStartTime"] = -1
             return
 
         if (
@@ -842,6 +1126,8 @@ def waitForLoading():
 
 
 def saveAbilitiesScreenshots():
+    if len(states["abilityScreenshots"]) > 4:
+        return
     for ability in config["abilities"]:
         if ability["abilityType"] == "awakening":
             continue
@@ -914,8 +1200,15 @@ def doRepair():
 
 
 def healthCheck():
-    r, g, b = pyautogui.pixel(config["healthCheckX"], config["healthCheckY"])
-    if r < 20 and config["useHealthPot"]:
+    x = int(
+        config["healthCheckX"]
+        + (870 - config["healthCheckX"]) * config["healthPotAtPercent"]
+    )
+    y = config["healthCheckY"]
+    r, g, b = pyautogui.pixel(x, y)
+    # print(x, r, g, b)
+    if r < 70 and config["useHealthPot"]:
+        # print("low health")
         pyautogui.press(config["healthPot"])
         states["healthPotCount"] = states["healthPotCount"] + 1
         return
@@ -966,11 +1259,17 @@ def spiralSearch(rows, cols, rStart, cStart):
 
 
 def checkTimeout():
+    # hacky way of quitting
+    if states["instanceStartTime"] == -1:
+        print("hacky timeout")
+        states["badRunCount"] = states["badRunCount"] + 1
+        return True
     currentTime = int(time.time_ns() / 1000000)
+
     if currentTime - states["instanceStartTime"] > config["timeLimit"]:
         print("timeout triggered")
         timeout = pyautogui.screenshot()
-        # timeout.save("./timeout/timeout" + str(currentTime) + ".png")
+        timeout.save("./timeout/timeout" + str(currentTime) + ".png")
         states["timeoutCount"] = states["timeoutCount"] + 1
         return True
     return False

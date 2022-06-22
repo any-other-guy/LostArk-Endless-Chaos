@@ -10,7 +10,7 @@ Features:
 - [x] Floor 2 clear
 - [x] Gold Portal
 - [x] Purple Boss Portal
-- [ ] Floor 3 clear
+- [x] Floor 3 clear
 
 Utilities:
 
