@@ -276,7 +276,7 @@ def doFloor3Portal():
 
 def doFloor3():
     # trigger start floor 3
-    sleep(1100, 1200)
+    sleep(800, 900)
 
     useAbilities()
 
@@ -477,7 +477,7 @@ def useAbilities():
         # check elite and mobs
         if states["status"] == "floor2" and checkFloor2Elite():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
-            moveToMinimapRelative(states["moveToX"], states["moveToY"], 750, 850, True)
+            moveToMinimapRelative(states["moveToX"], states["moveToY"], 850, 950, True)
         elif states["status"] == "floor2" and checkFloor2Mob():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
             moveToMinimapRelative(states["moveToX"], states["moveToY"], 400, 500, False)
@@ -492,7 +492,10 @@ def useAbilities():
                 randomMove()
                 checkFloor3Tower()
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
-            moveToMinimapRelative(states["moveToX"], states["moveToY"], 900, 950, True)
+            moveToMinimapRelative(
+                states["moveToX"], states["moveToY"], 1100, 1250, True
+            )
+            clickTower()
         elif states["status"] == "floor3" and checkFloor2Mob():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
             moveToMinimapRelative(states["moveToX"], states["moveToY"], 400, 500, False)
@@ -539,6 +542,14 @@ def useAbilities():
                 checkPortal()
                 return
 
+            # click rift core
+            if states["status"] == "floor3":
+                riftCore = pyautogui.locateCenterOnScreen(
+                    "./screenshots/riftcore.png", confidence=0.7
+                )
+                if riftCore != None:
+                    clickTower()
+
             # check high-priority mobs
             if states["status"] == "floor2" and checkFloor2Boss():
                 calculateMinimapRelative(states["moveToX"], states["moveToY"])
@@ -556,18 +567,19 @@ def useAbilities():
                 moveToMinimapRelative(
                     states["moveToX"], states["moveToY"], 400, 500, False
                 )
-                pyautogui.press(config["meleeAttack"])
-                sleep(720, 740)
-                pyautogui.press(config["meleeAttack"])
+                # pyautogui.press(config["meleeAttack"])
+                # sleep(720, 740)
+                # pyautogui.press(config["meleeAttack"])
             elif states["status"] == "floor3" and checkFloor3Tower():
                 calculateMinimapRelative(states["moveToX"], states["moveToY"])
                 moveToMinimapRelative(
-                    states["moveToX"], states["moveToY"], 600, 700, True
+                    states["moveToX"], states["moveToY"], 1100, 1260, True
                 )
-                pyautogui.press(config["meleeAttack"])
-                sleep(750, 800)
-                pyautogui.press(config["meleeAttack"])
-                sleep(100, 120)
+                clickTower()
+                # pyautogui.press(config["meleeAttack"])
+                # sleep(750, 800)
+                # pyautogui.press(config["meleeAttack"])
+                # sleep(100, 120)
             elif states["status"] == "floor3" and checkFloor2Mob():
                 calculateMinimapRelative(states["moveToX"], states["moveToY"])
                 moveToMinimapRelative(
@@ -764,6 +776,23 @@ def checkFloor2Boss():
 #                 )
 #             )
 #             return True
+
+
+def clickTower():
+    riftCore = pyautogui.locateCenterOnScreen(
+        "./screenshots/riftcore.png", confidence=0.7, grayscale=True
+    )
+    if riftCore != None:
+        x, y = riftCore
+        if y > 550 or x < 500 or x > 1400:
+            return
+        pyautogui.click(x=x, y=y + 200, button=config["move"])
+        print("clicked rift core")
+        sleep(400, 500)
+        pyautogui.press(config["meleeAttack"])
+        sleep(900, 960)
+        pyautogui.press(config["meleeAttack"])
+        sleep(100, 200)
 
 
 def checkFloor3Tower():
@@ -995,9 +1024,9 @@ def randomMove():
 
     print("random move to x: {} y: {}".format(x, y))
     pyautogui.click(x=x, y=y, button=config["move"])
-    sleep(300, 400)
+    sleep(200, 250)
     pyautogui.click(x=x, y=y, button=config["move"])
-    sleep(200, 300)
+    sleep(200, 250)
     pyautogui.click(
         x=config["screenCenterX"], y=config["screenCenterY"], button=config["move"]
     )
