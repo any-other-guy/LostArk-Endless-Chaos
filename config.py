@@ -97,7 +97,7 @@ config = {
     "meleeAttack": "c",
     "awakening": "v",
     "healthPot": "f1",
-    "healthPotAtPercent": 0.4,
+    "healthPotAtPercent": 0.3,
     "useAwakening": True,
     "useSpeciality1": True,
     "useSpeciality2": True,
