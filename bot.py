@@ -4,6 +4,7 @@ import pyautogui
 import time
 import random
 import math
+import datetime
 
 newStates = {
     "status": "inCity",
@@ -88,9 +89,9 @@ def main():
             # do floor 3
             # trigger start floor 3
             pyautogui.moveTo(x=1045, y=450)
-            sleep(400, 500)
+            sleep(100, 120)
             pyautogui.click(button=config["move"])
-            sleep(1500, 1600)
+            sleep(500, 600)
             doFloor3Portal()
             if checkTimeout():
                 quitChaos()
@@ -276,7 +277,6 @@ def doFloor3Portal():
 
 
 def doFloor3():
-    # trigger start floor 3
     sleep(800, 900)
 
     useAbilities()
@@ -400,6 +400,7 @@ def restartChaos():
 
 
 def printResult():
+    now = datetime.datetime.now()
     lastRun = (int(time.time_ns() / 1000000) - states["instanceStartTime"]) / 1000
     avgTime = int(
         ((int(time.time_ns() / 1000000) - states["botStartTime"]) / 1000)
@@ -408,6 +409,7 @@ def printResult():
     if states["instanceStartTime"] != -1:
         states["minTime"] = int(min(lastRun, states["minTime"]))
         states["maxTime"] = int(max(lastRun, states["maxTime"]))
+    print(now)
     print(
         "Total runs completed: {}, full clears: {}, total death: {}, bad run: {}".format(
             states["clearCount"],
@@ -607,7 +609,6 @@ def checkPortal():
 
 
 def checkFloor2Elite():
-    sleep(100, 150)
     minimap = pyautogui.screenshot(region=config["regions"]["minimap"])  # Top Right
     width, height = minimap.size
     order = spiralSearch(width, height, math.floor(width / 2), math.floor(height / 2))
@@ -629,7 +630,6 @@ def checkFloor2Elite():
 
 
 def checkFloor2Mob():
-    sleep(100, 150)
     minimap = pyautogui.screenshot(region=config["regions"]["minimap"])  # Top Right
     width, height = minimap.size
     order = spiralSearch(width, height, math.floor(width / 2), math.floor(height / 2))
@@ -651,7 +651,6 @@ def checkFloor2Mob():
 
 
 def checkFloor3GoldMob():
-    sleep(100, 150)
     minimap = pyautogui.screenshot(region=config["regions"]["minimap"])  # Top Right
     width, height = minimap.size
     order = spiralSearch(width, height, math.floor(width / 2), math.floor(height / 2))
@@ -724,7 +723,7 @@ def clickTower():
         states["moveToY"] = y + 200
         pyautogui.click(x=states["moveToX"], y=states["moveToY"], button=config["move"])
         print("clicked rift core")
-        sleep(400, 500)
+        sleep(100, 120)
         pyautogui.press(config["meleeAttack"])
         sleep(900, 960)
         pyautogui.press(config["meleeAttack"])
@@ -734,14 +733,13 @@ def clickTower():
         states["moveToY"] = y + 200
         pyautogui.click(x=states["moveToX"], y=states["moveToY"], button=config["move"])
         print("clicked rift core")
-        sleep(400, 500)
+        sleep(100, 120)
         pyautogui.press(config["meleeAttack"])
         sleep(900, 960)
         pyautogui.press(config["meleeAttack"])
 
 
 def checkFloor3Tower():
-    sleep(100, 150)
     tower = pyautogui.locateCenterOnScreen(
         "./screenshots/tower.png", region=config["regions"]["minimap"], confidence=0.7
     )
@@ -802,11 +800,7 @@ def checkChaosFinish():
 def fightFloor2Boss():
     if pyautogui.locateOnScreen("./screenshots/bossBar.png", confidence=0.7):
         print("boss bar located")
-        sleep(100, 150)
-        # pyautogui.press("z")
-        # sleep(1000, 1100)
         pyautogui.press("V")
-        # sleep(1000, 1100)
 
 
 def calculateMinimapRelative(x, y):
@@ -967,9 +961,9 @@ def randomMove():
     sleep(200, 250)
     pyautogui.click(x=x, y=y, button=config["move"])
     sleep(200, 250)
-    pyautogui.click(
-        x=config["screenCenterX"], y=config["screenCenterY"], button=config["move"]
-    )
+    # pyautogui.click(
+    #     x=config["screenCenterX"], y=config["screenCenterY"], button=config["move"]
+    # )
 
 
 def enterPortal():
@@ -1172,9 +1166,19 @@ def healthCheck():
     r, g, b = pyautogui.pixel(x, y)
     # print(x, r, g, b)
     if r < 70 and config["useHealthPot"]:
-        # print("low health")
+        leaveButton = pyautogui.locateCenterOnScreen(
+            "./screenshots/leave.png",
+            grayscale=True,
+            confidence=0.7,
+            region=config["regions"]["leaveMenu"],
+        )
+        if leaveButton == None:
+            return
         pyautogui.press(config["healthPot"])
         states["healthPotCount"] = states["healthPotCount"] + 1
+        currentTime = int(time.time_ns() / 1000000)
+        health = pyautogui.screenshot()
+        health.save("./timeout/health" + str(currentTime) + ".png")
         return
     return
 
