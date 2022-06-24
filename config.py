@@ -33,7 +33,7 @@ config = {
             "hold": False,
             "holdTime": None,
             "cast": True,
-            "castTime": 2500,
+            "castTime": 1700,
             "position": {"left": 855, "top": 869, "width": 15, "height": 15},
         },
         {
@@ -111,7 +111,7 @@ config = {
     "regions": {
         "minimap": (1655, 170, 260, 200),  # (1700, 200, 125, 120)
         "abilities": (625, 779, 719, 155),
-        "leaveMenu": (40, 154, 250, 300),
+        "leaveMenu": (0, 154, 250, 300),
     },
     "screenResolutionX": 1920,
     "screenResolutionY": 1080,

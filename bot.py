@@ -1,3 +1,4 @@
+from re import X
 from config import config
 import pyautogui
 import time
@@ -354,16 +355,16 @@ def restartChaos():
     states["instanceStartTime"] = int(time.time_ns() / 1000000)
 
     while True:
-        leaveButton = pyautogui.locateCenterOnScreen(
-            "./screenshots/leave.png",
+        selectLevelButton = pyautogui.locateCenterOnScreen(
+            "./screenshots/selectLevel.png",
             grayscale=True,
             confidence=0.7,
             region=config["regions"]["leaveMenu"],
         )
-        if leaveButton != None:
-            x, y = leaveButton
+        if selectLevelButton != None:
+            x, y = selectLevelButton
 
-            pyautogui.moveTo(x=x - 100, y=y)
+            pyautogui.moveTo(x=x, y=y)
             sleep(500, 600)
             pyautogui.click(button="left")
             sleep(150, 200)
@@ -437,66 +438,11 @@ def useAbilities():
         if checkTimeout():
             return
 
-        # check portal
-        if states["status"] == "floor3" and checkPortal():
-            pyautogui.click(
-                x=config["screenCenterX"],
-                y=config["screenCenterY"],
-                button=config["move"],
-            )
-            sleep(200, 300)
-            checkPortal()
-            return
-        if states["status"] == "floor2" and checkPortal():
-            pyautogui.click(
-                x=config["screenCenterX"],
-                y=config["screenCenterY"],
-                button=config["move"],
-            )
-            sleep(200, 300)
-            checkPortal()
-            return
-        if states["status"] == "floor1" and checkPortal():
-            pyautogui.click(
-                x=config["screenCenterX"],
-                y=config["screenCenterY"],
-                button=config["move"],
-            )
-            sleep(200, 300)
-            checkPortal()
-            return
-
-        # check floor2 boss
-        if states["status"] == "floor2" and checkFloor2Boss():
-            calculateMinimapRelative(states["moveToX"], states["moveToY"])
-            moveToMinimapRelative(
-                states["moveToX"], states["moveToY"], 1000, 1100, True
-            )
-            fightFloor2Boss()
-
         # check elite and mobs
         if states["status"] == "floor2" and checkFloor2Elite():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
-            moveToMinimapRelative(states["moveToX"], states["moveToY"], 850, 950, True)
+            moveToMinimapRelative(states["moveToX"], states["moveToY"], 650, 850, True)
         elif states["status"] == "floor2" and checkFloor2Mob():
-            calculateMinimapRelative(states["moveToX"], states["moveToY"])
-            moveToMinimapRelative(states["moveToX"], states["moveToY"], 400, 500, False)
-        elif states["status"] == "floor3" and checkFloor3GoldMob():
-            calculateMinimapRelative(states["moveToX"], states["moveToY"])
-            moveToMinimapRelative(states["moveToX"], states["moveToY"], 800, 900, True)
-        elif states["status"] == "floor3" and checkFloor2Boss():
-            calculateMinimapRelative(states["moveToX"], states["moveToY"])
-            moveToMinimapRelative(states["moveToX"], states["moveToY"], 800, 900, True)
-        elif states["status"] == "floor3" and checkFloor3Tower():
-            if not checkFloor2Elite():
-                randomMove()
-                checkFloor3Tower()
-            calculateMinimapRelative(states["moveToX"], states["moveToY"])
-            moveToMinimapRelative(
-                states["moveToX"], states["moveToY"], 1100, 1250, True
-            )
-            clickTower()
-        elif states["status"] == "floor3" and checkFloor2Mob():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
             moveToMinimapRelative(states["moveToX"], states["moveToY"], 400, 500, False)
         elif states["status"] == "floor3" and checkFloor2Elite():
@@ -505,7 +451,6 @@ def useAbilities():
 
         # cast sequence
         for i in range(0, len(states["abilityScreenshots"])):
-            # pyautogui.moveTo(x=960, y=540)
             if states["status"] == "floor3" and checkChaosFinish():
                 return
             diedCheck()
@@ -518,37 +463,31 @@ def useAbilities():
                     y=config["screenCenterY"],
                     button=config["move"],
                 )
-                sleep(200, 300)
+                sleep(100, 150)
                 checkPortal()
                 return
-
-            if states["status"] == "floor2" and checkPortal():
+            elif states["status"] == "floor2" and checkPortal():
                 pyautogui.click(
                     x=config["screenCenterX"],
                     y=config["screenCenterY"],
                     button=config["move"],
                 )
-                sleep(200, 300)
+                sleep(100, 150)
                 checkPortal()
                 return
-
-            if states["status"] == "floor1" and checkPortal():
+            elif states["status"] == "floor1" and checkPortal():
                 pyautogui.click(
                     x=config["screenCenterX"],
                     y=config["screenCenterY"],
                     button=config["move"],
                 )
-                sleep(200, 300)
+                sleep(100, 150)
                 checkPortal()
                 return
 
             # click rift core
             if states["status"] == "floor3":
-                riftCore = pyautogui.locateCenterOnScreen(
-                    "./screenshots/riftcore.png", confidence=0.7
-                )
-                if riftCore != None:
-                    clickTower()
+                clickTower()
 
             # check high-priority mobs
             if states["status"] == "floor2" and checkFloor2Boss():
@@ -557,33 +496,32 @@ def useAbilities():
                     states["moveToX"], states["moveToY"], 950, 1050, True
                 )
                 fightFloor2Boss()
-            # elif states["status"] == "floor2" and checkFloor2Elite():
-            #     calculateMinimapRelative(states["moveToX"], states["moveToY"])
-            #     moveToMinimapRelative(
-            #         states["moveToX"], states["moveToY"], 400, 500, False
-            #     )
             elif states["status"] == "floor3" and checkFloor3GoldMob():
                 calculateMinimapRelative(states["moveToX"], states["moveToY"])
                 moveToMinimapRelative(
-                    states["moveToX"], states["moveToY"], 400, 500, False
+                    states["moveToX"], states["moveToY"], 500, 600, False
                 )
-                # pyautogui.press(config["meleeAttack"])
-                # sleep(720, 740)
-                # pyautogui.press(config["meleeAttack"])
             elif states["status"] == "floor3" and checkFloor3Tower():
+                if not checkFloor2Elite() and not checkFloor2Mob():
+                    randomMove()
+                    checkFloor3Tower()
                 calculateMinimapRelative(states["moveToX"], states["moveToY"])
                 moveToMinimapRelative(
-                    states["moveToX"], states["moveToY"], 1100, 1260, True
+                    states["moveToX"], states["moveToY"], 1200, 1300, True
                 )
+                pyautogui.press("x")
+                sleep(200, 220)
                 clickTower()
-                # pyautogui.press(config["meleeAttack"])
-                # sleep(750, 800)
-                # pyautogui.press(config["meleeAttack"])
-                # sleep(100, 120)
             elif states["status"] == "floor3" and checkFloor2Mob():
                 calculateMinimapRelative(states["moveToX"], states["moveToY"])
                 moveToMinimapRelative(
-                    states["moveToX"], states["moveToY"], 400, 500, False
+                    states["moveToX"], states["moveToY"], 200, 300, False
+                )
+                pyautogui.press(config["awakening"])
+            elif states["status"] == "floor3" and checkFloor2Boss():
+                calculateMinimapRelative(states["moveToX"], states["moveToY"])
+                moveToMinimapRelative(
+                    states["moveToX"], states["moveToY"], 800, 900, True
                 )
 
             # cast spells
@@ -653,9 +591,6 @@ def checkPortal():
         if entry[1] >= width or entry[0] >= height:
             continue
         r, g, b = minimap.getpixel((entry[1], entry[0]))
-
-        # if (b > 250 and g >130 and g < 150 and r > 60 and r < 85) or (b > 250 and g > 180 and r >100 and r < 120):
-        # if(r == 80, g == 146, b == 255) or (r == 126, g ==  214, b == 255):
         if (r in range(75, 85) and g in range(140, 150) and b in range(250, 255)) or (
             r in range(120, 130) and g in range(210, 220) and b in range(250, 255)
         ):
@@ -672,7 +607,7 @@ def checkPortal():
 
 
 def checkFloor2Elite():
-    sleep(100, 200)
+    sleep(100, 150)
     minimap = pyautogui.screenshot(region=config["regions"]["minimap"])  # Top Right
     width, height = minimap.size
     order = spiralSearch(width, height, math.floor(width / 2), math.floor(height / 2))
@@ -680,9 +615,7 @@ def checkFloor2Elite():
         if entry[1] >= width or entry[0] >= height:
             continue
         r, g, b = minimap.getpixel((entry[1], entry[0]))
-        if (
-            (r in range(200, 215)) and (g in range(125, 150)) and (b in range(30, 60))
-        ):  # (r > 120 and r < 160 and g < 85 and g > 60 and b < 20) or (r > 190 and g > 130 and g < 150 and b > 30 and b < 60)
+        if (r in range(200, 215)) and (g in range(125, 150)) and (b in range(30, 60)):
             left, top, _w, _h = config["regions"]["minimap"]
             states["moveToX"] = left + entry[1]
             states["moveToY"] = top + entry[0]
@@ -696,7 +629,7 @@ def checkFloor2Elite():
 
 
 def checkFloor2Mob():
-    sleep(100, 200)
+    sleep(100, 150)
     minimap = pyautogui.screenshot(region=config["regions"]["minimap"])  # Top Right
     width, height = minimap.size
     order = spiralSearch(width, height, math.floor(width / 2), math.floor(height / 2))
@@ -704,7 +637,7 @@ def checkFloor2Mob():
         if entry[1] >= width or entry[0] >= height:
             continue
         r, g, b = minimap.getpixel((entry[1], entry[0]))
-        if r == 208 and g == 24 and b == 24:  # r == 199 and g == 28 and b == 30
+        if r == 208 and g == 24 and b == 24:
             left, top, _w, _h = config["regions"]["minimap"]
             states["moveToX"] = left + entry[1]
             states["moveToY"] = top + entry[0]
@@ -718,7 +651,7 @@ def checkFloor2Mob():
 
 
 def checkFloor3GoldMob():
-    sleep(100, 200)
+    sleep(100, 150)
     minimap = pyautogui.screenshot(region=config["regions"]["minimap"])  # Top Right
     width, height = minimap.size
     order = spiralSearch(width, height, math.floor(width / 2), math.floor(height / 2))
@@ -779,25 +712,36 @@ def checkFloor2Boss():
 
 
 def clickTower():
-    riftCore = pyautogui.locateCenterOnScreen(
-        "./screenshots/riftcore.png", confidence=0.7, grayscale=True
+    riftCore1 = pyautogui.locateCenterOnScreen(
+        "./screenshots/riftcore1.png", confidence=0.6
     )
-    if riftCore != None:
-        x, y = riftCore
-        if y > 550 or x < 500 or x > 1400:
-            return
-        pyautogui.click(x=x, y=y + 200, button=config["move"])
+    riftCore2 = pyautogui.locateCenterOnScreen(
+        "./screenshots/riftcore2.png", confidence=0.6
+    )
+    if riftCore1 != None:
+        x, y = riftCore1
+        states["moveToX"] = x
+        states["moveToY"] = y + 200
+        pyautogui.click(x=states["moveToX"], y=states["moveToY"], button=config["move"])
         print("clicked rift core")
         sleep(400, 500)
         pyautogui.press(config["meleeAttack"])
         sleep(900, 960)
         pyautogui.press(config["meleeAttack"])
-        sleep(100, 200)
+    elif riftCore2 != None:
+        x, y = riftCore2
+        states["moveToX"] = x
+        states["moveToY"] = y + 200
+        pyautogui.click(x=states["moveToX"], y=states["moveToY"], button=config["move"])
+        print("clicked rift core")
+        sleep(400, 500)
+        pyautogui.press(config["meleeAttack"])
+        sleep(900, 960)
+        pyautogui.press(config["meleeAttack"])
 
 
 def checkFloor3Tower():
-    sleep(100, 200)
-
+    sleep(100, 150)
     tower = pyautogui.locateCenterOnScreen(
         "./screenshots/tower.png", region=config["regions"]["minimap"], confidence=0.7
     )
@@ -839,27 +783,26 @@ def checkFloor3Tower():
 
 
 def checkChaosFinish():
-    while True:
-        clearOk = pyautogui.locateCenterOnScreen(
-            "./screenshots/clearOk.png", confidence=0.75
-        )
-        if clearOk != None:
-            x, y = clearOk
-            pyautogui.moveTo(x=x, y=y)
-            sleep(600, 800)
-            pyautogui.click(x=x, y=y, button="left")
-            sleep(200, 300)
-            pyautogui.moveTo(x=x, y=y)
-            sleep(200, 300)
-            pyautogui.click(x=x, y=y, button="left")
-            return True
-        return False
+    clearOk = pyautogui.locateCenterOnScreen(
+        "./screenshots/clearOk.png", confidence=0.75
+    )
+    if clearOk != None:
+        x, y = clearOk
+        pyautogui.moveTo(x=x, y=y)
+        sleep(600, 800)
+        pyautogui.click(x=x, y=y, button="left")
+        sleep(200, 300)
+        pyautogui.moveTo(x=x, y=y)
+        sleep(200, 300)
+        pyautogui.click(x=x, y=y, button="left")
+        return True
+    return False
 
 
 def fightFloor2Boss():
     if pyautogui.locateOnScreen("./screenshots/bossBar.png", confidence=0.7):
         print("boss bar located")
-        sleep(200, 300)
+        sleep(100, 150)
         # pyautogui.press("z")
         # sleep(1000, 1100)
         pyautogui.press("V")
@@ -969,7 +912,7 @@ def moveToMinimapRelative(x, y, timeMin, timeMax, blink):
     # optional blink here
     if blink:
         pyautogui.press(config["blink"])
-        sleep(300, 350)
+        sleep(100, 150)
 
     return
 
@@ -1018,9 +961,6 @@ def randomMove():
         config["screenCenterY"] - config["clickableAreaY"],
         config["screenCenterY"] + config["clickableAreaY"],
     )
-    # # not going to the 4th quadrant, since there is a chaos dungeon map with curvey route
-    # if x < config["screenCenterX"] and y < config["screenCenterY"]:
-    #     y = config["screenCenterY"] - y + config["screenCenterY"]
 
     print("random move to x: {} y: {}".format(x, y))
     pyautogui.click(x=x, y=y, button=config["move"])
@@ -1030,16 +970,14 @@ def randomMove():
     pyautogui.click(
         x=config["screenCenterX"], y=config["screenCenterY"], button=config["move"]
     )
-    sleep(100, 200)
 
 
 def enterPortal():
     # repeatedly move and press g until black screen
-    sleep(2200, 2500)
+    sleep(2200, 2400)
     print("moving to portal x: {} y: {}".format(states["moveToX"], states["moveToY"]))
     enterTime = int(time.time_ns() / 1000000)
     while True:
-
         im = pyautogui.screenshot(region=(1652, 168, 240, 210))
         r, g, b = im.getpixel((1772 - 1652, 272 - 168))
         if r == 0 and g == 0 and b == 0:
@@ -1147,19 +1085,9 @@ def waitForLoading():
         )
         if leaveButton != None:
             return
-        sleep(222, 333)
+        sleep(150, 200)
         if checkTimeout():
-            # quitChaos()
             return
-    # while True:
-    #     im = pyautogui.screenshot()
-    #     r, g, b = im.getpixel((688, 849))
-    #     if r == 162 and g == 14 and b == 7:
-    #         break
-    #     sleep(400, 500)
-    #     if checkTimeout():
-    #         quitChaos()
-    #         return
 
 
 def saveAbilitiesScreenshots():
@@ -1187,7 +1115,6 @@ def saveAbilitiesScreenshots():
                 "holdTime": ability["holdTime"],
             }
         )
-    # print(states['abilityScreenshots'])
 
 
 def diedCheck():  # get information about wait a few second to revive
