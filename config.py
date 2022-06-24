@@ -33,7 +33,7 @@ config = {
             "hold": False,
             "holdTime": None,
             "cast": True,
-            "castTime": 1700,
+            "castTime": 1500,
             "position": {"left": 855, "top": 869, "width": 15, "height": 15},
         },
         {
@@ -69,7 +69,7 @@ config = {
             "hold": False,
             "holdTime": None,
             "cast": True,
-            "castTime": 1700,
+            "castTime": 1400,
             "position": {"left": 873, "top": 907, "width": 15, "height": 15},
         },
         {
