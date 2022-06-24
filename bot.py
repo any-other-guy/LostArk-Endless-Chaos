@@ -232,20 +232,20 @@ def doFloor2():
 
 
 def doFloor3Portal():
-    bossBar = pyautogui.locateOnScreen("./screenshots/bossBar.png", confidence=0.7)
-    goldMob = checkFloor3GoldMob()
-    normalMob = checkFloor2Mob()
-    for i in range(0, 2):
-        if normalMob == True:
-            return
-        if goldMob or bossBar != None:
-            break
+    bossBar = None
+    goldMob = False
+    normalMob = False
+    for i in range(0, 10):
         goldMob = checkFloor3GoldMob()
         normalMob = checkFloor2Mob()
         bossBar = pyautogui.locateOnScreen("./screenshots/bossBar.png", confidence=0.7)
-        sleep(300, 350)
+        if normalMob == True:
+            return
+        if goldMob == True or bossBar != None:
+            break
+        sleep(500, 550)
 
-    if not goldMob and bossBar == None and config["floor3"] == False:
+    if goldMob == False and bossBar == None and config["floor3"] == False:
         quitChaos()
         return
 
@@ -257,6 +257,7 @@ def doFloor3Portal():
         print("special portal cleared")
         calculateMinimapRelative(states["moveToX"], states["moveToY"])
         enterPortal()
+        sleep(800, 900)
     elif normalMob == True:
         return
     elif goldMob == True:
@@ -266,6 +267,7 @@ def doFloor3Portal():
         print("special portal cleared")
         calculateMinimapRelative(states["moveToX"], states["moveToY"])
         enterPortal()
+        sleep(800, 900)
     else:
         # hacky quit
         states["instanceStartTime"] == -1
@@ -277,14 +279,27 @@ def doFloor3Portal():
 
 
 def doFloor3():
-    sleep(800, 900)
-
+    sleep(500, 550)
     useAbilities()
 
     # bad run quit
     if checkTimeout():
         quitChaos()
         return
+
+    # # FIXME: this is a fkin weird situation 紫门boss没判断出3楼而是还是走的2楼状态，但是这里注释掉不管只是会超时不会卡
+    # if checkPortal():
+    #     calculateMinimapRelative(states["moveToX"], states["moveToY"])
+    #     enterPortal()
+    #     if checkTimeout():
+    #         quitChaos()
+    #         return
+    #     useAbilities()
+
+    # # bad run quit
+    # if checkTimeout():
+    #     quitChaos()
+    #     return
 
     print("Chaos Dungeon Full cleared")
     restartChaos()
@@ -1176,9 +1191,6 @@ def healthCheck():
             return
         pyautogui.press(config["healthPot"])
         states["healthPotCount"] = states["healthPotCount"] + 1
-        currentTime = int(time.time_ns() / 1000000)
-        health = pyautogui.screenshot()
-        health.save("./timeout/health" + str(currentTime) + ".png")
         return
     return
 
@@ -1232,13 +1244,13 @@ def checkTimeout():
     if states["instanceStartTime"] == -1:
         print("hacky timeout")
         timeout = pyautogui.screenshot()
-        timeout.save("./timeout/" + str(currentTime) + ".png")
+        timeout.save("./timeout/weird" + str(currentTime) + ".png")
         states["badRunCount"] = states["badRunCount"] + 1
         return True
     if currentTime - states["instanceStartTime"] > config["timeLimit"]:
         print("timeout triggered")
         timeout = pyautogui.screenshot()
-        timeout.save("./timeout/" + str(currentTime) + ".png")
+        timeout.save("./timeout/overtime" + str(currentTime) + ".png")
         states["timeoutCount"] = states["timeoutCount"] + 1
         return True
     return False

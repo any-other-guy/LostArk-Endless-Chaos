@@ -121,7 +121,7 @@ config = {
     "screenCenterY": 540,
     "minimapCenterX": 1772,
     "minimapCenterY": 272,
-    "timeLimit": 420000,
+    "timeLimit": 480000,
     "delayedStart": 3000,
     "healthCheckX": 690,
     "healthCheckY": 854,
