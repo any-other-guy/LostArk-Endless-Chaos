@@ -458,13 +458,13 @@ def useAbilities():
         # check elite and mobs
         if states["status"] == "floor2" and checkFloor2Elite():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
-            moveToMinimapRelative(states["moveToX"], states["moveToY"], 650, 850, True)
+            moveToMinimapRelative(states["moveToX"], states["moveToY"], 750, 850, True)
         elif states["status"] == "floor2" and checkFloor2Mob():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
             moveToMinimapRelative(states["moveToX"], states["moveToY"], 400, 500, False)
         elif states["status"] == "floor3" and checkFloor2Elite():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
-            moveToMinimapRelative(states["moveToX"], states["moveToY"], 400, 500, False)
+            moveToMinimapRelative(states["moveToX"], states["moveToY"], 200, 300, False)
 
         # cast sequence
         for i in range(0, len(states["abilityScreenshots"])):
@@ -534,7 +534,7 @@ def useAbilities():
                 moveToMinimapRelative(
                     states["moveToX"], states["moveToY"], 200, 300, False
                 )
-                pyautogui.press(config["awakening"])
+                # pyautogui.press(config["awakening"])
             elif states["status"] == "floor3" and checkFloor2Boss():
                 calculateMinimapRelative(states["moveToX"], states["moveToY"])
                 moveToMinimapRelative(
@@ -734,8 +734,10 @@ def clickTower():
     )
     if riftCore1 != None:
         x, y = riftCore1
+        if y > 650 or x < 400 or x > 1500:
+            return
         states["moveToX"] = x
-        states["moveToY"] = y + 200
+        states["moveToY"] = y + 190
         pyautogui.click(x=states["moveToX"], y=states["moveToY"], button=config["move"])
         print("clicked rift core")
         sleep(100, 120)
@@ -744,8 +746,10 @@ def clickTower():
         pyautogui.press(config["meleeAttack"])
     elif riftCore2 != None:
         x, y = riftCore2
+        if y > 650 or x < 400 or x > 1500:
+            return
         states["moveToX"] = x
-        states["moveToY"] = y + 200
+        states["moveToY"] = y + 190
         pyautogui.click(x=states["moveToX"], y=states["moveToY"], button=config["move"])
         print("clicked rift core")
         sleep(100, 120)
