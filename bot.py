@@ -93,7 +93,7 @@ def main():
             pyautogui.click(button=config["move"])
             sleep(500, 600)
             doFloor3Portal()
-            if checkTimeout():
+            if checkTimeout() or config["floor3"] == False:
                 quitChaos()
                 continue
             doFloor3()
@@ -246,7 +246,6 @@ def doFloor3Portal():
         sleep(500, 550)
 
     if goldMob == False and bossBar == None and config["floor3"] == False:
-        quitChaos()
         return
 
     if bossBar != None:
@@ -256,6 +255,8 @@ def doFloor3Portal():
         useAbilities()
         print("special portal cleared")
         calculateMinimapRelative(states["moveToX"], states["moveToY"])
+        if config["floor3"] == False:
+            return
         enterPortal()
         sleep(800, 900)
     elif normalMob == True:
@@ -266,6 +267,8 @@ def doFloor3Portal():
         useAbilities()
         print("special portal cleared")
         calculateMinimapRelative(states["moveToX"], states["moveToY"])
+        if config["floor3"] == False:
+            return
         enterPortal()
         sleep(800, 900)
     else:
@@ -279,6 +282,13 @@ def doFloor3Portal():
 
 
 def doFloor3():
+    waitForLoading()
+    print("real floor 3 loaded")
+
+    if checkTimeout():
+        quitChaos()
+        return
+
     sleep(500, 550)
     useAbilities()
 
@@ -415,7 +425,6 @@ def restartChaos():
 
 
 def printResult():
-    now = datetime.datetime.now()
     lastRun = (int(time.time_ns() / 1000000) - states["instanceStartTime"]) / 1000
     avgTime = int(
         ((int(time.time_ns() / 1000000) - states["botStartTime"]) / 1000)
@@ -424,14 +433,13 @@ def printResult():
     if states["instanceStartTime"] != -1:
         states["minTime"] = int(min(lastRun, states["minTime"]))
         states["maxTime"] = int(max(lastRun, states["maxTime"]))
-    print(now)
     print(
-        "Total runs completed: {}, full clears: {}, total death: {}, bad run: {}".format(
+        "Total runs completed: {}, full clears: {}, total death: {}, half runs: {}, timeout runs: {}, ".format(
             states["clearCount"],
             states["fullClearCount"],
             states["deathCount"],
-            states["timeoutCount"],
             states["badRunCount"],
+            states["timeoutCount"],
         )
     )
     print(
@@ -465,6 +473,7 @@ def useAbilities():
         elif states["status"] == "floor3" and checkFloor2Elite():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
             moveToMinimapRelative(states["moveToX"], states["moveToY"], 200, 300, False)
+            pyautogui.press(config["awakening"])
 
         # cast sequence
         for i in range(0, len(states["abilityScreenshots"])):
@@ -1247,14 +1256,14 @@ def checkTimeout():
     # hacky way of quitting
     if states["instanceStartTime"] == -1:
         print("hacky timeout")
-        timeout = pyautogui.screenshot()
-        timeout.save("./timeout/weird" + str(currentTime) + ".png")
+        # timeout = pyautogui.screenshot()
+        # timeout.save("./timeout/weird" + str(currentTime) + ".png")
         states["badRunCount"] = states["badRunCount"] + 1
         return True
     if currentTime - states["instanceStartTime"] > config["timeLimit"]:
         print("timeout triggered")
-        timeout = pyautogui.screenshot()
-        timeout.save("./timeout/overtime" + str(currentTime) + ".png")
+        # timeout = pyautogui.screenshot()
+        # timeout.save("./timeout/overtime" + str(currentTime) + ".png")
         states["timeoutCount"] = states["timeoutCount"] + 1
         return True
     return False
