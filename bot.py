@@ -11,8 +11,8 @@ newStates = {
     "abilityScreenshots": [],
     "clearCount": 0,
     "fullClearCount": 0,
-    "moveToX": None,
-    "moveToY": None,
+    "moveToX": config["screenCenterX"],
+    "moveToY": config["screenCenterY"],
     "botStartTime": None,
     "instanceStartTime": None,
     "deathCount": 0,
@@ -466,7 +466,7 @@ def useAbilities():
         # check elite and mobs
         if states["status"] == "floor2" and checkFloor2Elite():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
-            moveToMinimapRelative(states["moveToX"], states["moveToY"], 750, 850, True)
+            moveToMinimapRelative(states["moveToX"], states["moveToY"], 750, 850, False)
         elif states["status"] == "floor2" and checkFloor2Mob():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
             moveToMinimapRelative(states["moveToX"], states["moveToY"], 400, 500, False)
@@ -551,7 +551,6 @@ def useAbilities():
                 )
 
             # cast spells
-            pyautogui.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
             checkCDandCast(states["abilityScreenshots"][i])
 
         # 防止卡先试试这样
@@ -563,6 +562,11 @@ def checkCDandCast(ability):
     if pyautogui.locateOnScreen(
         ability["image"], region=config["regions"]["abilities"]
     ):
+        if ability["directional"] == True:
+            pyautogui.moveTo(x=states["moveToX"], y=states["moveToY"])
+        else:
+            pyautogui.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
+
         if ability["cast"]:
             start_ms = int(time.time_ns() / 1000000)
             now_ms = int(time.time_ns() / 1000000)
@@ -570,21 +574,22 @@ def checkCDandCast(ability):
             while now_ms - start_ms < ability["castTime"]:
                 pyautogui.press(ability["key"])
                 now_ms = int(time.time_ns() / 1000000)
-            while pyautogui.locateOnScreen(
-                ability["image"], region=config["regions"]["abilities"]
-            ):
-                pyautogui.press(ability["key"])
+            # while pyautogui.locateOnScreen(
+            #     ability["image"], region=config["regions"]["abilities"]
+            # ):
+            #     pyautogui.press(ability["key"])
         elif ability["hold"]:
             start_ms = int(time.time_ns() / 1000000)
             now_ms = int(time.time_ns() / 1000000)
-            # spam until cast time before checking cd, to prevent 击倒后情况
+            pyautogui.keyDown(ability["key"])
             while now_ms - start_ms < ability["holdTime"]:
                 pyautogui.keyDown(ability["key"])
                 now_ms = int(time.time_ns() / 1000000)
-            while pyautogui.locateOnScreen(
-                ability["image"], region=config["regions"]["abilities"]
-            ):
-                pyautogui.keyDown(ability["key"])
+            # while pyautogui.locateOnScreen(
+            #     ability["image"], region=config["regions"]["abilities"]
+            # ):
+            #     pyautogui.keyDown(ability["key"])
+            pyautogui.keyUp(ability["key"])
         else:
             # 瞬发 ability
             pyautogui.press(ability["key"])
@@ -996,7 +1001,7 @@ def randomMove():
 
 def enterPortal():
     # repeatedly move and press g until black screen
-    sleep(2200, 2400)
+    sleep(1100, 1200)
     print("moving to portal x: {} y: {}".format(states["moveToX"], states["moveToY"]))
     enterTime = int(time.time_ns() / 1000000)
     while True:
@@ -1135,6 +1140,7 @@ def saveAbilitiesScreenshots():
                 "castTime": ability["castTime"],
                 "hold": ability["hold"],
                 "holdTime": ability["holdTime"],
+                "directional": ability["directional"],
             }
         )
 

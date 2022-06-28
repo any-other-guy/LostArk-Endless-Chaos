@@ -8,6 +8,7 @@ config = {
             "cast": False,
             "castTime": None,
             "position": {"left": 738, "top": 869, "width": 15, "height": 15},
+            "directional": False,
         },
         {
             "key": "w",
@@ -17,6 +18,7 @@ config = {
             "cast": False,
             "castTime": None,
             "position": {"left": 777, "top": 869, "width": 15, "height": 15},
+            "directional": False,
         },
         {
             "key": "e",
@@ -26,6 +28,7 @@ config = {
             "cast": False,
             "castTime": None,
             "position": {"left": 816, "top": 869, "width": 15, "height": 15},
+            "directional": False,
         },
         {
             "key": "r",
@@ -33,17 +36,19 @@ config = {
             "hold": False,
             "holdTime": None,
             "cast": True,
-            "castTime": 1500,
+            "castTime": 1900,
             "position": {"left": 855, "top": 869, "width": 15, "height": 15},
+            "directional": False,
         },
         {
             "key": "a",
             "abilityType": "normal",
             "hold": False,
             "holdTime": None,
-            "cast": False,
-            "castTime": None,
+            "cast": True,
+            "castTime": 2100,
             "position": {"left": 759, "top": 907, "width": 15, "height": 15},
+            "directional": True,
         },
         {
             "key": "s",
@@ -53,6 +58,7 @@ config = {
             "cast": False,
             "castTime": None,
             "position": {"left": 797, "top": 907, "width": 15, "height": 15},
+            "directional": False,
         },
         {
             "key": "d",
@@ -62,6 +68,7 @@ config = {
             "cast": False,
             "castTime": None,
             "position": {"left": 835, "top": 907, "width": 15, "height": 15},
+            "directional": False,
         },
         {
             "key": "f",
@@ -69,8 +76,9 @@ config = {
             "hold": False,
             "holdTime": None,
             "cast": True,
-            "castTime": 1400,
+            "castTime": 1800,
             "position": {"left": 873, "top": 907, "width": 15, "height": 15},
+            "directional": False,
         },
         {
             "key": "v",
@@ -80,6 +88,7 @@ config = {
             "cast": False,
             "castTime": None,
             "position": {"left": 691, "top": 894, "width": 19, "height": 11},
+            "directional": False,
         },
         {
             "key": "z",
@@ -89,6 +98,7 @@ config = {
             "cast": False,
             "castTime": None,
             "position": {"left": 895, "top": 839, "width": 13, "height": 12},
+            "directional": False,
         },
     ],
     "interact": "g",
