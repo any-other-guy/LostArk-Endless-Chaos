@@ -473,7 +473,7 @@ def useAbilities():
         elif states["status"] == "floor3" and checkFloor2Elite():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
             moveToMinimapRelative(states["moveToX"], states["moveToY"], 200, 300, False)
-            pyautogui.press(config["awakening"])
+            # pyautogui.press(config["awakening"])
 
         # cast sequence
         for i in range(0, len(states["abilityScreenshots"])):
@@ -525,7 +525,7 @@ def useAbilities():
             elif states["status"] == "floor3" and checkFloor3GoldMob():
                 calculateMinimapRelative(states["moveToX"], states["moveToY"])
                 moveToMinimapRelative(
-                    states["moveToX"], states["moveToY"], 500, 600, False
+                    states["moveToX"], states["moveToY"], 600, 700, True
                 )
             elif states["status"] == "floor3" and checkFloor3Tower():
                 if not checkFloor2Elite() and not checkFloor2Mob():
@@ -549,6 +549,19 @@ def useAbilities():
                 moveToMinimapRelative(
                     states["moveToX"], states["moveToY"], 800, 900, True
                 )
+
+            # touch
+            if states["abilityScreenshots"][i]["key"] == config["mageTouch"]:
+                x = 1080
+                y = config["healthCheckY"]
+                r, g, b = pyautogui.pixel(x, y)
+                touchBuffActive = pyautogui.locateOnScreen(
+                    "./screenshots/touch.png",
+                    region=config["regions"]["buffs"],
+                    confidence=0.75,
+                )
+                if b > 70 and touchBuffActive != None:
+                    continue
 
             # cast spells
             checkCDandCast(states["abilityScreenshots"][i])
@@ -583,8 +596,9 @@ def checkCDandCast(ability):
             now_ms = int(time.time_ns() / 1000000)
             pyautogui.keyDown(ability["key"])
             while now_ms - start_ms < ability["holdTime"]:
-                pyautogui.keyDown(ability["key"])
+                # pyautogui.keyDown(ability["key"])
                 now_ms = int(time.time_ns() / 1000000)
+            pyautogui.keyUp(ability["key"])
             # while pyautogui.locateOnScreen(
             #     ability["image"], region=config["regions"]["abilities"]
             # ):
@@ -926,6 +940,10 @@ def moveToMinimapRelative(x, y, timeMin, timeMax, blink):
     # count = 0
     # turn = True
     # deflect = 60
+
+    if states["status"] == "floor1":
+        pyautogui.moveTo(x=x, y=y)
+        return
 
     # moving in a straight line
     pyautogui.click(x=x, y=y, button=config["move"])
