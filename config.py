@@ -114,7 +114,7 @@ config = {
     "autoRepair": True,
     "shortcutEnterChaos": True,
     "useHealthPot": True,
-    "floor3": True,
+    "floor3": False,
     "usePotion": False,
     "mageTouch": "e",
     "skipLogin": False,

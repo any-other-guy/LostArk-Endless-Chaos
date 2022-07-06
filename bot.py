@@ -38,6 +38,7 @@ def main():
             # save instance start time
             states["instanceStartTime"] = int(time.time_ns() / 1000000)
 
+            clearQuest()
             enterChaos()
             if checkTimeout():
                 quitChaos()
@@ -171,6 +172,7 @@ def enterChaos():
 
 
 def doFloor1():
+    clearQuest()
     # trigger start floor 1
     pyautogui.moveTo(x=845, y=600)
     sleep(400, 500)
@@ -1029,7 +1031,7 @@ def enterPortal():
             return
 
         nowTime = int(time.time_ns() / 1000000)
-        if nowTime - enterTime > 7000:
+        if nowTime - enterTime > 5000:
             # FIXME:
             states["instanceStartTime"] = -1
             return
@@ -1230,6 +1232,18 @@ def healthCheck():
         states["healthPotCount"] = states["healthPotCount"] + 1
         return
     return
+
+
+def clearQuest():
+    quest = pyautogui.locateCenterOnScreen("./screenshots/quest.png", confidence=0.75)
+    if quest != None:
+        x, y = quest
+        pyautogui.moveTo(x=x, y=y)
+        sleep(800, 900)
+        pyautogui.click()
+        sleep(800, 900)
+        pyautogui.press("esc")
+        sleep(800, 900)
 
 
 def sleep(min, max):
