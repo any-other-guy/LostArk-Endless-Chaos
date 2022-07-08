@@ -31,6 +31,11 @@ def main():
     print("Endless Chaos started...")
     # save bot start time
     states["botStartTime"] = int(time.time_ns() / 1000000)
+
+    # forceing no floor3 full clear with performance mode
+    if config["performance"] == True:
+        config["floor3"] = False
+
     while True:
         if states["status"] == "inCity":
             # states = newStates
@@ -543,8 +548,9 @@ def useAbilities():
             elif states["status"] == "floor3" and checkFloor3GoldMob():
                 calculateMinimapRelative(states["moveToX"], states["moveToY"])
                 moveToMinimapRelative(
-                    states["moveToX"], states["moveToY"], 600, 700, True
+                    states["moveToX"], states["moveToY"], 700, 800, True
                 )
+                pyautogui.press(config["awakening"])
             elif states["status"] == "floor3" and checkFloor3Tower():
                 if not checkFloor2Elite() and not checkFloor2Mob():
                     randomMove()
@@ -568,7 +574,7 @@ def useAbilities():
                     states["moveToX"], states["moveToY"], 800, 900, True
                 )
 
-            # touch
+            # mage touch
             if states["abilityScreenshots"][i]["key"] == config["mageTouch"]:
                 x = 1080
                 y = config["healthCheckY"]
