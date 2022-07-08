@@ -190,6 +190,10 @@ def doFloor1():
     # sleep(2000,2200)
     # pyautogui.click(x=960, y=530, button=config['move'])
 
+    # test
+    if config["performance"] == True:
+        pyautogui.press(config["awakening"])
+
     # smash available abilities
     useAbilities()
 
