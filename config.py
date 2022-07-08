@@ -101,6 +101,7 @@ config = {
             "directional": False,
         },
     ],
+    "performance": True,
     "interact": "g",
     "move": "left",
     "blink": "space",

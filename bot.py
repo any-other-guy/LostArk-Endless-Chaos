@@ -574,7 +574,7 @@ def useAbilities():
 
 
 def checkCDandCast(ability):
-    if pyautogui.locateOnScreen(
+    if config["performance"] == True or pyautogui.locateOnScreen(
         ability["image"], region=config["regions"]["abilities"]
     ):
         if ability["directional"] == True:
