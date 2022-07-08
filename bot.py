@@ -190,9 +190,9 @@ def doFloor1():
     # sleep(2000,2200)
     # pyautogui.click(x=960, y=530, button=config['move'])
 
-    # test
-    if config["performance"] == True:
-        pyautogui.press(config["awakening"])
+    # # test
+    # if config["performance"] == True:
+    #     pyautogui.press(config["awakening"])
 
     # smash available abilities
     useAbilities()
@@ -470,7 +470,15 @@ def useAbilities():
             return
 
         # check elite and mobs
-        if states["status"] == "floor2" and checkFloor2Elite():
+        if (
+            states["status"] == "floor2"
+            and config["performance"] == True
+            and checkFloor2Boss()
+        ):
+            calculateMinimapRelative(states["moveToX"], states["moveToY"])
+            moveToMinimapRelative(states["moveToX"], states["moveToY"], 950, 1050, True)
+            fightFloor2Boss()
+        elif states["status"] == "floor2" and checkFloor2Elite():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
             moveToMinimapRelative(states["moveToX"], states["moveToY"], 750, 850, False)
         elif states["status"] == "floor2" and checkFloor2Mob():
@@ -522,7 +530,11 @@ def useAbilities():
                 clickTower()
 
             # check high-priority mobs
-            if states["status"] == "floor2" and checkFloor2Boss():
+            if (
+                states["status"] == "floor2"
+                and config["performance"] == False
+                and checkFloor2Boss()
+            ):
                 calculateMinimapRelative(states["moveToX"], states["moveToY"])
                 moveToMinimapRelative(
                     states["moveToX"], states["moveToY"], 950, 1050, True
@@ -620,16 +632,21 @@ def checkCDandCast(ability):
 
 
 def checkPortal():
-    # check portal image
-    portal = pyautogui.locateCenterOnScreen(
-        "./screenshots/portal.png", region=config["regions"]["minimap"], confidence=0.7
-    )
-    if portal != None:
-        x, y = portal
-        states["moveToX"] = x
-        states["moveToY"] = y
-        print("portal image x: {} y: {}".format(states["moveToX"], states["moveToY"]))
-        return True
+    if config["performance"] == False:
+        # check portal image
+        portal = pyautogui.locateCenterOnScreen(
+            "./screenshots/portal.png",
+            region=config["regions"]["minimap"],
+            confidence=0.7,
+        )
+        if portal != None:
+            x, y = portal
+            states["moveToX"] = x
+            states["moveToY"] = y
+            print(
+                "portal image x: {} y: {}".format(states["moveToX"], states["moveToY"])
+            )
+            return True
 
     # # only check with portal image on floor 2
     # if states["status"] == "floor2":
