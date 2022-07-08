@@ -1239,6 +1239,8 @@ def doRepair():
 
 
 def healthCheck():
+    if config["usePotion"] == False:
+        return
     x = int(
         config["healthCheckX"]
         + (870 - config["healthCheckX"]) * config["healthPotAtPercent"]
