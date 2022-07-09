@@ -11,7 +11,9 @@ Features:
 - [x] Gold Portal
 - [x] Purple Boss Portal
 - [x] Optional Floor 3 clear
-- [x] Auto detecting Aura of Resonance for daily full clears only
+- [x] Auto detecting Aura of Resonance for daily full clears only\
+- [x] Auto skill cd detecting/cycling, full customization
+
 
 Utilities:
 
