@@ -100,10 +100,12 @@ def main():
             print("floor3 loaded")
             # do floor 3
             # trigger start floor 3
-            pyautogui.moveTo(x=1045, y=450)
+            pyautogui.moveTo(x=860, y=750)
             sleep(100, 120)
             pyautogui.click(button=config["move"])
-            sleep(500, 600)
+            sleep(400, 500)
+            pyautogui.click(button=config["move"])
+            sleep(400, 500)
             doFloor3Portal()
             if checkTimeout() or states["floor3"] == False:
                 quitChaos()
@@ -137,7 +139,7 @@ def enterChaos():
             pyautogui.keyUp("alt")
             sleep(300, 400)
             aor = pyautogui.locateCenterOnScreen(
-                "./screenshots/aor.png", confidence=0.9
+                "./screenshots/aor.png", confidence=0.82
             )
             if aor == None:
                 print("aura of resonance detected, forced full run")
@@ -298,9 +300,11 @@ def doFloor3Portal():
         pyautogui.press("V")
         useAbilities()
         print("special portal cleared")
-        calculateMinimapRelative(states["moveToX"], states["moveToY"])
+        sleep(800, 900)
         if states["floor3"] == False:
             return
+        calculateMinimapRelative(states["moveToX"], states["moveToY"])
+
         enterPortal()
         sleep(800, 900)
     elif normalMob == True:
@@ -310,9 +314,10 @@ def doFloor3Portal():
         states["goldPortalCount"] = states["goldPortalCount"] + 1
         useAbilities()
         print("special portal cleared")
-        calculateMinimapRelative(states["moveToX"], states["moveToY"])
+        sleep(800, 900)
         if states["floor3"] == False:
             return
+        calculateMinimapRelative(states["moveToX"], states["moveToY"])
         enterPortal()
         sleep(800, 900)
     else:
