@@ -10,7 +10,8 @@ Features:
 - [x] Floor 2 clear
 - [x] Gold Portal
 - [x] Purple Boss Portal
-- [x] Floor 3 clear
+- [x] Optional Floor 3 clear
+- [x] Auto detecting Aura of Resonance for daily full clears only
 
 Utilities:
 
