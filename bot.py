@@ -140,9 +140,9 @@ def enterChaos():
             pyautogui.keyUp("alt")
             sleep(300, 400)
             aor = pyautogui.locateCenterOnScreen(
-                "./screenshots/aor.png", confidence=0.82
+                "./screenshots/aor.png", confidence=0.9
             )
-            if aor == None and config["performance"] == False:
+            if aor != None and config["performance"] == False:
                 print("aura of resonance detected, forced full run")
                 states["floor3"] = True
             pyautogui.moveTo(886, 346)
@@ -151,7 +151,7 @@ def enterChaos():
             sleep(300, 400)
 
             # 1475 run
-            if aor == None and config["1475"] == True:
+            if aor != None and config["1475"] == True:
                 pyautogui.moveTo(1408, 307)
                 sleep(300, 400)
                 pyautogui.click(button="left")
@@ -412,7 +412,6 @@ def quitChaos():
 
 
 def restartChaos():
-    states["fullClearCount"] = states["fullClearCount"] + 1
     printResult()
     sleep(1200, 1400)
     # states["abilityScreenshots"] = []
@@ -904,6 +903,7 @@ def checkChaosFinish():
         "./screenshots/clearOk.png", confidence=0.75
     )
     if clearOk != None:
+        states["fullClearCount"] = states["fullClearCount"] + 1
         x, y = clearOk
         pyautogui.moveTo(x=x, y=y)
         sleep(600, 800)
