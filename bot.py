@@ -44,6 +44,7 @@ def main():
 
     while True:
         if states["status"] == "inCity":
+            sleep(500, 600)
             # states = newStates
             states["abilityScreenshots"] = []
             # save instance start time
@@ -100,7 +101,7 @@ def main():
             print("floor3 loaded")
             # do floor 3
             # trigger start floor 3
-            pyautogui.moveTo(x=860, y=750)
+            pyautogui.moveTo(x=760, y=750)
             sleep(100, 120)
             pyautogui.click(button=config["move"])
             sleep(400, 500)
@@ -141,7 +142,7 @@ def enterChaos():
             aor = pyautogui.locateCenterOnScreen(
                 "./screenshots/aor.png", confidence=0.82
             )
-            if aor == None:
+            if aor == None and config["performance"] == False:
                 print("aura of resonance detected, forced full run")
                 states["floor3"] = True
             pyautogui.moveTo(886, 346)
@@ -412,7 +413,6 @@ def quitChaos():
 
 def restartChaos():
     states["fullClearCount"] = states["fullClearCount"] + 1
-    states["clearCount"] = states["clearCount"] + 1
     printResult()
     sleep(1200, 1400)
     # states["abilityScreenshots"] = []
@@ -467,14 +467,15 @@ def printResult():
     lastRun = (int(time.time_ns() / 1000000) - states["instanceStartTime"]) / 1000
     avgTime = int(
         ((int(time.time_ns() / 1000000) - states["botStartTime"]) / 1000)
-        / states["clearCount"]
+        / (states["clearCount"] + states["fullClearCount"])
     )
     if states["instanceStartTime"] != -1:
         states["minTime"] = int(min(lastRun, states["minTime"]))
         states["maxTime"] = int(max(lastRun, states["maxTime"]))
     print(
-        "Total runs completed: {}, total death: {}, half runs: {}, timeout runs: {}, ".format(
+        "floor 2 runs: {}, floor 3 runs: {}, total death: {}, bad runs: {}, timeout runs: {}, ".format(
             states["clearCount"],
+            states["fullClearCount"],
             states["deathCount"],
             states["badRunCount"],
             states["timeoutCount"],
