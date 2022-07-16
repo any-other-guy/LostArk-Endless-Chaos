@@ -110,7 +110,7 @@ config = {
     "healthPot": "f1",
     "healthPotAtPercent": 0.3,
     "floor3": False,
-    "1475": False,
+    "1475": True,
     "performance": False,
     "useAwakening": True,
     "useSpeciality1": True,

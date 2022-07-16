@@ -31,6 +31,7 @@ states = newStates.copy()
 
 def main():
     print("Endless Chaos started...")
+    print("Remember to turn on Auto-disassemble")
     # save bot start time
     states["botStartTime"] = int(time.time_ns() / 1000000)
 
@@ -120,9 +121,9 @@ def enterChaos():
         rightClick = "left"
 
     pyautogui.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
-    sleep(200, 300)
+    sleep(100, 200)
     pyautogui.click(button=rightClick)
-    sleep(200, 300)
+    sleep(100, 200)
 
     if config["shortcutEnterChaos"] == True:
         while True:
@@ -130,13 +131,13 @@ def enterChaos():
             r, g, b = im.getpixel((1772 - 1652, 272 - 168))
             if r != 0 and g != 0 and b != 0:
                 break
-            sleep(300, 400)
+            sleep(100, 200)
         sleep(300, 400)
         while True:
             pyautogui.keyDown("alt")
-            sleep(300, 400)
+            sleep(100, 200)
             pyautogui.press("q")
-            sleep(300, 400)
+            sleep(100, 200)
             pyautogui.keyUp("alt")
             sleep(300, 400)
             aor = pyautogui.locateCenterOnScreen(
@@ -146,30 +147,30 @@ def enterChaos():
                 print("aura of resonance detected, forced full run")
                 states["floor3"] = True
             pyautogui.moveTo(886, 346)
-            sleep(300, 400)
+            sleep(100, 200)
             pyautogui.click(button="left")
-            sleep(300, 400)
+            sleep(100, 200)
 
             # 1475 run
             if aor != None and config["1475"] == True:
                 pyautogui.moveTo(1408, 307)
-                sleep(300, 400)
+                sleep(100, 200)
                 pyautogui.click(button="left")
-                sleep(300, 400)
+                sleep(100, 200)
                 pyautogui.moveTo(524, 504)
-                sleep(300, 400)
+                sleep(100, 200)
                 pyautogui.click(button="left")
-                sleep(300, 400)
+                sleep(100, 200)
             # 1445 run
             else:
                 pyautogui.moveTo(1408, 307)
-                sleep(300, 400)
+                sleep(100, 200)
                 pyautogui.click(button="left")
-                sleep(300, 400)
+                sleep(100, 200)
                 pyautogui.moveTo(524, 451)
-                sleep(300, 400)
+                sleep(100, 200)
                 pyautogui.click(button="left")
-                sleep(300, 400)
+                sleep(100, 200)
 
             enterButton = pyautogui.locateCenterOnScreen(
                 "./screenshots/enterButton.png", confidence=0.75
@@ -177,7 +178,7 @@ def enterChaos():
             if enterButton != None:
                 x, y = enterButton
                 pyautogui.moveTo(x=x, y=y)
-                sleep(300, 400)
+                sleep(400, 500)
                 pyautogui.click(x=x, y=y, button="left")
                 break
             else:
@@ -185,9 +186,9 @@ def enterChaos():
                     # quitChaos()
                     return
                 pyautogui.moveTo(886, 346)
-                sleep(300, 400)
+                sleep(100, 200)
                 pyautogui.click(button="left")
-                sleep(300, 400)
+                sleep(100, 200)
     else:
         while True:
             enterHand = pyautogui.locateOnScreen("./screenshots/enterChaos.png")
@@ -195,8 +196,8 @@ def enterChaos():
                 print("entering chaos...")
                 pyautogui.press(config["interact"])
                 break
-            sleep(300, 400)
-    sleep(300, 400)
+            sleep(100, 200)
+    sleep(100, 200)
     while True:
         acceptButton = pyautogui.locateCenterOnScreen(
             "./screenshots/acceptButton.png", confidence=0.75
@@ -204,10 +205,10 @@ def enterChaos():
         if acceptButton != None:
             x, y = acceptButton
             pyautogui.moveTo(x=x, y=y)
-            sleep(300, 400)
+            sleep(100, 200)
             pyautogui.click(x=x, y=y, button="left")
             break
-        sleep(300, 400)
+        sleep(100, 200)
     states["status"] = "floor1"
     return
 
@@ -364,13 +365,10 @@ def quitChaos():
     if clearOk != None:
         x, y = clearOk
         pyautogui.moveTo(x=x, y=y)
-        sleep(300, 400)
+        sleep(100, 200)
         pyautogui.click(x=x, y=y, button="left")
-        sleep(200, 300)
-        pyautogui.moveTo(x=x, y=y)
-        sleep(200, 300)
-        pyautogui.click(x=x, y=y, button="left")
-    sleep(300, 400)
+        sleep(100, 200)
+    sleep(100, 200)
     while True:
         leaveButton = pyautogui.locateCenterOnScreen(
             "./screenshots/leave.png",
@@ -386,12 +384,12 @@ def quitChaos():
             #     == None
             # ):
             pyautogui.moveTo(x=x, y=y)
-            sleep(300, 400)
+            sleep(100, 200)
             pyautogui.click(button="left")
-            sleep(150, 200)
+            sleep(100, 200)
             break
-        sleep(300, 400)
-    sleep(300, 400)
+        sleep(100, 200)
+    sleep(100, 200)
     while True:
         okButton = pyautogui.locateCenterOnScreen(
             "./screenshots/ok.png", confidence=0.75
@@ -399,11 +397,11 @@ def quitChaos():
         if okButton != None:
             x, y = okButton
             pyautogui.moveTo(x=x, y=y)
-            sleep(300, 400)
+            sleep(100, 200)
             # pyautogui.click(x=x, y=y, button='left')
             pyautogui.click(button="left")
             break
-        sleep(300, 400)
+        sleep(100, 200)
     states["status"] = "inCity"
     states["clearCount"] = states["clearCount"] + 1
     printResult()
@@ -428,12 +426,12 @@ def restartChaos():
             x, y = selectLevelButton
 
             pyautogui.moveTo(x=x, y=y)
-            sleep(300, 400)
+            sleep(100, 200)
             pyautogui.click(button="left")
-            sleep(150, 200)
+            sleep(100, 200)
             break
-        sleep(300, 400)
-    sleep(300, 400)
+        sleep(100, 200)
+    sleep(100, 200)
     while True:
         enterButton = pyautogui.locateCenterOnScreen(
             "./screenshots/enterButton.png", confidence=0.75
@@ -441,11 +439,11 @@ def restartChaos():
         if enterButton != None:
             x, y = enterButton
             pyautogui.moveTo(x=x, y=y)
-            sleep(500, 600)
+            sleep(100, 200)
             pyautogui.click(x=x, y=y, button="left")
             break
-        sleep(300, 400)
-    sleep(300, 400)
+        sleep(100, 200)
+    sleep(100, 200)
     while True:
         acceptButton = pyautogui.locateCenterOnScreen(
             "./screenshots/acceptButton.png", confidence=0.75
@@ -453,10 +451,10 @@ def restartChaos():
         if acceptButton != None:
             x, y = acceptButton
             pyautogui.moveTo(x=x, y=y)
-            sleep(500, 600)
+            sleep(100, 200)
             pyautogui.click(x=x, y=y, button="left")
             break
-        sleep(300, 400)
+        sleep(100, 200)
     sleep(2000, 2200)
     states["status"] = "floor1"
     return
