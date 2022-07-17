@@ -51,7 +51,7 @@ todo..
 git clone https://github.com/any-other-guy/Endless-Chaos.git
 cd Endless-Chaos
 pip install -r requirements.txt
-python3 /bot.py
+python3 .\bot.py
 ```
 
 VERY IMPORTANT: 
