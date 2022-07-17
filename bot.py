@@ -105,9 +105,9 @@ def main():
             pyautogui.moveTo(x=760, y=750)
             sleep(100, 120)
             pyautogui.click(button=config["move"])
-            sleep(400, 500)
+            sleep(200, 300)
             pyautogui.click(button=config["move"])
-            sleep(400, 500)
+            sleep(300, 400)
             doFloor3Portal()
             if checkTimeout() or states["floor3"] == False:
                 quitChaos()
@@ -149,7 +149,7 @@ def enterChaos():
             pyautogui.moveTo(886, 346)
             sleep(100, 200)
             pyautogui.click(button="left")
-            sleep(100, 200)
+            sleep(300, 400)
 
             # 1475 run
             if aor != None and config["1475"] == True:
@@ -178,12 +178,13 @@ def enterChaos():
             if enterButton != None:
                 x, y = enterButton
                 pyautogui.moveTo(x=x, y=y)
-                sleep(400, 500)
+                sleep(200, 300)
+                pyautogui.click(x=x, y=y, button="left")
+                sleep(200, 300)
                 pyautogui.click(x=x, y=y, button="left")
                 break
             else:
                 if checkTimeout():
-                    # quitChaos()
                     return
                 pyautogui.moveTo(886, 346)
                 sleep(100, 200)
@@ -439,7 +440,9 @@ def restartChaos():
         if enterButton != None:
             x, y = enterButton
             pyautogui.moveTo(x=x, y=y)
-            sleep(100, 200)
+            sleep(200, 300)
+            pyautogui.click(x=x, y=y, button="left")
+            sleep(200, 300)
             pyautogui.click(x=x, y=y, button="left")
             break
         sleep(100, 200)
@@ -522,7 +525,7 @@ def useAbilities():
         for i in range(0, len(states["abilityScreenshots"])):
             if states["status"] == "floor3" and checkChaosFinish():
                 return
-            diedCheck()
+            # diedCheck()
             healthCheck()
 
             # check portal
@@ -583,10 +586,10 @@ def useAbilities():
             elif states["status"] == "floor3" and checkFloor3GoldMob():
                 calculateMinimapRelative(states["moveToX"], states["moveToY"])
                 moveToMinimapRelative(
-                    states["moveToX"], states["moveToY"], 700, 800, True
+                    states["moveToX"], states["moveToY"], 700, 800, False
                 )
                 pyautogui.press(config["awakening"])
-                pyautogui.press(config["meleeAttack"])
+                # pyautogui.press(config["meleeAttack"])
             elif states["status"] == "floor3" and checkFloor3Tower():
                 if not checkFloor2Elite() and not checkFloor2Mob():
                     randomMove()
@@ -595,8 +598,8 @@ def useAbilities():
                 moveToMinimapRelative(
                     states["moveToX"], states["moveToY"], 1200, 1300, True
                 )
-                pyautogui.press("x")
-                sleep(200, 220)
+                # pyautogui.press("x")
+                # sleep(200, 220)
                 clickTower()
             elif states["status"] == "floor3" and checkFloor2Mob():
                 calculateMinimapRelative(states["moveToX"], states["moveToY"])
@@ -607,7 +610,7 @@ def useAbilities():
             elif states["status"] == "floor3" and checkFloor2Boss():
                 calculateMinimapRelative(states["moveToX"], states["moveToY"])
                 moveToMinimapRelative(
-                    states["moveToX"], states["moveToY"], 800, 900, True
+                    states["moveToX"], states["moveToY"], 800, 900, False
                 )
 
             # mage touch
@@ -1029,9 +1032,13 @@ def moveToMinimapRelative(x, y, timeMin, timeMax, blink):
     # sleep(timeMin, timeMax)
 
     # optional blink here
-    if blink:
+    if blink or states["moveTime"] > 1000:
+        # print("blink")
+        if states["moveTime"] > 1400:
+            pyautogui.press("x")
+            sleep(150, 200)
         pyautogui.press(config["blink"])
-        sleep(100, 150)
+        sleep(150, 200)
 
     return
 
@@ -1096,6 +1103,13 @@ def enterPortal():
     # repeatedly move and press g until black screen
     sleep(1100, 1200)
     print("moving to portal x: {} y: {}".format(states["moveToX"], states["moveToY"]))
+
+    if states["moveTime"] > 500:
+        # print("blink")
+        pyautogui.click(x=states["moveToX"], y=states["moveToY"], button=config["move"])
+        sleep(100, 150)
+        pyautogui.press(config["blink"])
+
     enterTime = int(time.time_ns() / 1000000)
     while True:
         im = pyautogui.screenshot(region=(1652, 168, 240, 210))
@@ -1375,8 +1389,8 @@ def checkTimeout():
         return True
     if currentTime - states["instanceStartTime"] > config["timeLimit"]:
         print("timeout triggered")
-        # timeout = pyautogui.screenshot()
-        # timeout.save("./timeout/overtime" + str(currentTime) + ".png")
+        timeout = pyautogui.screenshot()
+        timeout.save("./timeout/overtime" + str(currentTime) + ".png")
         states["timeoutCount"] = states["timeoutCount"] + 1
         return True
     return False
