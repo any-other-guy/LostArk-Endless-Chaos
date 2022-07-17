@@ -598,8 +598,8 @@ def useAbilities():
                 moveToMinimapRelative(
                     states["moveToX"], states["moveToY"], 1200, 1300, True
                 )
-                # pyautogui.press("x")
-                # sleep(200, 220)
+                pyautogui.press("x")
+                sleep(200, 220)
                 clickTower()
             elif states["status"] == "floor3" and checkFloor2Mob():
                 calculateMinimapRelative(states["moveToX"], states["moveToY"])
