@@ -131,8 +131,8 @@ def enterChaos():
             r, g, b = im.getpixel((1772 - 1652, 272 - 168))
             if r != 0 and g != 0 and b != 0:
                 break
-            sleep(100, 200)
-        sleep(300, 400)
+            sleep(200, 300)
+        sleep(600, 800)
         while True:
             pyautogui.keyDown("alt")
             sleep(100, 200)
@@ -1389,8 +1389,8 @@ def checkTimeout():
         return True
     if currentTime - states["instanceStartTime"] > config["timeLimit"]:
         print("timeout triggered")
-        timeout = pyautogui.screenshot()
-        timeout.save("./timeout/overtime" + str(currentTime) + ".png")
+        # timeout = pyautogui.screenshot()
+        # timeout.save("./timeout/overtime" + str(currentTime) + ".png")
         states["timeoutCount"] = states["timeoutCount"] + 1
         return True
     return False
