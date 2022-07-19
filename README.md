@@ -4,6 +4,10 @@ A Lost Ark chaos dungeon(PvE) farming bot.\
 Fully automatic mob/elite/boss detecting and clearing, based on image recognition.\
 Background running is supported with RDP Wrapper(Remote Desktop).
 
+I have been mostly running the script for my rather buffed Sorceress, of course skill/engraving and etc are fine tuned both inside [config.py](config.py)
+ and in-game. You will have to tune it yourself in order to run it smoothly and efficiently without the need of HP potion.\
+So far my average 1445 dungeon floor1+2 run time is about 120-130 seconds, including loading time and random golden/purple portal appearances. A 1475 dungeon full clear is about 240-250 seconds per run. I might release a demo video in the near future...
+
 Features:
 
 - [x] Floor 1 clearing
