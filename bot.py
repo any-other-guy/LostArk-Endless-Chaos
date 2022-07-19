@@ -107,7 +107,7 @@ def main():
             pyautogui.click(button=config["move"])
             sleep(200, 300)
             pyautogui.click(button=config["move"])
-            sleep(300, 400)
+            sleep(200, 300)
             doFloor3Portal()
             if checkTimeout() or states["floor3"] == False:
                 quitChaos()
@@ -1033,13 +1033,13 @@ def moveToMinimapRelative(x, y, timeMin, timeMax, blink):
     # sleep(timeMin, timeMax)
 
     # optional blink here
-    if blink or states["moveTime"] > 900:
+    if blink or states["moveTime"] > 800:
         # print("blink")
-        if states["moveTime"] > 1300:
+        if states["moveTime"] > 1200:
             pyautogui.press("x")
-            sleep(150, 200)
+            sleep(300, 320)
         pyautogui.press(config["blink"])
-        sleep(150, 200)
+        sleep(300, 320)
 
     return
 
@@ -1119,7 +1119,7 @@ def enterPortal():
             return
 
         nowTime = int(time.time_ns() / 1000000)
-        if nowTime - enterTime > 5000:
+        if nowTime - enterTime > 4000:
             # FIXME:
             states["instanceStartTime"] = -1
             return
