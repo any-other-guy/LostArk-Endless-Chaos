@@ -407,6 +407,7 @@ def quitChaos():
     states["clearCount"] = states["clearCount"] + 1
     printResult()
 
+    # check if game crashes
     return
 
 
@@ -586,7 +587,7 @@ def useAbilities():
             elif states["status"] == "floor3" and checkFloor3GoldMob():
                 calculateMinimapRelative(states["moveToX"], states["moveToY"])
                 moveToMinimapRelative(
-                    states["moveToX"], states["moveToY"], 700, 800, False
+                    states["moveToX"], states["moveToY"], 700, 800, True
                 )
                 pyautogui.press(config["awakening"])
                 # pyautogui.press(config["meleeAttack"])
@@ -1032,9 +1033,9 @@ def moveToMinimapRelative(x, y, timeMin, timeMax, blink):
     # sleep(timeMin, timeMax)
 
     # optional blink here
-    if blink or states["moveTime"] > 1000:
+    if blink or states["moveTime"] > 900:
         # print("blink")
-        if states["moveTime"] > 1400:
+        if states["moveTime"] > 1300:
             pyautogui.press("x")
             sleep(150, 200)
         pyautogui.press(config["blink"])
@@ -1104,7 +1105,7 @@ def enterPortal():
     sleep(1100, 1200)
     print("moving to portal x: {} y: {}".format(states["moveToX"], states["moveToY"]))
 
-    if states["moveTime"] > 500:
+    if states["moveTime"] > 400:
         # print("blink")
         pyautogui.click(x=states["moveToX"], y=states["moveToY"], button=config["move"])
         sleep(100, 150)
