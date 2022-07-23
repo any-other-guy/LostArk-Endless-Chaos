@@ -927,10 +927,10 @@ def fightFloor2Boss():
 def calculateMinimapRelative(x, y):
     selfLeft = config["minimapCenterX"]
     selfTop = config["minimapCenterY"]
-    if abs(selfLeft - x) <= 3 and abs(selfTop - y) <= 3:
-        states["moveToX"] = config["screenCenterX"]
-        states["moveToY"] = config["screenCenterY"]
-        return
+    # if abs(selfLeft - x) <= 3 and abs(selfTop - y) <= 3:
+    #     states["moveToX"] = config["screenCenterX"]
+    #     states["moveToY"] = config["screenCenterY"]
+    #     return
 
     x = x - selfLeft
     y = y - selfTop
@@ -1104,8 +1104,8 @@ def enterPortal():
     # repeatedly move and press g until black screen
     sleep(1100, 1200)
     print("moving to portal x: {} y: {}".format(states["moveToX"], states["moveToY"]))
-
-    if states["moveTime"] > 400:
+    print("move for {} ms".format(states["moveTime"]))
+    if states["moveTime"] > 450:
         # print("blink")
         pyautogui.click(x=states["moveToX"], y=states["moveToY"], button=config["move"])
         sleep(100, 150)
