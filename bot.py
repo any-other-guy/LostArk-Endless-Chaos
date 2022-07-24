@@ -631,7 +631,11 @@ def useAbilities():
             checkCDandCast(states["abilityScreenshots"][i])
 
         # 防止卡先试试这样
-        if states["status"] == "floor3" and not checkFloor2Elite():
+        if (
+            states["status"] == "floor3"
+            and not checkFloor2Elite()
+            and not checkFloor2Boss()  # no random move in purple portal
+        ):
             randomMove()
 
 
