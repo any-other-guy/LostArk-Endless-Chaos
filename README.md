@@ -17,6 +17,7 @@ Features:
 - [x] Optional Floor 3 daily clearing only
 - [x] Optional Floor 3 indefinite clearing for silver earning
 - [x] Auto spell cooldown detecting and cycling
+- [x] Auto game client restart on game crash/disconnect issue (experimental)
 
 
 Utilities:
