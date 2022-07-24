@@ -1,4 +1,6 @@
 from re import X
+
+from numpy import true_divide
 from config import config
 import pyautogui
 import time
@@ -22,6 +24,7 @@ newStates = {
     "goldPortalCount": 0,
     "purplePortalCount": 0,
     "badRunCount": 0,
+    "offlineCount": 0,
     "minTime": config["timeLimit"],
     "maxTime": -1,
     "floor3": False,
@@ -113,6 +116,9 @@ def main():
                 quitChaos()
                 continue
             doFloor3()
+        elif states["status"] == "restart":
+            restartGame()
+            quitChaos()
 
 
 def enterChaos():
@@ -147,28 +153,28 @@ def enterChaos():
                 print("aura of resonance detected, forced full run")
                 states["floor3"] = True
             pyautogui.moveTo(886, 346)
-            sleep(100, 200)
+            sleep(200, 300)
             pyautogui.click(button="left")
             sleep(300, 400)
 
             # 1475 run
             if aor != None and config["1475"] == True:
                 pyautogui.moveTo(1408, 307)
-                sleep(100, 200)
+                sleep(200, 300)
                 pyautogui.click(button="left")
                 sleep(100, 200)
                 pyautogui.moveTo(524, 504)
-                sleep(100, 200)
+                sleep(200, 300)
                 pyautogui.click(button="left")
                 sleep(100, 200)
             # 1445 run
             else:
                 pyautogui.moveTo(1408, 307)
-                sleep(100, 200)
+                sleep(200, 300)
                 pyautogui.click(button="left")
                 sleep(100, 200)
                 pyautogui.moveTo(524, 451)
-                sleep(100, 200)
+                sleep(200, 300)
                 pyautogui.click(button="left")
                 sleep(100, 200)
 
@@ -187,7 +193,7 @@ def enterChaos():
                 if checkTimeout():
                     return
                 pyautogui.moveTo(886, 346)
-                sleep(100, 200)
+                sleep(200, 300)
                 pyautogui.click(button="left")
                 sleep(100, 200)
     else:
@@ -201,12 +207,14 @@ def enterChaos():
     sleep(100, 200)
     while True:
         acceptButton = pyautogui.locateCenterOnScreen(
-            "./screenshots/acceptButton.png", confidence=0.75
+            "./screenshots/acceptButton.png",
+            confidence=0.75,
+            region=config["regions"]["center"],
         )
         if acceptButton != None:
             x, y = acceptButton
             pyautogui.moveTo(x=x, y=y)
-            sleep(100, 200)
+            sleep(200, 300)
             pyautogui.click(x=x, y=y, button="left")
             break
         sleep(100, 200)
@@ -218,13 +226,16 @@ def doFloor1():
     clearQuest()
     # trigger start floor 1
     pyautogui.moveTo(x=845, y=600)
-    sleep(400, 500)
+    sleep(450, 500)
     pyautogui.click(button=config["move"])
 
     # delayed start for better aoe abiltiy usage at floor1 beginning
     if config["delayedStart"] != None:
         sleep(config["delayedStart"] - 100, config["delayedStart"] + 100)
 
+    if offlineCheck():
+        closeGameByClickingDialogue()
+        return
     # # move to a side
     # pyautogui.press(config["blink"])
     # sleep(400, 500)
@@ -240,7 +251,10 @@ def doFloor1():
     # smash available abilities
     useAbilities()
 
-    # bad run quit
+    if offlineCheck():
+        closeGameByClickingDialogue()
+        return
+
     if checkTimeout():
         quitChaos()
         return
@@ -248,6 +262,10 @@ def doFloor1():
     print("floor 1 cleared")
     calculateMinimapRelative(states["moveToX"], states["moveToY"])
     enterPortal()
+
+    if offlineCheck():
+        closeGameByClickingDialogue()
+        return
     if checkTimeout():
         quitChaos()
         return
@@ -264,7 +282,10 @@ def doFloor2():
 
     useAbilities()
 
-    # bad run quit
+    if offlineCheck():
+        closeGameByClickingDialogue()
+        return
+
     if checkTimeout():
         quitChaos()
         return
@@ -272,6 +293,10 @@ def doFloor2():
     print("floor 2 cleared")
     calculateMinimapRelative(states["moveToX"], states["moveToY"])
     enterPortal()
+
+    if offlineCheck():
+        closeGameByClickingDialogue()
+        return
     if checkTimeout():
         quitChaos()
         return
@@ -302,6 +327,15 @@ def doFloor3Portal():
         states["purplePortalCount"] = states["purplePortalCount"] + 1
         pyautogui.press("V")
         useAbilities()
+
+        if offlineCheck():
+            closeGameByClickingDialogue()
+            return
+
+        if checkTimeout():
+            quitChaos()
+            return
+
         print("special portal cleared")
         sleep(800, 900)
         if states["floor3"] == False:
@@ -316,6 +350,15 @@ def doFloor3Portal():
         print("gold mob located")
         states["goldPortalCount"] = states["goldPortalCount"] + 1
         useAbilities()
+
+        if offlineCheck():
+            closeGameByClickingDialogue()
+            return
+
+        if checkTimeout():
+            quitChaos()
+            return
+
         print("special portal cleared")
         sleep(800, 900)
         if states["floor3"] == False:
@@ -328,7 +371,10 @@ def doFloor3Portal():
         states["instanceStartTime"] == -1
         return
 
-    # bad run quit
+    if offlineCheck():
+        closeGameByClickingDialogue()
+        return
+
     if checkTimeout():
         return
 
@@ -344,7 +390,10 @@ def doFloor3():
     sleep(500, 550)
     useAbilities()
 
-    # bad run quit
+    if offlineCheck():
+        closeGameByClickingDialogue()
+        return
+
     if checkTimeout():
         quitChaos()
         return
@@ -359,14 +408,14 @@ def doFloor3():
 
 def quitChaos():
     # quit
-    print("quitting")
+    print("quitting chaos")
     clearOk = pyautogui.locateCenterOnScreen(
         "./screenshots/clearOk.png", confidence=0.75
     )
     if clearOk != None:
         x, y = clearOk
         pyautogui.moveTo(x=x, y=y)
-        sleep(100, 200)
+        sleep(200, 300)
         pyautogui.click(x=x, y=y, button="left")
         sleep(100, 200)
     sleep(100, 200)
@@ -385,7 +434,7 @@ def quitChaos():
             #     == None
             # ):
             pyautogui.moveTo(x=x, y=y)
-            sleep(100, 200)
+            sleep(200, 300)
             pyautogui.click(button="left")
             sleep(100, 200)
             break
@@ -393,12 +442,14 @@ def quitChaos():
     sleep(100, 200)
     while True:
         okButton = pyautogui.locateCenterOnScreen(
-            "./screenshots/ok.png", confidence=0.75
+            "./screenshots/ok.png",
+            confidence=0.75,
+            region=config["regions"]["center"],
         )
         if okButton != None:
             x, y = okButton
             pyautogui.moveTo(x=x, y=y)
-            sleep(100, 200)
+            sleep(200, 300)
             # pyautogui.click(x=x, y=y, button='left')
             pyautogui.click(button="left")
             break
@@ -428,7 +479,7 @@ def restartChaos():
             x, y = selectLevelButton
 
             pyautogui.moveTo(x=x, y=y)
-            sleep(100, 200)
+            sleep(200, 300)
             pyautogui.click(button="left")
             sleep(100, 200)
             break
@@ -450,12 +501,14 @@ def restartChaos():
     sleep(100, 200)
     while True:
         acceptButton = pyautogui.locateCenterOnScreen(
-            "./screenshots/acceptButton.png", confidence=0.75
+            "./screenshots/acceptButton.png",
+            confidence=0.75,
+            region=config["regions"]["center"],
         )
         if acceptButton != None:
             x, y = acceptButton
             pyautogui.moveTo(x=x, y=y)
-            sleep(100, 200)
+            sleep(200, 300)
             pyautogui.click(x=x, y=y, button="left")
             break
         sleep(100, 200)
@@ -474,12 +527,13 @@ def printResult():
         states["minTime"] = int(min(lastRun, states["minTime"]))
         states["maxTime"] = int(max(lastRun, states["maxTime"]))
     print(
-        "floor 2 runs: {}, floor 3 runs: {}, total death: {}, bad runs: {}, timeout runs: {}, ".format(
+        "floor 2 runs: {}, floor 3 runs: {}, total death: {}, bad runs: {}, timeout runs: {}, dc count: {}".format(
             states["clearCount"],
             states["fullClearCount"],
             states["deathCount"],
             states["badRunCount"],
             states["timeoutCount"],
+            states["offlineCount"],
         )
     )
     print(
@@ -500,6 +554,8 @@ def useAbilities():
     while True:
         diedCheck()
         healthCheck()
+        if offlineCheck():
+            return
         if checkTimeout():
             return
 
@@ -675,10 +731,16 @@ def checkCDandCast(ability):
         else:
             # 瞬发 ability
             pyautogui.press(ability["key"])
+            start_ms = int(time.time_ns() / 1000000)
+            now_ms = int(time.time_ns() / 1000000)
             while pyautogui.locateOnScreen(
                 ability["image"], region=config["regions"]["abilities"]
             ):
                 pyautogui.press(ability["key"])
+                sleep(50, 80)
+                now_ms = int(time.time_ns() / 1000000)
+                if now_ms - start_ms > 5000:
+                    return
 
 
 def checkPortal():
@@ -1399,6 +1461,98 @@ def checkTimeout():
         states["timeoutCount"] = states["timeoutCount"] + 1
         return True
     return False
+
+
+def offlineCheck():
+    dc = pyautogui.locateOnScreen(
+        "./screenshots/dc.png",
+        region=config["regions"]["center"],
+    )
+    if dc != None:
+        print("disconnection detected, restarting game client...")
+        return True
+    return False
+
+
+def closeGameByClickingDialogue():
+    ok = pyautogui.locateCenterOnScreen(
+        "./screenshots/ok.png",
+        region=config["regions"]["center"],
+    )
+    if ok != None:
+        x, y = ok
+        pyautogui.moveTo(x=x, y=y)
+        sleep(200, 300)
+        pyautogui.click(x=x, y=y, button="left")
+    else:
+        pyautogui.moveTo(x=960, y=500)
+        sleep(200, 300)
+        pyautogui.click(button="left")
+    states["status"] = "restart"
+    sleep(500, 600)
+
+
+def restartGame():
+    while True:
+        enterGame = pyautogui.locateCenterOnScreen("./screenshots/steamPlay.png")
+        stopGame = pyautogui.locateCenterOnScreen("./screenshots/steamStop.png")
+        if stopGame != None:
+            print("clicking stop game on steam")
+            x, y = stopGame
+            pyautogui.moveTo(x=x, y=y)
+            sleep(200, 300)
+            pyautogui.click(x=x, y=y, button="left")
+            sleep(500, 600)
+            confirm = pyautogui.locateCenterOnScreen("./screenshots/steamConfirm.png")
+            if confirm == None:
+                continue
+            x, y = confirm
+            pyautogui.moveTo(x=x, y=y)
+            sleep(200, 300)
+            pyautogui.click(x=x, y=y, button="left")
+            sleep(8000, 10000)
+        elif enterGame != None:
+            print("restarting Lost Ark game client...")
+            x, y = enterGame
+            pyautogui.moveTo(x=x, y=y)
+            sleep(200, 300)
+            pyautogui.click(x=x, y=y, button="left")
+            break
+        sleep(200, 300)
+    sleep(5200, 6300)
+    while True:
+        enterServer = pyautogui.locateCenterOnScreen("./screenshots/enterServer.png")
+        enterGame = pyautogui.locateCenterOnScreen("./screenshots/steamPlay.png")
+        if enterServer != None:
+            print("clicking enterServer")
+            x, y = enterServer
+            pyautogui.moveTo(x=x, y=y)
+            sleep(200, 300)
+            pyautogui.click(x=x, y=y, button="left")
+            break
+        elif enterGame != None:
+            print("clicking enterGame")
+            x, y = enterGame
+            pyautogui.moveTo(x=x, y=y)
+            sleep(200, 300)
+            pyautogui.click(x=x, y=y, button="left")
+            continue
+        sleep(4200, 5300)
+    sleep(7200, 8300)
+    while True:
+        enterCharacter = pyautogui.locateCenterOnScreen(
+            "./screenshots/enterCharacter.png"
+        )
+        if enterCharacter != None:
+            print("clicking enterCharacter")
+            x, y = enterCharacter
+            pyautogui.moveTo(x=x, y=y)
+            sleep(200, 300)
+            pyautogui.click(x=x, y=y, button="left")
+            break
+        sleep(200, 300)
+    states["offlineCount"] = states["offlineCount"] + 1
+    sleep(12200, 13300)
 
 
 if __name__ == "__main__":

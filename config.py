@@ -124,6 +124,7 @@ config = {
         "abilities": (625, 779, 300, 155),
         "leaveMenu": (0, 154, 250, 300),
         "buffs": (625, 779, 300, 60),
+        "center": (782, 453, 400, 200),
     },
     "screenResolutionX": 1920,
     "screenResolutionY": 1080,
@@ -134,7 +135,7 @@ config = {
     "minimapCenterX": 1772,
     "minimapCenterY": 272,
     "timeLimit": 360000,
-    "delayedStart": 3000,
+    "delayedStart": 3300,
     "healthCheckX": 690,
     "healthCheckY": 854,
 }
