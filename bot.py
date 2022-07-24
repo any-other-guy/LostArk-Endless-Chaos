@@ -739,7 +739,7 @@ def checkCDandCast(ability):
                 pyautogui.press(ability["key"])
                 sleep(50, 80)
                 now_ms = int(time.time_ns() / 1000000)
-                if now_ms - start_ms > 5000:
+                if now_ms - start_ms > 2500:
                     return
 
 
