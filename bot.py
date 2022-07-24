@@ -1494,8 +1494,12 @@ def closeGameByClickingDialogue():
 
 def restartGame():
     while True:
-        enterGame = pyautogui.locateCenterOnScreen("./screenshots/steamPlay.png")
-        stopGame = pyautogui.locateCenterOnScreen("./screenshots/steamStop.png")
+        enterGame = pyautogui.locateCenterOnScreen(
+            "./screenshots/steamPlay.png", confidence=0.75
+        )
+        stopGame = pyautogui.locateCenterOnScreen(
+            "./screenshots/steamStop.png", confidence=0.75
+        )
         if stopGame != None:
             print("clicking stop game on steam")
             x, y = stopGame
@@ -1503,7 +1507,9 @@ def restartGame():
             sleep(200, 300)
             pyautogui.click(x=x, y=y, button="left")
             sleep(500, 600)
-            confirm = pyautogui.locateCenterOnScreen("./screenshots/steamConfirm.png")
+            confirm = pyautogui.locateCenterOnScreen(
+                "./screenshots/steamConfirm.png", confidence=0.75
+            )
             if confirm == None:
                 continue
             x, y = confirm
