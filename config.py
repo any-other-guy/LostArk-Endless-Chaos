@@ -124,7 +124,7 @@ config = {
         "abilities": (625, 779, 300, 155),
         "leaveMenu": (0, 154, 250, 300),
         "buffs": (625, 779, 300, 60),
-        "center": (782, 453, 400, 200),
+        "center": (782, 353, 400, 300),
     },
     "screenResolutionX": 1920,
     "screenResolutionY": 1080,

@@ -1475,19 +1475,32 @@ def offlineCheck():
 
 
 def closeGameByClickingDialogue():
-    ok = pyautogui.locateCenterOnScreen(
-        "./screenshots/ok.png",
-        region=config["regions"]["center"],
-    )
-    if ok != None:
-        x, y = ok
-        pyautogui.moveTo(x=x, y=y)
-        sleep(200, 300)
-        pyautogui.click(x=x, y=y, button="left")
-    else:
-        pyautogui.moveTo(x=960, y=500)
-        sleep(200, 300)
-        pyautogui.click(button="left")
+    # ok = pyautogui.locateCenterOnScreen(
+    #     "./screenshots/ok.png",
+    #     region=config["regions"]["center"],
+    # )
+    # if ok != None:
+    #     x, y = ok
+    #     pyautogui.moveTo(x=x, y=y)
+    #     sleep(300, 400)
+    #     pyautogui.click(x=x, y=y, button="left")
+    # else:
+    #     pyautogui.moveTo(x=960, y=500)
+    #     sleep(300, 400)
+    #     pyautogui.click(button="left")
+    while True:
+        ok = pyautogui.locateCenterOnScreen(
+            "./screenshots/ok.png", region=config["regions"]["center"], confidence=0.75
+        )
+        if ok != None:
+            x, y = ok
+            pyautogui.moveTo(x=x, y=y)
+            sleep(300, 400)
+            pyautogui.click(x=x, y=y, button="left")
+            print("clicked ok")
+        else:
+            break
+        sleep(1300, 1400)
     states["status"] = "restart"
     sleep(500, 600)
 
