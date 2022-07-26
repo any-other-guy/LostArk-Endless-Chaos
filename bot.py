@@ -24,7 +24,9 @@ newStates = {
     "goldPortalCount": 0,
     "purplePortalCount": 0,
     "badRunCount": 0,
-    "offlineCount": 0,
+    "gameRestartCount": 0,
+    "gameCrashCount": 0,
+    "gameOfflineCount": 0,
     "minTime": config["timeLimit"],
     "maxTime": -1,
     "floor3": False,
@@ -66,6 +68,9 @@ def main():
             sleep(200, 300)
             # wait for loading
             waitForLoading()
+            if gameCrashCheck():
+                states["status"] = "restart"
+                continue
             if checkTimeout():
                 quitChaos()
                 continue
@@ -87,6 +92,9 @@ def main():
             sleep(200, 300)
             # wait for loading
             waitForLoading()
+            if gameCrashCheck():
+                states["status"] = "restart"
+                continue
             if checkTimeout():
                 quitChaos()
                 continue
@@ -99,6 +107,9 @@ def main():
             sleep(200, 300)
             # wait for loading
             waitForLoading()
+            if gameCrashCheck():
+                states["status"] = "restart"
+                continue
             if checkTimeout():
                 quitChaos()
                 continue
@@ -117,6 +128,7 @@ def main():
                 continue
             doFloor3()
         elif states["status"] == "restart":
+            sleep(1000, 1200)
             restartGame()
             quitChaos()
 
@@ -236,6 +248,9 @@ def doFloor1():
     if offlineCheck():
         closeGameByClickingDialogue()
         return
+    if gameCrashCheck():
+        states["status"] = "restart"
+        return
     # # move to a side
     # pyautogui.press(config["blink"])
     # sleep(400, 500)
@@ -254,7 +269,9 @@ def doFloor1():
     if offlineCheck():
         closeGameByClickingDialogue()
         return
-
+    if gameCrashCheck():
+        states["status"] = "restart"
+        return
     if checkTimeout():
         quitChaos()
         return
@@ -265,6 +282,9 @@ def doFloor1():
 
     if offlineCheck():
         closeGameByClickingDialogue()
+        return
+    if gameCrashCheck():
+        states["status"] = "restart"
         return
     if checkTimeout():
         quitChaos()
@@ -296,6 +316,9 @@ def doFloor2():
 
     if offlineCheck():
         closeGameByClickingDialogue()
+        return
+    if gameCrashCheck():
+        states["status"] = "restart"
         return
     if checkTimeout():
         quitChaos()
@@ -331,7 +354,9 @@ def doFloor3Portal():
         if offlineCheck():
             closeGameByClickingDialogue()
             return
-
+        if gameCrashCheck():
+            states["status"] = "restart"
+            return
         if checkTimeout():
             quitChaos()
             return
@@ -354,7 +379,9 @@ def doFloor3Portal():
         if offlineCheck():
             closeGameByClickingDialogue()
             return
-
+        if gameCrashCheck():
+            states["status"] = "restart"
+            return
         if checkTimeout():
             quitChaos()
             return
@@ -374,13 +401,18 @@ def doFloor3Portal():
     if offlineCheck():
         closeGameByClickingDialogue()
         return
-
+    if gameCrashCheck():
+        states["status"] = "restart"
+        return
     if checkTimeout():
         return
 
 
 def doFloor3():
     waitForLoading()
+    if gameCrashCheck():
+        states["status"] = "restart"
+        return
     print("real floor 3 loaded")
 
     if checkTimeout():
@@ -393,7 +425,9 @@ def doFloor3():
     if offlineCheck():
         closeGameByClickingDialogue()
         return
-
+    if gameCrashCheck():
+        states["status"] = "restart"
+        return
     if checkTimeout():
         quitChaos()
         return
@@ -527,13 +561,14 @@ def printResult():
         states["minTime"] = int(min(lastRun, states["minTime"]))
         states["maxTime"] = int(max(lastRun, states["maxTime"]))
     print(
-        "floor 2 runs: {}, floor 3 runs: {}, total death: {}, bad runs: {}, timeout runs: {}, dc count: {}".format(
+        "floor 2 runs: {}, floor 3 runs: {}, total death: {}, timeout runs: {}, dc: {}, crash: {}, restart: {}".format(
             states["clearCount"],
             states["fullClearCount"],
             states["deathCount"],
-            states["badRunCount"],
             states["timeoutCount"],
-            states["offlineCount"],
+            states["gameOfflineCount"],
+            states["gameCrashCount"],
+            states["gameRestartCount"],
         )
     )
     print(
@@ -554,6 +589,8 @@ def useAbilities():
     while True:
         diedCheck()
         healthCheck()
+        if gameCrashCheck():
+            return
         if offlineCheck():
             return
         if checkTimeout():
@@ -739,7 +776,8 @@ def checkCDandCast(ability):
                 pyautogui.press(ability["key"])
                 sleep(50, 80)
                 now_ms = int(time.time_ns() / 1000000)
-                if now_ms - start_ms > 2500:
+                if now_ms - start_ms > 5000:
+                    print("disconnected detected by unable to use available spell")
                     return
 
 
@@ -1278,6 +1316,10 @@ def enterPortal():
 def waitForLoading():
     print("loading")
     while True:
+        if gameCrashCheck():
+            return
+        if checkTimeout():
+            return
         leaveButton = pyautogui.locateOnScreen(
             "./screenshots/leave.png",
             grayscale=True,
@@ -1286,9 +1328,7 @@ def waitForLoading():
         )
         if leaveButton != None:
             return
-        sleep(150, 200)
-        if checkTimeout():
-            return
+        sleep(350, 400)
 
 
 def saveAbilitiesScreenshots():
@@ -1463,6 +1503,20 @@ def checkTimeout():
     return False
 
 
+def gameCrashCheck():
+    bottom = pyautogui.screenshot(region=(866, 966, 200, 100))
+    r1, g1, b1 = bottom.getpixel((0, 0))
+    r2, g2, b2 = bottom.getpixel((0, 99))
+    r3, g3, b3 = bottom.getpixel((199, 0))
+    r4, g4, b4 = bottom.getpixel((199, 99))
+    sum = r1 + g1 + b1 + r2 + g2 + b2 + r3 + g3 + b3 + r4 + g4 + b4
+    if sum > 0:
+        print("game crashed, restarting game client...")
+        states["gameCrashCount"] = states["gameCrashCount"] + 1
+        return True
+    return False
+
+
 def offlineCheck():
     dc = pyautogui.locateOnScreen(
         "./screenshots/dc.png",
@@ -1470,6 +1524,7 @@ def offlineCheck():
     )
     if dc != None:
         print("disconnection detected, restarting game client...")
+        states["gameOfflineCount"] = states["gameOfflineCount"] + 1
         return True
     return False
 
@@ -1506,6 +1561,7 @@ def closeGameByClickingDialogue():
 
 
 def restartGame():
+    print("at steam window, trying to restart game")
     while True:
         enterGame = pyautogui.locateCenterOnScreen(
             "./screenshots/steamPlay.png", confidence=0.75
@@ -1570,7 +1626,7 @@ def restartGame():
             pyautogui.click(x=x, y=y, button="left")
             break
         sleep(200, 300)
-    states["offlineCount"] = states["offlineCount"] + 1
+    states["gameRestartCount"] = states["gameRestartCount"] + 1
     sleep(12200, 13300)
 
 
