@@ -58,14 +58,17 @@ def main():
 
             clearQuest()
             enterChaos()
+            if gameCrashCheck():
+                states["status"] = "restart"
+                continue
             if checkTimeout():
                 quitChaos()
                 continue
 
         elif states["status"] == "floor1":
             print("floor1")
-            pyautogui.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
-            sleep(200, 300)
+            # pyautogui.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
+            sleep(1000, 1300)
             # wait for loading
             waitForLoading()
             if gameCrashCheck():
@@ -89,7 +92,7 @@ def main():
         elif states["status"] == "floor2":
             print("floor2")
             pyautogui.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
-            sleep(200, 300)
+            sleep(1000, 1300)
             # wait for loading
             waitForLoading()
             if gameCrashCheck():
@@ -104,7 +107,7 @@ def main():
         elif states["status"] == "floor3":
             print("floor3")
             pyautogui.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
-            sleep(200, 300)
+            sleep(1000, 1300)
             # wait for loading
             waitForLoading()
             if gameCrashCheck():
@@ -130,7 +133,23 @@ def main():
         elif states["status"] == "restart":
             sleep(1000, 1200)
             restartGame()
-            quitChaos()
+            while True:
+                im = pyautogui.screenshot(region=(1652, 168, 240, 210))
+                r, g, b = im.getpixel((1772 - 1652, 272 - 168))
+                if r != 0 and g != 0 and b != 0:
+                    print("game restarted")
+                    break
+                sleep(200, 300)
+            sleep(600, 800)
+            inChaos = pyautogui.locateCenterOnScreen(
+                "./screenshots/inChaos.png", confidence=0.75
+            )
+            if inChaos != None:
+                print("still in the last chaos run, quitting")
+                quitChaos()
+            else:
+                print("in city, going for next run")
+                states["status"] = "inCity"
 
 
 def enterChaos():
@@ -152,6 +171,8 @@ def enterChaos():
             sleep(200, 300)
         sleep(600, 800)
         while True:
+            if gameCrashCheck():
+                return
             pyautogui.keyDown("alt")
             sleep(100, 200)
             pyautogui.press("q")
@@ -171,20 +192,24 @@ def enterChaos():
 
             # 1475 run
             if aor != None and config["1475"] == True:
-                pyautogui.moveTo(1408, 307)
-                sleep(200, 300)
-                pyautogui.click(button="left")
-                sleep(100, 200)
+                # south vern
+                # pyautogui.moveTo(1408, 307)
+                # sleep(200, 300)
+                # pyautogui.click(button="left")
+                # sleep(100, 200)
+                # corruption 3
                 pyautogui.moveTo(524, 504)
                 sleep(200, 300)
                 pyautogui.click(button="left")
                 sleep(100, 200)
             # 1445 run
             else:
-                pyautogui.moveTo(1408, 307)
-                sleep(200, 300)
-                pyautogui.click(button="left")
-                sleep(100, 200)
+                # south vern
+                # pyautogui.moveTo(1408, 307)
+                # sleep(200, 300)
+                # pyautogui.click(button="left")
+                # sleep(100, 200)
+                # corruption 2
                 pyautogui.moveTo(524, 451)
                 sleep(200, 300)
                 pyautogui.click(button="left")
@@ -210,6 +235,8 @@ def enterChaos():
                 sleep(100, 200)
     else:
         while True:
+            if gameCrashCheck():
+                return
             enterHand = pyautogui.locateOnScreen("./screenshots/enterChaos.png")
             if enterHand != None:
                 print("entering chaos...")
@@ -218,6 +245,8 @@ def enterChaos():
             sleep(100, 200)
     sleep(100, 200)
     while True:
+        if gameCrashCheck():
+            return
         acceptButton = pyautogui.locateCenterOnScreen(
             "./screenshots/acceptButton.png",
             confidence=0.75,
