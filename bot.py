@@ -1642,8 +1642,8 @@ def restartGame():
             pyautogui.moveTo(x=x, y=y)
             sleep(200, 300)
             pyautogui.click(x=x, y=y, button="left")
+            sleep(4200, 5300)
             continue
-        sleep(4200, 5300)
     sleep(7200, 8300)
     while True:
         enterCharacter = pyautogui.locateCenterOnScreen(
