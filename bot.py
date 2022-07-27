@@ -1626,7 +1626,9 @@ def restartGame():
     sleep(5200, 6300)
     while True:
         enterServer = pyautogui.locateCenterOnScreen("./screenshots/enterServer.png")
-        enterGame = pyautogui.locateCenterOnScreen("./screenshots/steamPlay.png")
+        enterGame = pyautogui.locateCenterOnScreen(
+            "./screenshots/steamPlay.png", confidence=0.75
+        )
         if enterServer != None:
             print("clicking enterServer")
             x, y = enterServer
