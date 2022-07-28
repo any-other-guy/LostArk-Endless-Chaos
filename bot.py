@@ -1551,7 +1551,10 @@ def offlineCheck():
         "./screenshots/dc.png",
         region=config["regions"]["center"],
     )
-    if dc != None:
+    ok = pyautogui.locateCenterOnScreen(
+        "./screenshots/ok.png", region=config["regions"]["center"], confidence=0.75
+    )
+    if dc != None or ok != None:
         print("disconnection detected, restarting game client...")
         states["gameOfflineCount"] = states["gameOfflineCount"] + 1
         return True
