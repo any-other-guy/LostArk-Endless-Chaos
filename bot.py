@@ -1644,7 +1644,7 @@ def restartGame():
             pyautogui.click(x=x, y=y, button="left")
             sleep(4200, 5300)
             continue
-    sleep(7200, 8300)
+    sleep(3200, 4300)
     while True:
         enterCharacter = pyautogui.locateCenterOnScreen(
             "./screenshots/enterCharacter.png"
@@ -1656,7 +1656,7 @@ def restartGame():
             sleep(200, 300)
             pyautogui.click(x=x, y=y, button="left")
             break
-        sleep(200, 300)
+        sleep(2200, 3300)
     states["gameRestartCount"] = states["gameRestartCount"] + 1
     sleep(12200, 13300)
 
