@@ -1533,11 +1533,11 @@ def checkTimeout():
 
 
 def gameCrashCheck():
-    bottom = pyautogui.screenshot(region=(866, 966, 200, 100))
+    bottom = pyautogui.screenshot(region=(800, 960, 250, 50))
     r1, g1, b1 = bottom.getpixel((0, 0))
-    r2, g2, b2 = bottom.getpixel((0, 99))
-    r3, g3, b3 = bottom.getpixel((199, 0))
-    r4, g4, b4 = bottom.getpixel((199, 99))
+    r2, g2, b2 = bottom.getpixel((0, 49))
+    r3, g3, b3 = bottom.getpixel((249, 0))
+    r4, g4, b4 = bottom.getpixel((249, 49))
     sum = r1 + g1 + b1 + r2 + g2 + b2 + r3 + g3 + b3 + r4 + g4 + b4
     if sum > 0:
         print("game crashed, restarting game client...")
