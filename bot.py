@@ -61,9 +61,6 @@ def main():
             if gameCrashCheck():
                 states["status"] = "restart"
                 continue
-            if checkTimeout():
-                quitChaos()
-                continue
 
         elif states["status"] == "floor1":
             print("floor1")
