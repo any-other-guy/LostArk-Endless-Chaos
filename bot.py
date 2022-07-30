@@ -340,6 +340,8 @@ def doFloor2():
         return
 
     print("floor 2 cleared")
+    if states["floor3"] == False:
+        states["clearCount"] = states["clearCount"] + 1
     calculateMinimapRelative(states["moveToX"], states["moveToY"])
     enterPortal()
 
@@ -353,7 +355,6 @@ def doFloor2():
         quitChaos()
         return
     states["status"] = "floor3"
-
     return
 
 
@@ -518,7 +519,6 @@ def quitChaos():
             break
         sleep(100, 200)
     states["status"] = "inCity"
-    states["clearCount"] = states["clearCount"] + 1
     printResult()
 
     # check if game crashes
