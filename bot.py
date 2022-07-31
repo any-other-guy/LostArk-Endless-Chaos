@@ -1024,7 +1024,7 @@ def checkFloor3Tower():
 
 def checkChaosFinish():
     clearOk = pyautogui.locateCenterOnScreen(
-        "./screenshots/clearOk.png", confidence=0.75
+        "./screenshots/clearOk.png", confidence=0.75, region=(625, 779, 500, 155)
     )
     if clearOk != None:
         states["fullClearCount"] = states["fullClearCount"] + 1
