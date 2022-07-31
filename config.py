@@ -25,10 +25,10 @@ config = {
             "abilityType": "normal",
             "hold": False,
             "holdTime": None,
-            "cast": True,
-            "castTime": 1800,
+            "cast": False,
+            "castTime": None,
             "position": {"left": 816, "top": 869, "width": 15, "height": 15},
-            "directional": False,
+            "directional": True,
         },
         {
             "key": "r",
@@ -48,7 +48,7 @@ config = {
             "cast": False,
             "castTime": None,
             "position": {"left": 759, "top": 907, "width": 15, "height": 15},
-            "directional": False,
+            "directional": True,
         },
         {
             "key": "s",
