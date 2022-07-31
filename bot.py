@@ -224,8 +224,6 @@ def enterChaos():
                 pyautogui.click(x=x, y=y, button="left")
                 break
             else:
-                if checkTimeout():
-                    return
                 pyautogui.moveTo(886, 346)
                 sleep(200, 300)
                 pyautogui.click(button="left")
@@ -468,17 +466,9 @@ def doFloor3():
 
 
 def quitChaos():
+    checkChaosFinish()
     # quit
     print("quitting chaos")
-    clearOk = pyautogui.locateCenterOnScreen(
-        "./screenshots/clearOk.png", confidence=0.75
-    )
-    if clearOk != None:
-        x, y = clearOk
-        pyautogui.moveTo(x=x, y=y)
-        sleep(200, 300)
-        pyautogui.click(x=x, y=y, button="left")
-        sleep(100, 200)
     sleep(100, 200)
     while True:
         leaveButton = pyautogui.locateCenterOnScreen(
@@ -500,6 +490,8 @@ def quitChaos():
             sleep(100, 200)
             break
         sleep(100, 200)
+    sleep(100, 200)
+    checkChaosFinish()
     sleep(100, 200)
     while True:
         okButton = pyautogui.locateCenterOnScreen(
@@ -803,7 +795,7 @@ def checkCDandCast(ability):
                 sleep(50, 80)
                 now_ms = int(time.time_ns() / 1000000)
                 if now_ms - start_ms > 5000:
-                    print("disconnected detected by unable to use available spell")
+                    print("unable to use spell for 5s, check if disconnected")
                     return
 
 
