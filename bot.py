@@ -725,18 +725,18 @@ def useAbilities():
                     states["moveToX"], states["moveToY"], 800, 900, False
                 )
 
-            # mage touch
-            if states["abilityScreenshots"][i]["key"] == config["mageTouch"]:
-                x = 1080
-                y = config["healthCheckY"]
-                r, g, b = pyautogui.pixel(x, y)
-                touchBuffActive = pyautogui.locateOnScreen(
-                    "./screenshots/touch.png",
-                    region=config["regions"]["buffs"],
-                    confidence=0.75,
-                )
-                if b > 70 and touchBuffActive != None:
-                    continue
+            # # mage touch
+            # if states["abilityScreenshots"][i]["key"] == config["mageTouch"]:
+            #     x = 1080
+            #     y = config["healthCheckY"]
+            #     r, g, b = pyautogui.pixel(x, y)
+            #     touchBuffActive = pyautogui.locateOnScreen(
+            #         "./screenshots/touch.png",
+            #         region=config["regions"]["buffs"],
+            #         confidence=0.75,
+            #     )
+            #     if b > 70 and touchBuffActive != None:
+            #         continue
 
             # cast spells
             checkCDandCast(states["abilityScreenshots"][i])

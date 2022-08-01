@@ -106,7 +106,7 @@ config = {
     "blink": "space",
     "meleeAttack": "c",
     "awakening": "v",
-    "mageTouch": "a",
+    "mageTouch": "",
     "healthPot": "f1",
     "healthPotAtPercent": 0.3,
     "floor3": False,
