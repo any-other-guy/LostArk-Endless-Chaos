@@ -1057,7 +1057,7 @@ def calculateMinimapRelative(x, y):
     x = x - selfLeft
     y = y - selfTop
     distBtwPoints = math.sqrt(x * x + y * y)
-    states["moveTime"] = int(distBtwPoints * 18)
+    states["moveTime"] = int(distBtwPoints * 19)
 
     dist = 200
     if y < 0:
@@ -1155,9 +1155,9 @@ def moveToMinimapRelative(x, y, timeMin, timeMax, blink):
     # sleep(timeMin, timeMax)
 
     # optional blink here
-    if blink or states["moveTime"] > 720:
+    if blink or states["moveTime"] > 800:
         # print("blink")
-        if states["moveTime"] > 1100:
+        if states["moveTime"] > 1200:
             pyautogui.press("x")
             sleep(300, 320)
         pyautogui.press(config["blink"])
