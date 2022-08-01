@@ -1057,7 +1057,7 @@ def calculateMinimapRelative(x, y):
     x = x - selfLeft
     y = y - selfTop
     distBtwPoints = math.sqrt(x * x + y * y)
-    states["moveTime"] = int(distBtwPoints * 20)
+    states["moveTime"] = int(distBtwPoints * 18)
 
     dist = 200
     if y < 0:
@@ -1155,9 +1155,9 @@ def moveToMinimapRelative(x, y, timeMin, timeMax, blink):
     # sleep(timeMin, timeMax)
 
     # optional blink here
-    if blink or states["moveTime"] > 800:
+    if blink or states["moveTime"] > 720:
         # print("blink")
-        if states["moveTime"] > 1200:
+        if states["moveTime"] > 1100:
             pyautogui.press("x")
             sleep(300, 320)
         pyautogui.press(config["blink"])
@@ -1227,7 +1227,7 @@ def enterPortal():
     sleep(1100, 1200)
     print("moving to portal x: {} y: {}".format(states["moveToX"], states["moveToY"]))
     print("move for {} ms".format(states["moveTime"]))
-    if states["moveTime"] > 450:
+    if states["moveTime"] > 400:
         # print("blink")
         pyautogui.click(x=states["moveToX"], y=states["moveToY"], button=config["move"])
         sleep(100, 150)
