@@ -51,11 +51,13 @@ def main():
     while True:
         if states["status"] == "inCity":
             sleep(500, 600)
+            # initialize new states
+            # states["abilityScreenshots"] = []
+            states["floor3"] = False
 
             clearQuest()
             enterChaos()
-            # initialize new states
-            # states["abilityScreenshots"] = []
+
             # save instance start time
             states["instanceStartTime"] = int(time.time_ns() / 1000000)
             if gameCrashCheck():
