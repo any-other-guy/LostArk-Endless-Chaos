@@ -51,13 +51,13 @@ def main():
     while True:
         if states["status"] == "inCity":
             sleep(500, 600)
-            # states = newStates
-            states["abilityScreenshots"] = []
-            # save instance start time
-            states["instanceStartTime"] = int(time.time_ns() / 1000000)
 
             clearQuest()
             enterChaos()
+            # initialize new states
+            # states["abilityScreenshots"] = []
+            # save instance start time
+            states["instanceStartTime"] = int(time.time_ns() / 1000000)
             if gameCrashCheck():
                 states["status"] = "restart"
                 continue
@@ -509,8 +509,7 @@ def quitChaos():
         sleep(100, 200)
     states["status"] = "inCity"
     printResult()
-
-    # check if game crashes
+    sleep(6000, 8000)
     return
 
 
