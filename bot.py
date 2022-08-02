@@ -40,10 +40,6 @@ def main():
     # save bot start time
     states["botStartTime"] = int(time.time_ns() / 1000000)
 
-    # only do floor3 if user has set to do, otherwise only when aor is presented
-    if config["floor3"] == True:
-        states["floor3"] = True
-
     # forceing no floor3 full clear with performance mode
     # if config["performance"] == True:
     #     states["floor3"] = False
@@ -54,6 +50,9 @@ def main():
             # initialize new states
             # states["abilityScreenshots"] = []
             states["floor3"] = False
+            # only do floor3 if user has set to do, otherwise only when aor is presented
+            if config["floor3"] == True:
+                states["floor3"] = True
 
             clearQuest()
             enterChaos()
@@ -159,7 +158,7 @@ def enterChaos():
     pyautogui.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
     sleep(100, 200)
     pyautogui.click(button=rightClick)
-    sleep(100, 200)
+    sleep(300, 400)
 
     if config["shortcutEnterChaos"] == True:
         while True:
