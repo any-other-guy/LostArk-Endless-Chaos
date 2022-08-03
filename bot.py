@@ -564,8 +564,8 @@ def restartChaos():
             pyautogui.click(x=x, y=y, button="left")
             break
         sleep(100, 200)
-    sleep(2000, 2200)
     states["status"] = "floor1"
+    sleep(2000, 3200)
     return
 
 
@@ -637,7 +637,7 @@ def useAbilities():
         for i in range(0, len(states["abilityScreenshots"])):
             if states["status"] == "floor3" and checkChaosFinish():
                 return
-            # diedCheck()
+            diedCheck()
             healthCheck()
 
             # check portal

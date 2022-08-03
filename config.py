@@ -128,7 +128,7 @@ config = {
     },
     "screenResolutionX": 1920,
     "screenResolutionY": 1080,
-    "clickableAreaX": 500,
+    "clickableAreaX": 400,
     "clickableAreaY": 250,
     "screenCenterX": 960,
     "screenCenterY": 540,
