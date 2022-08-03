@@ -637,7 +637,7 @@ def useAbilities():
         for i in range(0, len(states["abilityScreenshots"])):
             if states["status"] == "floor3" and checkChaosFinish():
                 return
-            diedCheck()
+            # diedCheck()
             healthCheck()
 
             # check portal
@@ -720,6 +720,7 @@ def useAbilities():
                 )
                 # pyautogui.press(config["awakening"])
             elif states["status"] == "floor3" and checkFloor2Boss():
+                diedCheck()
                 calculateMinimapRelative(states["moveToX"], states["moveToY"])
                 moveToMinimapRelative(
                     states["moveToX"], states["moveToY"], 800, 900, False
