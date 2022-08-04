@@ -171,6 +171,9 @@ def enterChaos():
         while True:
             if gameCrashCheck():
                 return
+            if offlineCheck():
+                closeGameByClickingDialogue()
+                return
             pyautogui.keyDown("alt")
             sleep(100, 200)
             pyautogui.press("q")
@@ -221,7 +224,9 @@ def enterChaos():
                 pyautogui.moveTo(x=x, y=y)
                 sleep(200, 300)
                 pyautogui.click(x=x, y=y, button="left")
-                sleep(200, 300)
+                sleep(100, 200)
+                pyautogui.click(x=x, y=y, button="left")
+                sleep(100, 200)
                 pyautogui.click(x=x, y=y, button="left")
                 break
             else:
@@ -233,6 +238,9 @@ def enterChaos():
         while True:
             if gameCrashCheck():
                 return
+            if offlineCheck():
+                closeGameByClickingDialogue()
+                return
             enterHand = pyautogui.locateOnScreen("./screenshots/enterChaos.png")
             if enterHand != None:
                 print("entering chaos...")
@@ -242,6 +250,9 @@ def enterChaos():
     sleep(100, 200)
     while True:
         if gameCrashCheck():
+            return
+        if offlineCheck():
+            closeGameByClickingDialogue()
             return
         acceptButton = pyautogui.locateCenterOnScreen(
             "./screenshots/acceptButton.png",
@@ -546,7 +557,9 @@ def restartChaos():
             pyautogui.moveTo(x=x, y=y)
             sleep(200, 300)
             pyautogui.click(x=x, y=y, button="left")
-            sleep(200, 300)
+            sleep(100, 200)
+            pyautogui.click(x=x, y=y, button="left")
+            sleep(100, 200)
             pyautogui.click(x=x, y=y, button="left")
             break
         sleep(100, 200)
