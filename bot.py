@@ -62,6 +62,9 @@ def main():
             if gameCrashCheck():
                 states["status"] = "restart"
                 continue
+            if offlineCheck():
+                closeGameByClickingDialogue()
+                continue
 
         elif states["status"] == "floor1":
             print("floor1")
@@ -71,6 +74,9 @@ def main():
             waitForLoading()
             if gameCrashCheck():
                 states["status"] = "restart"
+                continue
+            if offlineCheck():
+                closeGameByClickingDialogue()
                 continue
             if checkTimeout():
                 quitChaos()
@@ -96,6 +102,9 @@ def main():
             if gameCrashCheck():
                 states["status"] = "restart"
                 continue
+            if offlineCheck():
+                closeGameByClickingDialogue()
+                continue
             if checkTimeout():
                 quitChaos()
                 continue
@@ -110,6 +119,9 @@ def main():
             waitForLoading()
             if gameCrashCheck():
                 states["status"] = "restart"
+                continue
+            if offlineCheck():
+                closeGameByClickingDialogue()
                 continue
             if checkTimeout():
                 quitChaos()
