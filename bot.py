@@ -432,7 +432,7 @@ def doFloor3Portal():
         sleep(800, 900)
     else:
         # hacky quit
-        states["instanceStartTime"] == -1
+        states["instanceStartTime"] = -1
         return
 
     if offlineCheck():
