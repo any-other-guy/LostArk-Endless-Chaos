@@ -203,30 +203,30 @@ def enterChaos():
             pyautogui.click(button="left")
             sleep(300, 400)
 
-            # 1475 run
-            if aor != None and config["1475"] == True:
-                # south vern
-                # pyautogui.moveTo(1408, 307)
-                # sleep(200, 300)
-                # pyautogui.click(button="left")
-                # sleep(100, 200)
-                # corruption 3
-                pyautogui.moveTo(524, 504)
-                sleep(200, 300)
-                pyautogui.click(button="left")
-                sleep(100, 200)
-            # 1445 run
-            else:
-                # south vern
-                # pyautogui.moveTo(1408, 307)
-                # sleep(200, 300)
-                # pyautogui.click(button="left")
-                # sleep(100, 200)
-                # corruption 2
-                pyautogui.moveTo(524, 451)
-                sleep(200, 300)
-                pyautogui.click(button="left")
-                sleep(100, 200)
+            # # 1475 run
+            # if aor != None and config["1475"] == True:
+            #     # south vern
+            #     # pyautogui.moveTo(1408, 307)
+            #     # sleep(200, 300)
+            #     # pyautogui.click(button="left")
+            #     # sleep(100, 200)
+            #     # corruption 3
+            #     pyautogui.moveTo(524, 504)
+            #     sleep(200, 300)
+            #     pyautogui.click(button="left")
+            #     sleep(100, 200)
+            # # 1445 run
+            # else:
+            #     # south vern
+            #     # pyautogui.moveTo(1408, 307)
+            #     # sleep(200, 300)
+            #     # pyautogui.click(button="left")
+            #     # sleep(100, 200)
+            #     # corruption 2
+            #     pyautogui.moveTo(524, 451)
+            #     sleep(200, 300)
+            #     pyautogui.click(button="left")
+            #     sleep(100, 200)
 
             enterButton = pyautogui.locateCenterOnScreen(
                 "./screenshots/enterButton.png", confidence=0.75
@@ -275,6 +275,10 @@ def enterChaos():
             x, y = acceptButton
             pyautogui.moveTo(x=x, y=y)
             sleep(200, 300)
+            pyautogui.click(x=x, y=y, button="left")
+            sleep(100, 200)
+            pyautogui.click(x=x, y=y, button="left")
+            sleep(100, 200)
             pyautogui.click(x=x, y=y, button="left")
             break
         sleep(100, 200)
@@ -586,6 +590,10 @@ def restartChaos():
             x, y = acceptButton
             pyautogui.moveTo(x=x, y=y)
             sleep(200, 300)
+            pyautogui.click(x=x, y=y, button="left")
+            sleep(100, 200)
+            pyautogui.click(x=x, y=y, button="left")
+            sleep(100, 200)
             pyautogui.click(x=x, y=y, button="left")
             break
         sleep(100, 200)
