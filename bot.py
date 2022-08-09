@@ -203,26 +203,38 @@ def enterChaos():
             pyautogui.click(button="left")
             sleep(300, 400)
 
-            # # 1475 run
-            # if aor != None and config["1475"] == True:
+            # 1475 run
+            if aor != None and config["1475"] == True:
+                # south vern
+                pyautogui.moveTo(1408, 307)
+                sleep(200, 300)
+                pyautogui.click(button="left")
+                sleep(100, 200)
+                # corruption 3
+                pyautogui.moveTo(524, 504)
+                sleep(200, 300)
+                pyautogui.click(button="left")
+                sleep(100, 200)
+            # 1370 run
+            else:
+                # punica
+                pyautogui.moveTo(1224, 307)
+                sleep(200, 300)
+                pyautogui.click(button="left")
+                sleep(100, 200)
+                # corruption 2
+                pyautogui.moveTo(524, 662)
+                sleep(200, 300)
+                pyautogui.click(button="left")
+                sleep(100, 200)
+            # 1445 run
+            # else:
             #     # south vern
-            #     # pyautogui.moveTo(1408, 307)
-            #     # sleep(200, 300)
-            #     # pyautogui.click(button="left")
-            #     # sleep(100, 200)
-            #     # corruption 3
-            #     pyautogui.moveTo(524, 504)
+            #     pyautogui.moveTo(1408, 307)
             #     sleep(200, 300)
             #     pyautogui.click(button="left")
             #     sleep(100, 200)
-            # # 1445 run
-            # else:
-            #     # south vern
-            #     # pyautogui.moveTo(1408, 307)
-            #     # sleep(200, 300)
-            #     # pyautogui.click(button="left")
-            #     # sleep(100, 200)
-            #     # corruption 2
+            #     #corruption 2
             #     pyautogui.moveTo(524, 451)
             #     sleep(200, 300)
             #     pyautogui.click(button="left")
