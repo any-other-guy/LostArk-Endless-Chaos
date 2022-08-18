@@ -109,6 +109,7 @@ config = {
     "mageTouch": "",
     "healthPot": "f1",
     "healthPotAtPercent": 0.3,
+    "selectLevel": True,
     "floor3": False,
     "1475": True,
     "performance": False,
