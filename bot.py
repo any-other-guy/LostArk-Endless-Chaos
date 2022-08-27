@@ -1,12 +1,8 @@
-from re import X
-
-from numpy import true_divide
 from config import config
 import pyautogui
 import time
 import random
 import math
-import datetime
 
 newStates = {
     "status": "inCity",
@@ -616,6 +612,8 @@ def restartChaos():
 
 
 def printResult():
+    if int(states["clearCount"] + states["fullClearCount"]) == 0:
+        return
     lastRun = (int(time.time_ns() / 1000000) - states["instanceStartTime"]) / 1000
     avgTime = int(
         ((int(time.time_ns() / 1000000) - states["botStartTime"]) / 1000)
