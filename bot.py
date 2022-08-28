@@ -372,7 +372,8 @@ def doFloor2():
         return
 
     print("floor 2 cleared")
-    states["clearCount"] = states["clearCount"] + 1  # floor 2 clear count tbh
+    if states["floor3"] == False:
+        states["clearCount"] = states["clearCount"] + 1
     calculateMinimapRelative(states["moveToX"], states["moveToY"])
     enterPortal()
 
