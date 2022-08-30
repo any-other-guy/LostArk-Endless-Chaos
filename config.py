@@ -110,7 +110,7 @@ config = {
     "healthPot": "f1",
     "healthPotAtPercent": 0.3,
     "selectLevel": True,
-    "floor3": False,
+    "floor3": True,
     "1475": True,
     "performance": False,
     "useAwakening": True,

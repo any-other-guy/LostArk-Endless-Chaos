@@ -1635,6 +1635,7 @@ def restartGame():
         stopGame = pyautogui.locateCenterOnScreen(
             "./screenshots/steamStop.png", confidence=0.75
         )
+        enterServer = pyautogui.locateCenterOnScreen("./screenshots/enterServer.png")
         if stopGame != None:
             print("clicking stop game on steam")
             x, y = stopGame
@@ -1658,6 +1659,8 @@ def restartGame():
             pyautogui.moveTo(x=x, y=y)
             sleep(200, 300)
             pyautogui.click(x=x, y=y, button="left")
+            break
+        elif enterServer != None:
             break
         sleep(200, 300)
     sleep(5200, 6300)
