@@ -514,6 +514,7 @@ def quitChaos():
             confidence=0.7,
             region=config["regions"]["leaveMenu"],
         )
+
         if leaveButton != None:
             x, y = leaveButton
 
@@ -525,8 +526,15 @@ def quitChaos():
             sleep(200, 300)
             pyautogui.click(button="left")
             sleep(100, 200)
+        sleep(300, 400)
+        okButton = pyautogui.locateCenterOnScreen(
+            "./screenshots/ok.png",
+            confidence=0.75,
+            region=config["regions"]["center"],
+        )
+        if okButton != None:
             break
-        sleep(100, 200)
+        sleep(300, 400)
     sleep(100, 200)
     checkChaosFinish()
     sleep(100, 200)
@@ -1026,7 +1034,11 @@ def clickTower():
         print("clicked rift core")
         sleep(100, 120)
         pyautogui.press(config["meleeAttack"])
-        sleep(900, 960)
+        sleep(300, 360)
+        pyautogui.press(config["meleeAttack"])
+        sleep(300, 360)
+        pyautogui.press(config["meleeAttack"])
+        sleep(100, 120)
         pyautogui.press(config["meleeAttack"])
 
 
