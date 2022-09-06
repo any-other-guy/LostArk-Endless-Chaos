@@ -201,7 +201,7 @@ def enterChaos():
 
             if config["selectLevel"] == True:
                 # 1475 run
-                if aor != None and config["1475"] == True:
+                if aor != None and config["ilvl"] == 1475:
                     # south vern
                     pyautogui.moveTo(1408, 307)
                     sleep(200, 300)
@@ -213,19 +213,19 @@ def enterChaos():
                     pyautogui.click(button="left")
                     sleep(100, 200)
                 # 1370 run
-                # else:
-                #     # punica
-                #     pyautogui.moveTo(1224, 307)
-                #     sleep(200, 300)
-                #     pyautogui.click(button="left")
-                #     sleep(100, 200)
-                #     # corruption 2
-                #     pyautogui.moveTo(524, 662)
-                #     sleep(200, 300)
-                #     pyautogui.click(button="left")
-                #     sleep(100, 200)
+                elif config["ilvl"] == 1370:
+                    # punica
+                    pyautogui.moveTo(1224, 307)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(100, 200)
+                    # corruption 2
+                    pyautogui.moveTo(524, 662)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(100, 200)
                 # 1445 run
-                else:
+                elif config["ilvl"] == 1445:
                     # south vern
                     pyautogui.moveTo(1408, 307)
                     sleep(200, 300)
@@ -754,7 +754,8 @@ def useAbilities():
                 moveToMinimapRelative(
                     states["moveToX"], states["moveToY"], 1200, 1300, True
                 )
-                pyautogui.press("x")
+                if config["class"] == "sorceress":
+                    pyautogui.press("x")
                 sleep(200, 220)
                 clickTower()
             elif states["status"] == "floor3" and checkFloor2Mob():
@@ -796,6 +797,9 @@ def useAbilities():
 
 
 def checkCDandCast(ability):
+    if config["class"] == "arcana":
+        pyautogui.press("x")
+        pyautogui.press("z")
     if config["performance"] == True or pyautogui.locateOnScreen(
         ability["image"], region=config["regions"]["abilities"]
     ):
@@ -1203,7 +1207,8 @@ def moveToMinimapRelative(x, y, timeMin, timeMax, blink):
     if blink or states["moveTime"] > 800:
         # print("blink")
         if states["moveTime"] > 1200:
-            pyautogui.press("x")
+            if config["class"] == "sorceress":
+                pyautogui.press("x")
             sleep(300, 320)
         pyautogui.press(config["blink"])
         sleep(300, 320)
@@ -1627,7 +1632,7 @@ def closeGameByClickingDialogue():
 
 
 def restartGame():
-    print("at steam window, trying to restart game")
+    print("restart game")
     while True:
         enterGame = pyautogui.locateCenterOnScreen(
             "./screenshots/steamPlay.png", confidence=0.75
