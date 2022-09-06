@@ -548,10 +548,17 @@ def quitChaos():
             x, y = okButton
             pyautogui.moveTo(x=x, y=y)
             sleep(200, 300)
-            # pyautogui.click(x=x, y=y, button='left')
+            pyautogui.click(button="left")
+            sleep(200, 300)
+            pyautogui.moveTo(x=x, y=y)
+            sleep(100, 200)
+            pyautogui.click(button="left")
+            sleep(100, 200)
+            pyautogui.moveTo(x=x, y=y)
+            sleep(100, 200)
             pyautogui.click(button="left")
             break
-        sleep(100, 200)
+        sleep(300, 400)
     states["status"] = "inCity"
     printResult()
     sleep(6000, 8000)
