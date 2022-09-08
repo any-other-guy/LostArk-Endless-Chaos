@@ -1296,7 +1296,7 @@ def enterPortal():
     sleep(1100, 1200)
     print("moving to portal x: {} y: {}".format(states["moveToX"], states["moveToY"]))
     print("move for {} ms".format(states["moveTime"]))
-    if states["moveTime"] > 400:
+    if states["moveTime"] > 550:
         # print("blink")
         pyautogui.click(x=states["moveToX"], y=states["moveToY"], button=config["move"])
         sleep(100, 150)
