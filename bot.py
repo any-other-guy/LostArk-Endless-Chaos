@@ -1530,7 +1530,10 @@ def clearQuest():
 
 
 def sleep(min, max):
-    time.sleep(random.randint(min, max) / 1000.0)
+    time = random.randint(min, max) / 1000.0
+    if time < 0:
+        return
+    time.sleep(time)
 
 
 def spiralSearch(rows, cols, rStart, cStart):

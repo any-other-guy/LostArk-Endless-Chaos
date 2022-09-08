@@ -1,7 +1,7 @@
 from abilities import abilities
 
 config = {
-    "class": "arcana",
+    "class": "sorceress",
     "interact": "g",
     "move": "left",
     "blink": "space",
