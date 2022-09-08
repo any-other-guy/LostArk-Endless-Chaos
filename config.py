@@ -12,7 +12,7 @@ config = {
     "healthPotAtPercent": 0.3,
     "selectLevel": True,
     "floor3": False,
-    "ilvl": 1370,
+    "ilvl": 1445,
     "performance": False,
     "useAwakening": True,
     "useSpeciality1": True,
