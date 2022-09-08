@@ -1214,12 +1214,21 @@ def moveToMinimapRelative(x, y, timeMin, timeMax, blink):
     if states["moveTime"] < 50:
         return
     print("move for {} ms".format(states["moveTime"]))
+    pyautogui.keyDown("alt")
+    sleep(10, 30)
     pyautogui.click(x=x, y=y, button=config["move"])
+    sleep(10, 30)
+    pyautogui.keyUp("alt")
     sleep(int(states["moveTime"] / 2) - 50, int(states["moveTime"] / 2) + 50)
 
     # moving in a straight line
+    pyautogui.keyDown("alt")
+    sleep(10, 30)
     pyautogui.click(x=x, y=y, button=config["move"])
+    sleep(10, 30)
+    pyautogui.keyUp("alt")
     sleep(int(states["moveTime"] / 2) - 50, int(states["moveTime"] / 2) + 50)
+
     # sleep(timeMin, timeMax)
 
     # optional blink here
