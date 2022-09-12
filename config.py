@@ -38,6 +38,7 @@ config = {
     "minimapCenterX": 1772,
     "minimapCenterY": 272,
     "timeLimit": 360000,
+    "blackScreenTimeLimit": 30000,
     "delayedStart": 3300,
     "healthCheckX": 690,
     "healthCheckY": 854,

@@ -1,3 +1,4 @@
+from threading import currentThread
 from config import config
 import pyautogui
 import time
@@ -1443,10 +1444,14 @@ def enterPortal():
 
 def waitForLoading():
     print("loading")
+    blackScreenStartTime = int(time.time_ns() / 1000000)
     while True:
         if gameCrashCheck():
             return
-        if checkTimeout():
+        currentTime = int(time.time_ns() / 1000000)
+        if currentTime - blackScreenStartTime > config["blackScreenTimeLimit"]:
+            pyautogui.hotkey("alt", "f4")
+            sleep(10000, 15000)
             return
         leaveButton = pyautogui.locateOnScreen(
             "./screenshots/leave.png",
