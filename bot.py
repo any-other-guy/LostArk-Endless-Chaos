@@ -200,42 +200,74 @@ def enterChaos():
             sleep(300, 400)
 
             if config["selectLevel"] == True:
-                # 1475 run
-                if aor != None and config["ilvl"] == 1475:
-                    # south vern
-                    pyautogui.moveTo(1408, 307)
-                    sleep(200, 300)
-                    pyautogui.click(button="left")
-                    sleep(100, 200)
-                    # corruption 3
-                    pyautogui.moveTo(524, 504)
-                    sleep(200, 300)
-                    pyautogui.click(button="left")
-                    sleep(100, 200)
-                # 1370 run
-                elif config["ilvl"] == 1370:
-                    # punica
-                    pyautogui.moveTo(1224, 307)
-                    sleep(200, 300)
-                    pyautogui.click(button="left")
-                    sleep(100, 200)
-                    # corruption 2
-                    pyautogui.moveTo(524, 662)
-                    sleep(200, 300)
-                    pyautogui.click(button="left")
-                    sleep(100, 200)
-                # 1445 run
-                elif config["ilvl"] == 1445:
-                    # south vern
-                    pyautogui.moveTo(1408, 307)
-                    sleep(200, 300)
-                    pyautogui.click(button="left")
-                    sleep(100, 200)
-                    # corruption 2
-                    pyautogui.moveTo(524, 451)
-                    sleep(200, 300)
-                    pyautogui.click(button="left")
-                    sleep(100, 200)
+                if aor != None:
+                    if config["ilvl-aor"] == 1445:
+                        # south vern
+                        pyautogui.moveTo(1408, 307)
+                        sleep(200, 300)
+                        pyautogui.click(button="left")
+                        sleep(100, 200)
+                        # corruption 2
+                        pyautogui.moveTo(524, 451)
+                        sleep(200, 300)
+                        pyautogui.click(button="left")
+                        sleep(100, 200)
+                    elif config["ilvl-aor"] == 1475:
+                        # south vern
+                        pyautogui.moveTo(1408, 307)
+                        sleep(200, 300)
+                        pyautogui.click(button="left")
+                        sleep(100, 200)
+                        # corruption 3
+                        pyautogui.moveTo(524, 504)
+                        sleep(200, 300)
+                        pyautogui.click(button="left")
+                        sleep(100, 200)
+                    elif config["ilvl-aor"] == 1370:
+                        # punica
+                        pyautogui.moveTo(1224, 307)
+                        sleep(200, 300)
+                        pyautogui.click(button="left")
+                        sleep(100, 200)
+                        # corruption 2
+                        pyautogui.moveTo(524, 662)
+                        sleep(200, 300)
+                        pyautogui.click(button="left")
+                        sleep(100, 200)
+                else:
+                    if config["ilvl-endless"] == 1445:
+                        # south vern
+                        pyautogui.moveTo(1408, 307)
+                        sleep(200, 300)
+                        pyautogui.click(button="left")
+                        sleep(100, 200)
+                        # corruption 2
+                        pyautogui.moveTo(524, 451)
+                        sleep(200, 300)
+                        pyautogui.click(button="left")
+                        sleep(100, 200)
+                    elif config["ilvl-endless"] == 1475:
+                        # south vern
+                        pyautogui.moveTo(1408, 307)
+                        sleep(200, 300)
+                        pyautogui.click(button="left")
+                        sleep(100, 200)
+                        # corruption 3
+                        pyautogui.moveTo(524, 504)
+                        sleep(200, 300)
+                        pyautogui.click(button="left")
+                        sleep(100, 200)
+                    elif config["ilvl-endless"] == 1370:
+                        # punica
+                        pyautogui.moveTo(1224, 307)
+                        sleep(200, 300)
+                        pyautogui.click(button="left")
+                        sleep(100, 200)
+                        # corruption 2
+                        pyautogui.moveTo(524, 662)
+                        sleep(200, 300)
+                        pyautogui.click(button="left")
+                        sleep(100, 200)
 
             enterButton = pyautogui.locateCenterOnScreen(
                 "./screenshots/enterButton.png", confidence=0.75
