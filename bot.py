@@ -891,8 +891,8 @@ def checkCDandCast(ability):
                 pyautogui.press(ability["key"])
                 sleep(50, 80)
                 now_ms = int(time.time_ns() / 1000000)
-                if now_ms - start_ms > 7000:
-                    print("unable to use spell for 7s, check if disconnected")
+                if now_ms - start_ms > 15000:
+                    print("unable to use spell for 15s, check if disconnected")
                     return
 
 
