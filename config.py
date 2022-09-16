@@ -1,9 +1,9 @@
 from abilities import abilities
 
 config = {
-    "class": "arcana",
-    "ilvl-endless": 1370,
-    "ilvl-aor": 1445,
+    "class": "sorceress",
+    "ilvl-endless": 1445,
+    "ilvl-aor": 1475,
     "selectLevel": True,
     "floor3": False,
     "performance": False,

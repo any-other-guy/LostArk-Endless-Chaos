@@ -1708,12 +1708,15 @@ def restartGame():
         stopGame = pyautogui.locateCenterOnScreen(
             "./screenshots/steamStop.png", confidence=0.75
         )
+        confirm = pyautogui.locateCenterOnScreen(
+            "./screenshots/steamConfirm.png", confidence=0.75
+        )
         enterServer = pyautogui.locateCenterOnScreen("./screenshots/enterServer.png")
         if stopGame != None:
             print("clicking stop game on steam")
             x, y = stopGame
             pyautogui.moveTo(x=x, y=y)
-            sleep(200, 300)
+            sleep(1200, 1300)
             pyautogui.click(x=x, y=y, button="left")
             sleep(500, 600)
             confirm = pyautogui.locateCenterOnScreen(
@@ -1723,19 +1726,27 @@ def restartGame():
                 continue
             x, y = confirm
             pyautogui.moveTo(x=x, y=y)
-            sleep(200, 300)
+            sleep(1200, 1300)
             pyautogui.click(x=x, y=y, button="left")
-            sleep(8000, 10000)
+            sleep(10000, 12000)
+        elif confirm != None:
+            print("confirming stop game")
+            x, y = confirm
+            pyautogui.moveTo(x=x, y=y)
+            sleep(1200, 1300)
+            pyautogui.click(x=x, y=y, button="left")
+            sleep(10000, 12000)
         elif enterGame != None:
             print("restarting Lost Ark game client...")
             x, y = enterGame
             pyautogui.moveTo(x=x, y=y)
-            sleep(200, 300)
+            sleep(1200, 1300)
             pyautogui.click(x=x, y=y, button="left")
             break
         elif enterServer != None:
+            # new eacoffline interface
             break
-        sleep(200, 300)
+        sleep(1200, 1300)
     sleep(5200, 6300)
     while True:
         enterServer = pyautogui.locateCenterOnScreen("./screenshots/enterServer.png")
