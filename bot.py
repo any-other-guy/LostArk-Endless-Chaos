@@ -453,7 +453,7 @@ def doFloor3Portal():
             states["status"] = "restart"
             return
         if checkTimeout():
-            quitChaos()
+            # no quitChaos() here because it does it in upper function
             return
 
         print("special portal cleared")
@@ -478,7 +478,7 @@ def doFloor3Portal():
             states["status"] = "restart"
             return
         if checkTimeout():
-            quitChaos()
+            # no quitChaos() here because it does it in upper function
             return
 
         print("special portal cleared")
