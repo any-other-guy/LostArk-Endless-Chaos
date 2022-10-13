@@ -1,8 +1,8 @@
 from abilities import abilities
 
 config = {
-    "class": "sorceress",
-    "ilvl-endless": 1445,
+    "class": "arcana",
+    "ilvl-endless": 1370,
     "ilvl-aor": 1475,
     "selectLevel": True,
     "floor3": False,
@@ -37,7 +37,7 @@ config = {
     "screenCenterY": 540,
     "minimapCenterX": 1772,
     "minimapCenterY": 272,
-    "timeLimit": 360000,
+    "timeLimit": 420000,
     "blackScreenTimeLimit": 30000,
     "delayedStart": 3300,
     "healthCheckX": 690,

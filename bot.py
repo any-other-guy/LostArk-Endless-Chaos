@@ -169,6 +169,7 @@ def enterChaos():
     pyautogui.click(button=rightClick)
     sleep(300, 400)
 
+    blackScreenStartTime = int(time.time_ns() / 1000000)
     if config["shortcutEnterChaos"] == True:
         while True:
             im = pyautogui.screenshot(region=(1652, 168, 240, 210))
@@ -176,6 +177,12 @@ def enterChaos():
             if r != 0 and g != 0 and b != 0:
                 break
             sleep(200, 300)
+
+            currentTime = int(time.time_ns() / 1000000)
+            if currentTime - blackScreenStartTime > config["blackScreenTimeLimit"]:
+                pyautogui.hotkey("alt", "f4")
+                sleep(10000, 15000)
+                return
         sleep(600, 800)
         while True:
             if gameCrashCheck():
@@ -976,11 +983,11 @@ def checkFloor2Mob():
             left, top, _w, _h = config["regions"]["minimap"]
             states["moveToX"] = left + entry[1]
             states["moveToY"] = top + entry[0]
-            print(
-                "mob x: {} y: {}, r: {} g: {} b: {}".format(
-                    states["moveToX"], states["moveToY"], r, g, b
-                )
-            )
+            # print(
+            #     "mob x: {} y: {}, r: {} g: {} b: {}".format(
+            #         states["moveToX"], states["moveToY"], r, g, b
+            #     )
+            # )
             return True
     return False
 
@@ -1158,7 +1165,7 @@ def calculateMinimapRelative(x, y):
     x = x - selfLeft
     y = y - selfTop
     distBtwPoints = math.sqrt(x * x + y * y)
-    states["moveTime"] = int(distBtwPoints * 19)
+    states["moveTime"] = int(distBtwPoints * 16)
 
     dist = 200
     if y < 0:
