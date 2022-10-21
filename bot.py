@@ -197,7 +197,7 @@ def enterChaos():
             pyautogui.keyUp("alt")
             sleep(300, 400)
             aor = pyautogui.locateCenterOnScreen(
-                "./screenshots/aor.png", confidence=0.9
+                "./screenshots/aor.png", confidence=0.8
             )
             if aor != None and config["performance"] == False:
                 print("aura of resonance detected, forced full run")
