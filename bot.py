@@ -195,7 +195,7 @@ def enterChaos():
             pyautogui.press("q")
             sleep(100, 200)
             pyautogui.keyUp("alt")
-            sleep(300, 400)
+            sleep(700, 800)
             aor = pyautogui.locateCenterOnScreen(
                 "./screenshots/aor.png", confidence=0.8
             )
