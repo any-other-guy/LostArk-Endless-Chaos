@@ -165,8 +165,11 @@ def main():
             doFloor2()
         elif states["status"] == "floor3":
             print("floor3")
+            clearQuest()
+
             pyautogui.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
             sleep(1000, 1300)
+
             # wait for loading
             waitForLoading()
             if gameCrashCheck():
@@ -462,6 +465,8 @@ def doFloor1():
 
 
 def doFloor2():
+    clearQuest()
+    # trigger start floor 2
     pyautogui.mouseDown(x=1150, y=500, button=config["move"])
     sleep(800, 900)
     pyautogui.mouseDown(x=960, y=200, button=config["move"])
@@ -588,7 +593,9 @@ def doFloor3():
         quitChaos()
         return
 
+    clearQuest()
     sleep(500, 550)
+    # trigger start real floor 3
     useAbilities()
 
     if offlineCheck():
@@ -784,6 +791,8 @@ def useAbilities():
     while True:
         diedCheck()
         healthCheck()
+        # windowCheck()
+        clearQuest()
         if gameCrashCheck():
             return
         if offlineCheck():
@@ -1579,6 +1588,14 @@ def saveAbilitiesScreenshots():
                 "directional": ability["directional"],
             }
         )
+
+
+# def windowCheck():
+#     if pyautogui.locateOnScreen(
+#         "./screenshots/close.png", grayscale=True, confidence=0.9
+#     ):
+#         pyautogui.press("esc")
+#         sleep(500, 600)
 
 
 def diedCheck():  # get information about wait a few second to revive
