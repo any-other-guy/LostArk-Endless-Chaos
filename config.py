@@ -1,18 +1,45 @@
-from abilities import abilities
-
 config = {
-    "class": "arcana",
-    "ilvl-endless": 1370,
-    "ilvl-aor": 1475,
-    "selectLevel": True,
-    "floor3": False,
-    "performance": False,
+    "mainCharacter": 1,
+    "characters": [
+        {
+            "index": 0,
+            "class": "sorceress",
+            "ilvl-endless": 1475,
+            "ilvl-aor": 1475,
+        },
+        {
+            "index": 1,
+            "class": "arcana",
+            "ilvl-endless": 1370,
+            "ilvl-aor": 1475,
+        },
+        {
+            "index": 2,
+            "class": "sorceress",
+            "ilvl-endless": 1370,
+            "ilvl-aor": 1370,
+        },
+        {
+            "index": 3,
+            "class": "sorceress",
+            "ilvl-endless": 1370,
+            "ilvl-aor": 1370,
+        },
+        {
+            "index": 4,
+            "class": "sorceress",
+            "ilvl-endless": 1370,
+            "ilvl-aor": 1370,
+        },
+    ],
+    "alwaysFloor3": False,
+    "selectLevel": True,  ## to be deprecated soon
+    "performance": False,  ## to be deprecated soon
     "interact": "g",
     "move": "left",
     "blink": "space",
     "meleeAttack": "c",
     "awakening": "v",
-    # "mageTouch": "",
     "healthPot": "f1",
     "healthPotAtPercent": 0.3,
     "useAwakening": True,
@@ -42,6 +69,21 @@ config = {
     "delayedStart": 3300,
     "healthCheckX": 690,
     "healthCheckY": 854,
+    "charSwitchX": 540,
+    "charSwitchY": 683,
+    "charPositions": [
+        [760, 440],
+        [960, 440],
+        [1160, 440],
+        [760, 530],
+        [960, 530],
+        [1160, 530],
+        [760, 620],
+        [960, 620],
+        [1160, 620],
+    ],
+    "charSelectConnectX": 1030,
+    "charSelectConnectY": 684,
+    "charSelectOkX": 920,
+    "charSelectOkY": 590,
 }
-
-config["abilities"] = abilities[config["class"]]

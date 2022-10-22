@@ -1,5 +1,6 @@
 from threading import currentThread
 from config import config
+from abilities import abilities
 import pyautogui
 import time
 import random
@@ -7,6 +8,7 @@ import math
 
 newStates = {
     "status": "inCity",
+    "abilities": [],
     "abilityScreenshots": [],
     "clearCount": 0,
     "fullClearCount": 0,
@@ -26,9 +28,12 @@ newStates = {
     "gameOfflineCount": 0,
     "minTime": config["timeLimit"],
     "maxTime": -1,
-    "floor3": False,
+    "alwaysFloor3": False,
+    "multiCharacterMode": False,
+    "mainCharacter": config["mainCharacter"],
+    "currentCharacter": config["mainCharacter"],
+    "multiCharacterModeState": [],
 }
-states = newStates.copy()
 
 
 def main():
@@ -39,18 +44,67 @@ def main():
 
     # forceing no floor3 full clear with performance mode
     # if config["performance"] == True:
-    #     states["floor3"] = False
+    #     states["alwaysFloor3"] = False
 
     while True:
         if states["status"] == "inCity":
-            sleep(500, 600)
             # initialize new states
-            # states["abilityScreenshots"] = []
-            states["floor3"] = False
-            # only do floor3 if user has set to do, otherwise only when aor is presented
-            if config["floor3"] == True:
-                states["floor3"] = True
+            states["abilityScreenshots"] = []
 
+            if gameCrashCheck():
+                states["status"] = "restart"
+                continue
+            if offlineCheck():
+                closeGameByClickingDialogue()
+                continue
+
+            # wait until loaded
+            while True:
+                inTown = pyautogui.locateCenterOnScreen(
+                    "./screenshots/inTown.png",
+                    confidence=0.75,
+                    region=(1870, 133, 25, 30),
+                )
+                if inTown != None:
+                    print("city loaded")
+                    break
+                sleep(1500, 1600)
+
+            if gameCrashCheck():
+                states["status"] = "restart"
+                continue
+            if offlineCheck():
+                closeGameByClickingDialogue()
+                continue
+
+            # switch character
+            if states["multiCharacterMode"]:
+                if sum(states["multiCharacterModeState"]) == 0:
+                    # just finished last char before main
+                    print(
+                        "just finished last char before main, closing multi-char mode"
+                    )
+                    states["multiCharacterMode"] = False
+                    switchToCharacter(states["mainCharacter"])
+                    continue
+                elif states["multiCharacterModeState"][states["currentCharacter"]] <= 0:
+                    nextIndex = (states["currentCharacter"] + 1) % len(
+                        states["multiCharacterModeState"]
+                    )
+                    print(
+                        "character: {} 's daily x2 is done, switching to next: {}".format(
+                            states["currentCharacter"], nextIndex
+                        )
+                    )
+                    switchToCharacter(nextIndex)
+                    continue
+
+            states["alwaysFloor3"] = False
+            # only do floor3 if user has set to do, otherwise only when aor is presented
+            if config["alwaysFloor3"] == True:
+                states["alwaysFloor3"] = True
+
+            sleep(500, 600)
             clearQuest()
             enterChaos()
 
@@ -82,6 +136,7 @@ def main():
             print("floor1 loaded")
 
             # saving clean abilities icons
+
             saveAbilitiesScreenshots()
 
             # check repair
@@ -133,7 +188,7 @@ def main():
             pyautogui.click(button=config["move"])
             sleep(200, 300)
             doFloor3Portal()
-            if checkTimeout() or states["floor3"] == False:
+            if checkTimeout() or states["alwaysFloor3"] == False:
                 quitChaos()
                 continue
             doFloor3()
@@ -200,82 +255,94 @@ def enterChaos():
                 "./screenshots/aor.png", confidence=0.8
             )
             if aor != None and config["performance"] == False:
-                print("aura of resonance detected, forced full run")
-                states["floor3"] = True
+                states["alwaysFloor3"] = True
+                if (
+                    states["currentCharacter"] == states["mainCharacter"]
+                    and states["multiCharacterMode"] == False
+                ):
+                    states["multiCharacterMode"] = True
+                    for i in range(len(config["characters"])):
+                        states["multiCharacterModeState"].append(2)
+                    print(
+                        "aura of resonance detected, running full runs on characters: {}".format(
+                            states["multiCharacterModeState"]
+                        )
+                    )
             pyautogui.moveTo(886, 346)
             sleep(200, 300)
             pyautogui.click(button="left")
             sleep(300, 400)
 
             if config["selectLevel"] == True:
+                _curr = config["characters"][states["currentCharacter"]]
                 if aor != None:
-                    if config["ilvl-aor"] == 1445:
+                    if _curr["ilvl-aor"] == 1445:
                         # south vern
                         pyautogui.moveTo(1408, 307)
                         sleep(200, 300)
                         pyautogui.click(button="left")
-                        sleep(100, 200)
+                        sleep(200, 300)
                         # corruption 2
                         pyautogui.moveTo(524, 451)
                         sleep(200, 300)
                         pyautogui.click(button="left")
-                        sleep(100, 200)
-                    elif config["ilvl-aor"] == 1475:
+                        sleep(200, 300)
+                    elif _curr["ilvl-aor"] == 1475:
                         # south vern
                         pyautogui.moveTo(1408, 307)
                         sleep(200, 300)
                         pyautogui.click(button="left")
-                        sleep(100, 200)
+                        sleep(200, 300)
                         # corruption 3
                         pyautogui.moveTo(524, 504)
                         sleep(200, 300)
                         pyautogui.click(button="left")
-                        sleep(100, 200)
-                    elif config["ilvl-aor"] == 1370:
+                        sleep(200, 300)
+                    elif _curr["ilvl-aor"] == 1370:
                         # punica
                         pyautogui.moveTo(1224, 307)
                         sleep(200, 300)
                         pyautogui.click(button="left")
-                        sleep(100, 200)
+                        sleep(200, 300)
                         # corruption 2
                         pyautogui.moveTo(524, 662)
                         sleep(200, 300)
                         pyautogui.click(button="left")
-                        sleep(100, 200)
+                        sleep(200, 300)
                 else:
-                    if config["ilvl-endless"] == 1445:
+                    if _curr["ilvl-endless"] == 1445:
                         # south vern
                         pyautogui.moveTo(1408, 307)
                         sleep(200, 300)
                         pyautogui.click(button="left")
-                        sleep(100, 200)
+                        sleep(200, 300)
                         # corruption 2
                         pyautogui.moveTo(524, 451)
                         sleep(200, 300)
                         pyautogui.click(button="left")
-                        sleep(100, 200)
-                    elif config["ilvl-endless"] == 1475:
+                        sleep(200, 300)
+                    elif _curr["ilvl-endless"] == 1475:
                         # south vern
                         pyautogui.moveTo(1408, 307)
                         sleep(200, 300)
                         pyautogui.click(button="left")
-                        sleep(100, 200)
+                        sleep(200, 300)
                         # corruption 3
                         pyautogui.moveTo(524, 504)
                         sleep(200, 300)
                         pyautogui.click(button="left")
-                        sleep(100, 200)
-                    elif config["ilvl-endless"] == 1370:
+                        sleep(200, 300)
+                    elif _curr["ilvl-endless"] == 1370:
                         # punica
                         pyautogui.moveTo(1224, 307)
                         sleep(200, 300)
                         pyautogui.click(button="left")
-                        sleep(100, 200)
+                        sleep(200, 300)
                         # corruption 2
                         pyautogui.moveTo(524, 662)
                         sleep(200, 300)
                         pyautogui.click(button="left")
-                        sleep(100, 200)
+                        sleep(200, 300)
 
             enterButton = pyautogui.locateCenterOnScreen(
                 "./screenshots/enterButton.png", confidence=0.75
@@ -294,7 +361,7 @@ def enterChaos():
                 pyautogui.moveTo(886, 346)
                 sleep(200, 300)
                 pyautogui.click(button="left")
-                sleep(100, 200)
+                sleep(200, 300)
     else:
         while True:
             if gameCrashCheck():
@@ -412,7 +479,7 @@ def doFloor2():
         return
 
     print("floor 2 cleared")
-    if states["floor3"] == False:
+    if states["alwaysFloor3"] == False:
         states["clearCount"] = states["clearCount"] + 1
     calculateMinimapRelative(states["moveToX"], states["moveToY"])
     enterPortal()
@@ -444,7 +511,7 @@ def doFloor3Portal():
             break
         sleep(500, 550)
 
-    if goldMob == False and bossBar == None and states["floor3"] == False:
+    if goldMob == False and bossBar == None and states["alwaysFloor3"] == False:
         return
 
     if bossBar != None:
@@ -465,7 +532,7 @@ def doFloor3Portal():
 
         print("special portal cleared")
         sleep(800, 900)
-        if states["floor3"] == False:
+        if states["alwaysFloor3"] == False:
             return
         calculateMinimapRelative(states["moveToX"], states["moveToY"])
 
@@ -490,7 +557,7 @@ def doFloor3Portal():
 
         print("special portal cleared")
         sleep(800, 900)
-        if states["floor3"] == False:
+        if states["alwaysFloor3"] == False:
             return
         calculateMinimapRelative(states["moveToX"], states["moveToY"])
         enterPortal()
@@ -535,8 +602,9 @@ def doFloor3():
         return
 
     print("Chaos Dungeon Full cleared")
-    if config["floor3"] == True:
-        restartChaos()
+    if config["alwaysFloor3"] == True:
+        # restartChaos()
+        quitChaos()  # to check aor, for multi-char mode
     else:
         quitChaos()
     return
@@ -599,12 +667,22 @@ def quitChaos():
             pyautogui.click(button="left")
             break
         sleep(300, 400)
-    states["status"] = "inCity"
     printResult()
+    if states["multiCharacterMode"]:
+        states["multiCharacterModeState"][states["currentCharacter"]] = (
+            states["multiCharacterModeState"][states["currentCharacter"]] - 1
+        )
+        print(
+            "currentCharacter: {}, multiCharacterModeState: {}".format(
+                states["currentCharacter"], states["multiCharacterModeState"]
+            )
+        )
+    states["status"] = "inCity"
     sleep(6000, 8000)
     return
 
 
+# not using for now
 def restartChaos():
     printResult()
     sleep(1200, 1400)
@@ -809,7 +887,10 @@ def useAbilities():
                 moveToMinimapRelative(
                     states["moveToX"], states["moveToY"], 1200, 1300, True
                 )
-                if config["class"] == "sorceress":
+                if (
+                    config["characters"][states["currentCharacter"]]["class"]
+                    == "sorceress"
+                ):
                     pyautogui.press("x")
                 sleep(200, 220)
                 clickTower()
@@ -852,7 +933,7 @@ def useAbilities():
 
 
 def checkCDandCast(ability):
-    if config["class"] == "arcana":
+    if config["characters"][states["currentCharacter"]]["class"] == "arcana":
         pyautogui.press("x")
         pyautogui.press("z")
     if config["performance"] == True or pyautogui.locateOnScreen(
@@ -1275,7 +1356,7 @@ def moveToMinimapRelative(x, y, timeMin, timeMax, blink):
     if blink or states["moveTime"] > 800:
         # print("blink")
         if states["moveTime"] > 1200:
-            if config["class"] == "sorceress":
+            if config["characters"][states["currentCharacter"]]["class"] == "sorceress":
                 pyautogui.press("x")
             sleep(300, 320)
         pyautogui.press(config["blink"])
@@ -1472,9 +1553,10 @@ def waitForLoading():
 
 
 def saveAbilitiesScreenshots():
-    if len(states["abilityScreenshots"]) > 4:
-        return
-    for ability in config["abilities"]:
+    # deprecated with multi-char mode
+    # if len(states["abilityScreenshots"]) > 4:
+    #     return
+    for ability in abilities[config["characters"][states["currentCharacter"]]["class"]]:
         if ability["abilityType"] == "awakening":
             continue
         if ability["abilityType"] == "specialty1":
@@ -1792,5 +1874,36 @@ def restartGame():
     sleep(12200, 13300)
 
 
+def switchToCharacter(index):
+    sleep(1500, 1600)
+    print("switching to {}".format(index))
+    pyautogui.press("esc")
+    sleep(1500, 1600)
+    pyautogui.moveTo(x=config["charSwitchX"], y=config["charSwitchY"])
+    sleep(500, 600)
+    pyautogui.click(button="left")
+    sleep(500, 600)
+
+    pyautogui.moveTo(
+        x=config["charPositions"][index][0], y=config["charPositions"][index][1]
+    )
+    sleep(500, 600)
+    pyautogui.click(button="left")
+    sleep(500, 600)
+
+    pyautogui.moveTo(x=config["charSelectConnectX"], y=config["charSelectConnectY"])
+    sleep(500, 600)
+    pyautogui.click(button="left")
+    sleep(1500, 1600)
+
+    pyautogui.moveTo(x=config["charSelectOkX"], y=config["charSelectOkY"])
+    sleep(500, 600)
+    pyautogui.click(button="left")
+
+    states["currentCharacter"] = index
+    sleep(10000, 12000)
+
+
 if __name__ == "__main__":
+    states = newStates.copy()
     main()
