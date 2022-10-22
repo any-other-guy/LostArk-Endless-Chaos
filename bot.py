@@ -1899,6 +1899,8 @@ def switchToCharacter(index):
     pyautogui.moveTo(x=config["charSwitchX"], y=config["charSwitchY"])
     sleep(500, 600)
     pyautogui.click(button="left")
+    sleep(200, 300)
+    pyautogui.click(button="left")
     sleep(500, 600)
 
     pyautogui.moveTo(
@@ -1906,16 +1908,27 @@ def switchToCharacter(index):
     )
     sleep(500, 600)
     pyautogui.click(button="left")
+    sleep(200, 300)
+    pyautogui.click(button="left")
     sleep(500, 600)
 
     pyautogui.moveTo(x=config["charSelectConnectX"], y=config["charSelectConnectY"])
     sleep(500, 600)
     pyautogui.click(button="left")
-    sleep(1500, 1600)
+    sleep(200, 300)
+    pyautogui.click(button="left")
+    sleep(200, 300)
+    pyautogui.click(button="left")
+    sleep(1000, 1000)
 
     pyautogui.moveTo(x=config["charSelectOkX"], y=config["charSelectOkY"])
     sleep(500, 600)
     pyautogui.click(button="left")
+    sleep(200, 300)
+    pyautogui.click(button="left")
+    sleep(200, 300)
+    pyautogui.click(button="left")
+    sleep(200, 300)
 
     states["currentCharacter"] = index
     sleep(10000, 12000)
