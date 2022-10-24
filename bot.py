@@ -1241,8 +1241,8 @@ def checkChaosFinish():
 def fightFloor2Boss():
     if pyautogui.locateOnScreen("./screenshots/bossBar.png", confidence=0.7):
         print("boss bar located")
-        pyautogui.moveTo(x=states["moveToX"], y=states["moveToY"])
-        sleep(80, 100)
+        # pyautogui.moveTo(x=states["moveToX"], y=states["moveToY"])
+        # sleep(80, 100)
         pyautogui.press("V")
 
 
