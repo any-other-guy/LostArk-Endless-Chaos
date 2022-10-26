@@ -31,6 +31,12 @@ config = {
             "ilvl-endless": 1370,
             "ilvl-aor": 1370,
         },
+        # {
+        #     "index": 5,
+        #     "class": "deathblade",
+        #     "ilvl-endless": 1370,
+        #     "ilvl-aor": 1370,
+        # },
     ],
     "alwaysFloor3": False,
     "selectLevel": True,  ## to be deprecated soon
