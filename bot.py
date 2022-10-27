@@ -1159,7 +1159,11 @@ def clickTower():
         print("clicked rift core")
         sleep(900, 920)
         pyautogui.press(config["meleeAttack"])
-        sleep(900, 960)
+        sleep(300, 360)
+        pyautogui.press(config["meleeAttack"])
+        sleep(300, 360)
+        pyautogui.press(config["meleeAttack"])
+        sleep(100, 120)
         pyautogui.press(config["meleeAttack"])
     elif riftCore2 != None:
         x, y = riftCore2
