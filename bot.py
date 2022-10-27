@@ -1157,7 +1157,7 @@ def clickTower():
         states["moveToY"] = y + 190
         pyautogui.click(x=states["moveToX"], y=states["moveToY"], button=config["move"])
         print("clicked rift core")
-        sleep(100, 120)
+        sleep(900, 920)
         pyautogui.press(config["meleeAttack"])
         sleep(900, 960)
         pyautogui.press(config["meleeAttack"])
@@ -1169,7 +1169,7 @@ def clickTower():
         states["moveToY"] = y + 190
         pyautogui.click(x=states["moveToX"], y=states["moveToY"], button=config["move"])
         print("clicked rift core")
-        sleep(100, 120)
+        sleep(900, 920)
         pyautogui.press(config["meleeAttack"])
         sleep(300, 360)
         pyautogui.press(config["meleeAttack"])
