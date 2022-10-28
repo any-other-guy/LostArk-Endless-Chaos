@@ -38,7 +38,7 @@ config = {
         #     "ilvl-aor": 1370,
         # },
     ],
-    "alwaysFloor3": False,
+    "floor3Mode": False,
     "selectLevel": True,  ## to be deprecated soon
     "performance": False,  ## to be deprecated soon
     "interact": "g",

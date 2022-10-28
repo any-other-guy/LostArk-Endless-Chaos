@@ -28,7 +28,7 @@ newStates = {
     "gameOfflineCount": 0,
     "minTime": config["timeLimit"],
     "maxTime": -1,
-    "alwaysFloor3": False,
+    "floor3Mode": False,
     "multiCharacterMode": False,
     "mainCharacter": config["mainCharacter"],
     "currentCharacter": config["mainCharacter"],
@@ -44,7 +44,7 @@ def main():
 
     # forceing no floor3 full clear with performance mode
     # if config["performance"] == True:
-    #     states["alwaysFloor3"] = False
+    #     states["floor3Mode"] = False
 
     while True:
         if states["status"] == "inCity":
@@ -99,10 +99,10 @@ def main():
                     switchToCharacter(nextIndex)
                     continue
 
-            states["alwaysFloor3"] = False
-            # only do floor3 if user has set to do, otherwise only when aor is presented
-            if config["alwaysFloor3"] == True:
-                states["alwaysFloor3"] = True
+            states["floor3Mode"] = False
+            # only do floor3 if user has set to do, and when aor/multi-char is presented
+            if config["floor3Mode"] == True or states["multiCharacterMode"]:
+                states["floor3Mode"] = True
 
             sleep(500, 600)
             clearQuest()
@@ -191,7 +191,7 @@ def main():
             pyautogui.click(button=config["move"])
             sleep(200, 300)
             doFloor3Portal()
-            if checkTimeout() or states["alwaysFloor3"] == False:
+            if checkTimeout() or states["floor3Mode"] == False:
                 quitChaos()
                 continue
             doFloor3()
@@ -258,7 +258,7 @@ def enterChaos():
                 "./screenshots/aor.png", confidence=0.8
             )
             if aor != None and config["performance"] == False:
-                states["alwaysFloor3"] = True
+                states["floor3Mode"] = True
                 if (
                     states["currentCharacter"] == states["mainCharacter"]
                     and states["multiCharacterMode"] == False
@@ -276,76 +276,76 @@ def enterChaos():
             pyautogui.click(button="left")
             sleep(300, 400)
 
-            if config["selectLevel"] == True:
-                _curr = config["characters"][states["currentCharacter"]]
-                if aor != None:
-                    if _curr["ilvl-aor"] == 1445:
-                        # south vern
-                        pyautogui.moveTo(1408, 307)
-                        sleep(200, 300)
-                        pyautogui.click(button="left")
-                        sleep(200, 300)
-                        # corruption 2
-                        pyautogui.moveTo(524, 451)
-                        sleep(200, 300)
-                        pyautogui.click(button="left")
-                        sleep(200, 300)
-                    elif _curr["ilvl-aor"] == 1475:
-                        # south vern
-                        pyautogui.moveTo(1408, 307)
-                        sleep(200, 300)
-                        pyautogui.click(button="left")
-                        sleep(200, 300)
-                        # corruption 3
-                        pyautogui.moveTo(524, 504)
-                        sleep(200, 300)
-                        pyautogui.click(button="left")
-                        sleep(200, 300)
-                    elif _curr["ilvl-aor"] == 1370:
-                        # punica
-                        pyautogui.moveTo(1224, 307)
-                        sleep(200, 300)
-                        pyautogui.click(button="left")
-                        sleep(200, 300)
-                        # corruption 2
-                        pyautogui.moveTo(524, 662)
-                        sleep(200, 300)
-                        pyautogui.click(button="left")
-                        sleep(200, 300)
-                else:
-                    if _curr["ilvl-endless"] == 1445:
-                        # south vern
-                        pyautogui.moveTo(1408, 307)
-                        sleep(200, 300)
-                        pyautogui.click(button="left")
-                        sleep(200, 300)
-                        # corruption 2
-                        pyautogui.moveTo(524, 451)
-                        sleep(200, 300)
-                        pyautogui.click(button="left")
-                        sleep(200, 300)
-                    elif _curr["ilvl-endless"] == 1475:
-                        # south vern
-                        pyautogui.moveTo(1408, 307)
-                        sleep(200, 300)
-                        pyautogui.click(button="left")
-                        sleep(200, 300)
-                        # corruption 3
-                        pyautogui.moveTo(524, 504)
-                        sleep(200, 300)
-                        pyautogui.click(button="left")
-                        sleep(200, 300)
-                    elif _curr["ilvl-endless"] == 1370:
-                        # punica
-                        pyautogui.moveTo(1224, 307)
-                        sleep(200, 300)
-                        pyautogui.click(button="left")
-                        sleep(200, 300)
-                        # corruption 2
-                        pyautogui.moveTo(524, 662)
-                        sleep(200, 300)
-                        pyautogui.click(button="left")
-                        sleep(200, 300)
+            # select chaos dungeon level based on states
+            _curr = config["characters"][states["currentCharacter"]]
+            if states["multiCharacterMode"] or aor != None:
+                if _curr["ilvl-aor"] == 1445:
+                    # south vern
+                    pyautogui.moveTo(1408, 307)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                    # corruption 2
+                    pyautogui.moveTo(524, 451)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                elif _curr["ilvl-aor"] == 1475:
+                    # south vern
+                    pyautogui.moveTo(1408, 307)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                    # corruption 3
+                    pyautogui.moveTo(524, 504)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                elif _curr["ilvl-aor"] == 1370:
+                    # punica
+                    pyautogui.moveTo(1224, 307)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                    # corruption 2
+                    pyautogui.moveTo(524, 662)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+            else:
+                if _curr["ilvl-endless"] == 1445:
+                    # south vern
+                    pyautogui.moveTo(1408, 307)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                    # corruption 2
+                    pyautogui.moveTo(524, 451)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                elif _curr["ilvl-endless"] == 1475:
+                    # south vern
+                    pyautogui.moveTo(1408, 307)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                    # corruption 3
+                    pyautogui.moveTo(524, 504)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                elif _curr["ilvl-endless"] == 1370:
+                    # punica
+                    pyautogui.moveTo(1224, 307)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                    # corruption 2
+                    pyautogui.moveTo(524, 662)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
 
             enterButton = pyautogui.locateCenterOnScreen(
                 "./screenshots/enterButton.png", confidence=0.75
@@ -484,7 +484,7 @@ def doFloor2():
         return
 
     print("floor 2 cleared")
-    if states["alwaysFloor3"] == False:
+    if states["floor3Mode"] == False:
         states["clearCount"] = states["clearCount"] + 1
     calculateMinimapRelative(states["moveToX"], states["moveToY"])
     enterPortal()
@@ -516,7 +516,7 @@ def doFloor3Portal():
             break
         sleep(500, 550)
 
-    if goldMob == False and bossBar == None and states["alwaysFloor3"] == False:
+    if goldMob == False and bossBar == None and states["floor3Mode"] == False:
         return
 
     if bossBar != None:
@@ -537,7 +537,7 @@ def doFloor3Portal():
 
         print("special portal cleared")
         sleep(800, 900)
-        if states["alwaysFloor3"] == False:
+        if states["floor3Mode"] == False:
             return
         calculateMinimapRelative(states["moveToX"], states["moveToY"])
 
@@ -562,7 +562,7 @@ def doFloor3Portal():
 
         print("special portal cleared")
         sleep(800, 900)
-        if states["alwaysFloor3"] == False:
+        if states["floor3Mode"] == False:
             return
         calculateMinimapRelative(states["moveToX"], states["moveToY"])
         enterPortal()
@@ -609,7 +609,7 @@ def doFloor3():
         return
 
     print("Chaos Dungeon Full cleared")
-    if config["alwaysFloor3"] == True:
+    if config["floor3Mode"] == True:
         # restartChaos()
         quitChaos()  # to check aor, for multi-char mode
     else:
