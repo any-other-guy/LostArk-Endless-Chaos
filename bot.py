@@ -308,6 +308,17 @@ def enterChaos():
                     sleep(200, 300)
                     pyautogui.click(button="left")
                     sleep(200, 300)
+                elif _curr["ilvl-aor"] == 1100:
+                    # punica
+                    pyautogui.moveTo(1224, 307)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                    # star 1
+                    pyautogui.moveTo(524, 398)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
             else:
                 if _curr["ilvl-endless"] == 1445:
                     # south vern
@@ -339,6 +350,17 @@ def enterChaos():
                     sleep(200, 300)
                     # corruption 2
                     pyautogui.moveTo(524, 662)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                elif _curr["ilvl-endless"] == 1100:
+                    # punica
+                    pyautogui.moveTo(1224, 307)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                    # star 1
+                    pyautogui.moveTo(524, 398)
                     sleep(200, 300)
                     pyautogui.click(button="left")
                     sleep(200, 300)
@@ -1462,7 +1484,7 @@ def enterPortal():
             return
 
         nowTime = int(time.time_ns() / 1000000)
-        if nowTime - enterTime > 4000:
+        if nowTime - enterTime > 7000:
             # FIXME:
             states["instanceStartTime"] = -1
             return

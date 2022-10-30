@@ -1,5 +1,5 @@
 config = {
-    "mainCharacter": 1,
+    "mainCharacter": 5,
     "characters": [
         {
             "index": 0,
@@ -31,12 +31,12 @@ config = {
             "ilvl-endless": 1370,
             "ilvl-aor": 1370,
         },
-        # {
-        #     "index": 5,
-        #     "class": "deathblade",
-        #     "ilvl-endless": 1370,
-        #     "ilvl-aor": 1370,
-        # },
+        {
+            "index": 5,
+            "class": "deathblade",
+            "ilvl-endless": 1100,
+            "ilvl-aor": 1100,
+        },
     ],
     "floor3Mode": False,
     "selectLevel": True,  ## to be deprecated soon
