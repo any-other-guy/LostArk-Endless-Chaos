@@ -34,8 +34,8 @@ config = {
         {
             "index": 5,
             "class": "deathblade",
-            "ilvl-endless": 1100,
-            "ilvl-aor": 1100,
+            "ilvl-endless": 1370,
+            "ilvl-aor": 1370,
         },
     ],
     "floor3Mode": False,

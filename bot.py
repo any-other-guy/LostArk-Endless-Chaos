@@ -1484,7 +1484,7 @@ def enterPortal():
             return
 
         nowTime = int(time.time_ns() / 1000000)
-        if nowTime - enterTime > 7000:
+        if nowTime - enterTime > 6000:
             # FIXME:
             states["instanceStartTime"] = -1
             return
