@@ -139,10 +139,6 @@ def main():
 
             saveAbilitiesScreenshots()
 
-            # check repair
-            if config["autoRepair"]:
-                doRepair()
-
             # do floor one
             doFloor1()
         elif states["status"] == "floor2":
@@ -407,6 +403,10 @@ def enterChaos():
 
 def doFloor1():
     clearQuest()
+    sleep(500, 550)
+    # check repair
+    if config["autoRepair"]:
+        doRepair()
     # trigger start floor 1
     pyautogui.moveTo(x=845, y=600)
     sleep(450, 500)
@@ -466,6 +466,10 @@ def doFloor1():
 
 def doFloor2():
     clearQuest()
+    sleep(500, 550)
+    # check repair
+    if config["autoRepair"]:
+        doRepair()
     # trigger start floor 2
     pyautogui.mouseDown(x=1150, y=500, button=config["move"])
     sleep(800, 900)
@@ -595,6 +599,9 @@ def doFloor3():
 
     clearQuest()
     sleep(500, 550)
+    # check repair
+    if config["autoRepair"]:
+        doRepair()
     # trigger start real floor 3
     useAbilities()
 
@@ -1627,7 +1634,7 @@ def doRepair():
     if pyautogui.locateOnScreen(
         "./screenshots/repair.png",
         grayscale=True,
-        confidence=0.5,
+        confidence=0.4,
         region=(1500, 134, 100, 100),
     ):
         pyautogui.keyDown("alt")
