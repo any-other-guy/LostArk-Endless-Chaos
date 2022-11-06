@@ -1,5 +1,5 @@
 config = {
-    "mainCharacter": 1,
+    "mainCharacter": 0,
     "characters": [
         {
             "index": 0,
