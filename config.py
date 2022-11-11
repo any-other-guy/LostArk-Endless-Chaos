@@ -48,7 +48,7 @@ config = {
     ],
     "floor3Mode": False,
     "selectLevel": True,  ## to be deprecated soon
-    "performance": False,  ## to be deprecated soon
+    "performance": False,  ## to be deprecated soon, has multiple usage now
     "interact": "g",
     "move": "left",
     "blink": "space",

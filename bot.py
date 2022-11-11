@@ -5,6 +5,7 @@ import pyautogui
 import time
 import random
 import math
+import argparse
 
 newStates = {
     "status": "inCity",
@@ -45,6 +46,21 @@ def main():
     # forceing no floor3 full clear with performance mode
     # if config["performance"] == True:
     #     states["floor3Mode"] = False
+
+    # Instantiate the parser
+    parser = argparse.ArgumentParser(description="Optional app description")
+    parser.add_argument("--lunshua", action="store_true", help="A boolean switch")
+    args = parser.parse_args()
+
+    if args.lunshua:
+        states["multiCharacterMode"] = True
+        for i in range(len(config["characters"])):
+            states["multiCharacterModeState"].append(2)
+        print(
+            "lunshua start, running full runs on characters: {}".format(
+                states["multiCharacterModeState"]
+            )
+        )
 
     while True:
         if states["status"] == "inCity":
@@ -1851,7 +1867,7 @@ def offlineCheck():
     if dc != None or ok != None:
         currentTime = int(time.time_ns() / 1000000)
         dc = pyautogui.screenshot()
-        dc.save("./dc/weird" + str(currentTime) + ".png")
+        dc.save("./weird" + str(currentTime) + ".png")
         print("disconnection detected, restarting game client...")
         states["gameOfflineCount"] = states["gameOfflineCount"] + 1
         return True
@@ -2074,17 +2090,26 @@ def guildDonation():
         pyautogui.moveTo(x=x, y=y)
         sleep(500, 600)
         pyautogui.click(button="left")
-        sleep(500, 600)
+        sleep(1500, 1600)
 
-        pyautogui.moveTo(x=848, y=520)
-        sleep(500, 600)
-        pyautogui.click(button="left")
-        sleep(500, 600)
+        cannotSupportResearch = pyautogui.locateCenterOnScreen(
+            "./screenshots/cannotSupportResearch.png",
+            confidence=0.8,
+        )
 
-        pyautogui.moveTo(x=921, y=701)
-        sleep(500, 600)
-        pyautogui.click(button="left")
-        sleep(500, 600)
+        if cannotSupportResearch != None:
+            pyautogui.press("esc")
+            sleep(800, 900)
+        else:
+            pyautogui.moveTo(x=848, y=520)
+            sleep(500, 600)
+            pyautogui.click(button="left")
+            sleep(500, 600)
+
+            pyautogui.moveTo(x=921, y=701)
+            sleep(500, 600)
+            pyautogui.click(button="left")
+            sleep(500, 600)
 
     sleep(800, 900)
     pyautogui.press("esc")
