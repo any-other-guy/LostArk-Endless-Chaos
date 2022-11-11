@@ -1,5 +1,5 @@
 config = {
-    "mainCharacter": 1,
+    "mainCharacter": 0,
     "mainCharacterGameLaunchX": 500,
     "mainCharacterGameLaunchY": 827,
     "characters": [
