@@ -60,6 +60,13 @@ def main():
 
             # wait until loaded
             while True:
+                if gameCrashCheck():
+                    states["status"] = "restart"
+                    return
+                if offlineCheck():
+                    closeGameByClickingDialogue()
+                    return
+                sleep(1000, 1200)
                 inTown = pyautogui.locateCenterOnScreen(
                     "./screenshots/inTown.png",
                     confidence=0.75,
@@ -68,7 +75,7 @@ def main():
                 if inTown != None:
                     print("city loaded")
                     break
-                sleep(1500, 1600)
+                sleep(1400, 1600)
 
             if gameCrashCheck():
                 states["status"] = "restart"
@@ -80,6 +87,24 @@ def main():
             # switch character
             if states["multiCharacterMode"]:
                 if sum(states["multiCharacterModeState"]) == 0:
+                    # guild dono
+                    sleep(1400, 1600)
+                    guildDonation()
+                    sleep(1400, 1600)
+                    # lopang
+                    if config["characters"][states["currentCharacter"]]["lopang"]:
+                        # do lopang
+                        print("doing lopang on : {}".format(states["currentCharacter"]))
+                        doLopang()
+                        sleep(1400, 1600)
+
+                    if gameCrashCheck():
+                        states["status"] = "restart"
+                        continue
+                    if offlineCheck():
+                        closeGameByClickingDialogue()
+                        continue
+
                     # just finished last char before main
                     print(
                         "just finished last char before main, closing multi-char mode"
@@ -89,6 +114,24 @@ def main():
                     switchToCharacter(states["mainCharacter"])
                     continue
                 elif states["multiCharacterModeState"][states["currentCharacter"]] <= 0:
+                    # guild dono
+                    sleep(1400, 1600)
+                    guildDonation()
+                    # lopang
+                    sleep(1400, 1600)
+                    if config["characters"][states["currentCharacter"]]["lopang"]:
+                        # do lopang
+                        print("doing lopang on : {}".format(states["currentCharacter"]))
+                        doLopang()
+                        sleep(1400, 1600)
+
+                    if gameCrashCheck():
+                        states["status"] = "restart"
+                        continue
+                    if offlineCheck():
+                        closeGameByClickingDialogue()
+                        continue
+                    # switch to next
                     nextIndex = (states["currentCharacter"] + 1) % len(
                         states["multiCharacterModeState"]
                     )
@@ -193,7 +236,9 @@ def main():
                 continue
             doFloor3()
         elif states["status"] == "restart":
-            sleep(1000, 1200)
+            sleep(10000, 12200)
+            states["multiCharacterMode"] = False  # for now
+            states["multiCharacterModeState"] = []  # for now
             restartGame()
             while True:
                 im = pyautogui.screenshot(region=(1652, 168, 240, 210))
@@ -1804,6 +1849,9 @@ def offlineCheck():
         "./screenshots/ok.png", region=config["regions"]["center"], confidence=0.75
     )
     if dc != None or ok != None:
+        currentTime = int(time.time_ns() / 1000000)
+        dc = pyautogui.screenshot()
+        dc.save("./dc/weird" + str(currentTime) + ".png")
         print("disconnection detected, restarting game client...")
         states["gameOfflineCount"] = states["gameOfflineCount"] + 1
         return True
@@ -1853,7 +1901,14 @@ def restartGame():
         confirm = pyautogui.locateCenterOnScreen(
             "./screenshots/steamConfirm.png", confidence=0.75
         )
-        enterServer = pyautogui.locateCenterOnScreen("./screenshots/enterServer.png")
+        enterServer = pyautogui.locateCenterOnScreen(
+            "./screenshots/enterServer.png", confidence=0.75
+        )
+        inTown = pyautogui.locateCenterOnScreen(
+            "./screenshots/inTown.png",
+            confidence=0.75,
+            region=(1870, 133, 25, 30),
+        )
         if stopGame != None:
             print("clicking stop game on steam")
             x, y = stopGame
@@ -1888,10 +1943,14 @@ def restartGame():
         elif enterServer != None:
             # new eacoffline interface
             break
+        elif inTown != None:
+            return
         sleep(1200, 1300)
     sleep(5200, 6300)
     while True:
-        enterServer = pyautogui.locateCenterOnScreen("./screenshots/enterServer.png")
+        enterServer = pyautogui.locateCenterOnScreen(
+            "./screenshots/enterServer.png", confidence=0.75
+        )
         enterGame = pyautogui.locateCenterOnScreen(
             "./screenshots/steamPlay.png", confidence=0.75
         )
@@ -1913,9 +1972,22 @@ def restartGame():
     sleep(3200, 4300)
     while True:
         enterCharacter = pyautogui.locateCenterOnScreen(
-            "./screenshots/enterCharacter.png"
+            "./screenshots/enterCharacter.png", confidence=0.75
         )
         if enterCharacter != None:
+            sleep(4000, 5000)
+            pyautogui.moveTo(
+                x=config["mainCharacterGameLaunchX"],
+                y=config["mainCharacterGameLaunchY"],
+            )
+            sleep(500, 600)
+            pyautogui.click(x=x, y=y, button="left")
+            sleep(500, 600)
+            pyautogui.click(x=x, y=y, button="left")
+            sleep(500, 600)
+            pyautogui.click(x=x, y=y, button="left")
+            sleep(500, 600)
+
             print("clicking enterCharacter")
             x, y = enterCharacter
             pyautogui.moveTo(x=x, y=y)
@@ -1968,6 +2040,264 @@ def switchToCharacter(index):
 
     states["currentCharacter"] = index
     sleep(10000, 12000)
+
+
+def guildDonation():
+    pyautogui.keyDown("alt")
+    sleep(100, 200)
+    pyautogui.press("u")
+    sleep(100, 200)
+    pyautogui.keyUp("alt")
+    sleep(1100, 1200)
+
+    pyautogui.moveTo(x=1431, y=843)
+    sleep(500, 600)
+    pyautogui.click(button="left")
+    sleep(500, 600)
+
+    pyautogui.moveTo(x=767, y=561)
+    sleep(500, 600)
+    pyautogui.click(button="left")
+    sleep(500, 600)
+
+    pyautogui.press("esc")
+    sleep(1500, 1600)
+
+    supportResearch = pyautogui.locateCenterOnScreen(
+        "./screenshots/supportResearch.png",
+        confidence=0.8,
+    )
+
+    if supportResearch != None:
+        x, y = supportResearch
+        print("supportResearch")
+        pyautogui.moveTo(x=x, y=y)
+        sleep(500, 600)
+        pyautogui.click(button="left")
+        sleep(500, 600)
+
+        pyautogui.moveTo(x=848, y=520)
+        sleep(500, 600)
+        pyautogui.click(button="left")
+        sleep(500, 600)
+
+        pyautogui.moveTo(x=921, y=701)
+        sleep(500, 600)
+        pyautogui.click(button="left")
+        sleep(500, 600)
+
+    sleep(800, 900)
+    pyautogui.press("esc")
+    sleep(800, 900)
+
+
+def doLopang():
+    sleep(1000, 2000)
+    print("accepting lopang daily")
+    acceptLopangDaily()
+    sleep(500, 600)
+    if gameCrashCheck():
+        states["status"] = "restart"
+        return
+    if offlineCheck():
+        closeGameByClickingDialogue()
+        return
+
+    # lopang island
+    bifrostGoTo(0)
+    if gameCrashCheck():
+        states["status"] = "restart"
+        return
+    if offlineCheck():
+        closeGameByClickingDialogue()
+        return
+    sleep(1000, 2000)
+    walkLopang()
+    sleep(1000, 2000)
+    bifrostGoTo(1)
+    if gameCrashCheck():
+        states["status"] = "restart"
+        return
+    if offlineCheck():
+        closeGameByClickingDialogue()
+        return
+    sleep(1000, 2000)
+    spamG(10000)
+    bifrostGoTo(3)
+    if gameCrashCheck():
+        states["status"] = "restart"
+        return
+    if offlineCheck():
+        closeGameByClickingDialogue()
+        return
+    sleep(1000, 2000)
+    spamG(10000)
+    bifrostGoTo(4)
+    if gameCrashCheck():
+        states["status"] = "restart"
+        return
+    if offlineCheck():
+        closeGameByClickingDialogue()
+        return
+    sleep(1000, 2000)
+    spamG(10000)
+
+
+def walkLopang():
+    print("walking lopang")
+    spamG(1000)
+    walkWithAlt(315, 473, 1500)
+    walkWithAlt(407, 679, 1300)
+    walkWithAlt(584, 258, 1000)
+    walkWithAlt(1043, 240, 1200)
+    walkWithAlt(1339, 246, 1300)
+    walkWithAlt(1223, 406, 800)
+    walkWithAlt(1223, 406, 800)
+    walkWithAlt(1263, 404, 800)
+    spamG(1000)
+    walkWithAlt(496, 750, 800)
+    walkWithAlt(496, 750, 800)
+    walkWithAlt(496, 750, 800)
+    walkWithAlt(653, 737, 800)
+    walkWithAlt(653, 737, 800)
+    walkWithAlt(674, 264, 800)
+    walkWithAlt(573, 301, 1200)
+    walkWithAlt(820, 240, 800)
+    spamG(1000)
+
+
+def bifrostGoTo(option):
+    if gameCrashCheck():
+        states["status"] = "restart"
+        return
+    if offlineCheck():
+        closeGameByClickingDialogue()
+        return
+
+    print("bifrost to: {}".format(option))
+    bifrostXY = [
+        [1343, 517],
+        [1343, 579],
+        [1343, 640],
+        [1343, 736],
+        [1343, 796],
+    ]
+    pyautogui.keyDown("alt")
+    sleep(100, 200)
+    pyautogui.press("w")
+    sleep(100, 200)
+    pyautogui.keyUp("alt")
+    sleep(500, 600)
+
+    pyautogui.moveTo(x=bifrostXY[option][0], y=bifrostXY[option][1])
+    sleep(500, 600)
+    pyautogui.click(button="left")
+    sleep(500, 600)
+
+    # ok
+    pyautogui.moveTo(x=918, y=617)
+    sleep(500, 600)
+    pyautogui.click(button="left")
+
+    sleep(10000, 12000)
+
+    # wait until loaded
+    while True:
+        if gameCrashCheck():
+            states["status"] = "restart"
+            return
+        if offlineCheck():
+            closeGameByClickingDialogue()
+            return
+        sleep(1000, 1200)
+        inTown = pyautogui.locateCenterOnScreen(
+            "./screenshots/inTown.png",
+            confidence=0.75,
+            region=(1870, 133, 25, 30),
+        )
+        if inTown != None:
+            print("city loaded")
+            break
+        sleep(1400, 1600)
+    sleep(2000, 3000)
+
+    if gameCrashCheck():
+        states["status"] = "restart"
+        return
+    if offlineCheck():
+        closeGameByClickingDialogue()
+        return
+
+
+def acceptLopangDaily():
+    sleep(100, 200)
+    pyautogui.keyDown("alt")
+    sleep(100, 200)
+    pyautogui.press("j")
+    sleep(100, 200)
+    pyautogui.keyUp("alt")
+    sleep(900, 1200)
+
+    pyautogui.moveTo(x=564, y=313)
+    sleep(500, 600)
+    pyautogui.click(button="left")
+    sleep(500, 600)
+
+    pyautogui.moveTo(x=528, y=397)
+    sleep(500, 600)
+    pyautogui.click(button="left")
+    sleep(500, 600)
+
+    pyautogui.moveTo(x=1206, y=398)
+    sleep(500, 600)
+    pyautogui.click(button="left")
+    sleep(500, 600)
+
+    pyautogui.moveTo(x=1206, y=455)
+    sleep(500, 600)
+    pyautogui.click(button="left")
+    sleep(500, 600)
+
+    pyautogui.moveTo(x=1206, y=512)
+    sleep(500, 600)
+    pyautogui.click(button="left")
+    sleep(500, 600)
+
+    pyautogui.press("esc")
+    sleep(1500, 1600)
+
+
+def walkWithAlt(lopangX, lopangY, milliseconds):
+    lopangX = lopangX
+    lopangY = lopangY
+    pyautogui.keyDown("alt")
+    pyautogui.moveTo(x=lopangX, y=lopangY)
+    sleep(100, 100)
+    pyautogui.click(button=config["move"])
+    sleep(milliseconds / 2, milliseconds / 2)
+    pyautogui.keyUp("alt")
+    sleep(milliseconds / 2, milliseconds / 2)
+
+
+def walkPressG(lopangX, lopangY, milliseconds):
+    timeCount = milliseconds / 100
+    while timeCount != 0:
+        lopangX = lopangX
+        lopangY = lopangY
+        pyautogui.moveTo(x=lopangX, y=lopangY)
+        sleep(100, 100)
+        pyautogui.click(button=config["move"])
+        timeCount = timeCount - 1
+        if lopangX % 2 == 0:
+            pyautogui.press("g")
+
+
+def spamG(milliseconds):
+    timeCount = milliseconds / 100
+    while timeCount != 0:
+        pyautogui.press("g")
+        sleep(90, 120)
+        timeCount = timeCount - 1
 
 
 if __name__ == "__main__":
