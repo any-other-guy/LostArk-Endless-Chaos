@@ -1,4 +1,3 @@
-from threading import currentThread
 from config import config
 from abilities import abilities
 import pyautogui
