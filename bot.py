@@ -1864,11 +1864,14 @@ def offlineCheck():
     ok = pyautogui.locateCenterOnScreen(
         "./screenshots/ok.png", region=config["regions"]["center"], confidence=0.75
     )
-    if dc != None or ok != None:
+    enterServer = pyautogui.locateCenterOnScreen(
+        "./screenshots/enterServer.png", confidence=0.75
+    )
+    if dc != None or ok != None or enterServer != None:
         currentTime = int(time.time_ns() / 1000000)
         dc = pyautogui.screenshot()
         dc.save("./weird" + str(currentTime) + ".png")
-        print("disconnection detected, restarting game client...")
+        print("disconnection detected...")
         states["gameOfflineCount"] = states["gameOfflineCount"] + 1
         return True
     return False
@@ -1892,17 +1895,22 @@ def closeGameByClickingDialogue():
         ok = pyautogui.locateCenterOnScreen(
             "./screenshots/ok.png", region=config["regions"]["center"], confidence=0.75
         )
+        enterServer = pyautogui.locateCenterOnScreen(
+            "./screenshots/enterServer.png", confidence=0.75
+        )
         if ok != None:
             x, y = ok
             pyautogui.moveTo(x=x, y=y)
             sleep(300, 400)
             pyautogui.click(x=x, y=y, button="left")
             print("clicked ok")
+        elif enterServer != None:
+            break
         else:
             break
         sleep(1300, 1400)
     states["status"] = "restart"
-    sleep(500, 600)
+    sleep(10000, 12000)
 
 
 def restartGame():
@@ -1911,15 +1919,19 @@ def restartGame():
         enterGame = pyautogui.locateCenterOnScreen(
             "./screenshots/steamPlay.png", confidence=0.75
         )
+        sleep(500, 600)
         stopGame = pyautogui.locateCenterOnScreen(
             "./screenshots/steamStop.png", confidence=0.75
         )
+        sleep(500, 600)
         confirm = pyautogui.locateCenterOnScreen(
             "./screenshots/steamConfirm.png", confidence=0.75
         )
+        sleep(500, 600)
         enterServer = pyautogui.locateCenterOnScreen(
             "./screenshots/enterServer.png", confidence=0.75
         )
+        sleep(500, 600)
         inTown = pyautogui.locateCenterOnScreen(
             "./screenshots/inTown.png",
             confidence=0.75,
@@ -1992,6 +2004,7 @@ def restartGame():
         )
         if enterCharacter != None:
             sleep(4000, 5000)
+            print("clicking mainCharacter")
             pyautogui.moveTo(
                 x=config["mainCharacterGameLaunchX"],
                 y=config["mainCharacterGameLaunchY"],
@@ -2136,6 +2149,13 @@ def doLopang():
     if offlineCheck():
         closeGameByClickingDialogue()
         return
+    if checkBlueCrystal():
+        pyautogui.press("esc")
+        sleep(1500, 1600)
+        pyautogui.press("esc")
+        sleep(1500, 1600)
+        return
+
     sleep(1000, 2000)
     walkLopang()
     sleep(1000, 2000)
@@ -2146,6 +2166,13 @@ def doLopang():
     if offlineCheck():
         closeGameByClickingDialogue()
         return
+    if checkBlueCrystal():
+        pyautogui.press("esc")
+        sleep(1500, 1600)
+        pyautogui.press("esc")
+        sleep(1500, 1600)
+        return
+
     sleep(1000, 2000)
     spamG(10000)
     bifrostGoTo(3)
@@ -2155,6 +2182,13 @@ def doLopang():
     if offlineCheck():
         closeGameByClickingDialogue()
         return
+    if checkBlueCrystal():
+        pyautogui.press("esc")
+        sleep(1500, 1600)
+        pyautogui.press("esc")
+        sleep(1500, 1600)
+        return
+
     sleep(1000, 2000)
     spamG(10000)
     bifrostGoTo(4)
@@ -2164,6 +2198,13 @@ def doLopang():
     if offlineCheck():
         closeGameByClickingDialogue()
         return
+    if checkBlueCrystal():
+        pyautogui.press("esc")
+        sleep(1500, 1600)
+        pyautogui.press("esc")
+        sleep(1500, 1600)
+        return
+
     sleep(1000, 2000)
     spamG(10000)
 
@@ -2189,6 +2230,19 @@ def walkLopang():
     walkWithAlt(573, 301, 1200)
     walkWithAlt(820, 240, 800)
     spamG(1000)
+
+
+def checkBlueCrystal():
+    blueCrystal = pyautogui.locateCenterOnScreen(
+        "./screenshots/blueCrystal.png",
+        confidence=0.75,
+        region=config["regions"]["center"],
+    )
+
+    if blueCrystal != None:
+        return True
+    else:
+        return False
 
 
 def bifrostGoTo(option):
@@ -2219,10 +2273,13 @@ def bifrostGoTo(option):
     pyautogui.click(button="left")
     sleep(500, 600)
 
-    # ok
-    pyautogui.moveTo(x=918, y=617)
-    sleep(500, 600)
-    pyautogui.click(button="left")
+    if checkBlueCrystal():
+        return
+    else:
+        # ok
+        pyautogui.moveTo(x=918, y=617)
+        sleep(500, 600)
+        pyautogui.click(button="left")
 
     sleep(10000, 12000)
 
