@@ -85,6 +85,7 @@ def main():
                         "just finished last char before main, closing multi-char mode"
                     )
                     states["multiCharacterMode"] = False
+                    states["multiCharacterModeState"] = []
                     switchToCharacter(states["mainCharacter"])
                     continue
                 elif states["multiCharacterModeState"][states["currentCharacter"]] <= 0:

@@ -17,7 +17,7 @@ config = {
             "index": 2,
             "class": "sorceress",
             "ilvl-endless": 1370,
-            "ilvl-aor": 1370,
+            "ilvl-aor": 1445,
         },
         {
             "index": 3,
