@@ -66,13 +66,6 @@ def main():
             # initialize new states
             states["abilityScreenshots"] = []
 
-            if gameCrashCheck():
-                states["status"] = "restart"
-                continue
-            if offlineCheck():
-                closeGameByClickingDialogue()
-                continue
-
             # wait until loaded
             while True:
                 if gameCrashCheck():
@@ -91,13 +84,6 @@ def main():
                     print("city loaded")
                     break
                 sleep(1400, 1600)
-
-            if gameCrashCheck():
-                states["status"] = "restart"
-                continue
-            if offlineCheck():
-                closeGameByClickingDialogue()
-                continue
 
             # switch character
             if states["multiCharacterMode"]:
@@ -461,9 +447,9 @@ def enterChaos():
     while True:
         if gameCrashCheck():
             return
-        if offlineCheck():
-            closeGameByClickingDialogue()
-            return
+        # if offlineCheck():
+        #     closeGameByClickingDialogue()
+        #     return
         acceptButton = pyautogui.locateCenterOnScreen(
             "./screenshots/acceptButton.png",
             confidence=0.75,
@@ -1870,7 +1856,11 @@ def offlineCheck():
         currentTime = int(time.time_ns() / 1000000)
         dc = pyautogui.screenshot()
         dc.save("./weird" + str(currentTime) + ".png")
-        print("disconnection detected...")
+        print(
+            "disconnection detected...currentTime : {} dc:{} ok:{} enterServer:{}".format(
+                currentTime, dc, ok, enterServer
+            )
+        )
         states["gameOfflineCount"] = states["gameOfflineCount"] + 1
         return True
     return False
@@ -2140,6 +2130,7 @@ def doLopang():
         closeGameByClickingDialogue()
         return
 
+    sleep(3500, 4600)
     # lopang island
     bifrostGoTo(0)
     if gameCrashCheck():
@@ -2245,13 +2236,6 @@ def checkBlueCrystal():
 
 
 def bifrostGoTo(option):
-    if gameCrashCheck():
-        states["status"] = "restart"
-        return
-    if offlineCheck():
-        closeGameByClickingDialogue()
-        return
-
     print("bifrost to: {}".format(option))
     bifrostXY = [
         [1343, 517],
