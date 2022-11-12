@@ -761,7 +761,7 @@ def quitChaos():
             )
         )
     states["status"] = "inCity"
-    sleep(6000, 8000)
+    sleep(4000, 6000)
     return
 
 
@@ -2133,29 +2133,39 @@ def doLopang():
     sleep(3500, 4600)
     # lopang island
     bifrostGoTo(0)
-    if gameCrashCheck():
-        states["status"] = "restart"
-        return
-    if offlineCheck():
-        closeGameByClickingDialogue()
-        return
+
     if checkBlueCrystal():
         pyautogui.press("esc")
         sleep(1500, 1600)
         pyautogui.press("esc")
         sleep(1500, 1600)
         return
+
+    sleep(1000, 2000)
+    # wait until loaded
+    while True:
+        if gameCrashCheck():
+            states["status"] = "restart"
+            return
+        if offlineCheck():
+            closeGameByClickingDialogue()
+            return
+        sleep(1000, 1200)
+        inTown = pyautogui.locateCenterOnScreen(
+            "./screenshots/inTown.png",
+            confidence=0.75,
+            region=(1870, 133, 25, 30),
+        )
+        if inTown != None:
+            print("city loaded")
+            break
+        sleep(1400, 1600)
 
     sleep(1000, 2000)
     walkLopang()
     sleep(1000, 2000)
     bifrostGoTo(1)
-    if gameCrashCheck():
-        states["status"] = "restart"
-        return
-    if offlineCheck():
-        closeGameByClickingDialogue()
-        return
+
     if checkBlueCrystal():
         pyautogui.press("esc")
         sleep(1500, 1600)
@@ -2164,14 +2174,28 @@ def doLopang():
         return
 
     sleep(1000, 2000)
+    # wait until loaded
+    while True:
+        if gameCrashCheck():
+            states["status"] = "restart"
+            return
+        if offlineCheck():
+            closeGameByClickingDialogue()
+            return
+        sleep(1000, 1200)
+        inTown = pyautogui.locateCenterOnScreen(
+            "./screenshots/inTown.png",
+            confidence=0.75,
+            region=(1870, 133, 25, 30),
+        )
+        if inTown != None:
+            print("city loaded")
+            break
+        sleep(1400, 1600)
+
     spamG(10000)
     bifrostGoTo(3)
-    if gameCrashCheck():
-        states["status"] = "restart"
-        return
-    if offlineCheck():
-        closeGameByClickingDialogue()
-        return
+
     if checkBlueCrystal():
         pyautogui.press("esc")
         sleep(1500, 1600)
@@ -2180,14 +2204,28 @@ def doLopang():
         return
 
     sleep(1000, 2000)
+    # wait until loaded
+    while True:
+        if gameCrashCheck():
+            states["status"] = "restart"
+            return
+        if offlineCheck():
+            closeGameByClickingDialogue()
+            return
+        sleep(1000, 1200)
+        inTown = pyautogui.locateCenterOnScreen(
+            "./screenshots/inTown.png",
+            confidence=0.75,
+            region=(1870, 133, 25, 30),
+        )
+        if inTown != None:
+            print("city loaded")
+            break
+        sleep(1400, 1600)
+
     spamG(10000)
     bifrostGoTo(4)
-    if gameCrashCheck():
-        states["status"] = "restart"
-        return
-    if offlineCheck():
-        closeGameByClickingDialogue()
-        return
+
     if checkBlueCrystal():
         pyautogui.press("esc")
         sleep(1500, 1600)
@@ -2196,6 +2234,25 @@ def doLopang():
         return
 
     sleep(1000, 2000)
+    # wait until loaded
+    while True:
+        if gameCrashCheck():
+            states["status"] = "restart"
+            return
+        if offlineCheck():
+            closeGameByClickingDialogue()
+            return
+        sleep(1000, 1200)
+        inTown = pyautogui.locateCenterOnScreen(
+            "./screenshots/inTown.png",
+            confidence=0.75,
+            region=(1870, 133, 25, 30),
+        )
+        if inTown != None:
+            print("city loaded")
+            break
+        sleep(1400, 1600)
+
     spamG(10000)
 
 
