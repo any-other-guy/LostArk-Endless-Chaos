@@ -1703,6 +1703,13 @@ def diedCheck():  # get information about wait a few second to revive
             pyautogui.click(1275, 454, button="left")
             sleep(600, 800)
             pyautogui.moveTo(config["screenCenterX"], config["screenCenterY"])
+            sleep(600, 800)
+            if gameCrashCheck():
+                return
+            if offlineCheck():
+                return
+            if checkTimeout():
+                return
     return
 
 
