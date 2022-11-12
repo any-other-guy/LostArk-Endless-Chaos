@@ -66,6 +66,14 @@ def main():
             # initialize new states
             states["abilityScreenshots"] = []
 
+            sleep(1000, 1200)
+            inChaos = pyautogui.locateCenterOnScreen(
+                "./screenshots/inChaos.png", confidence=0.75
+            )
+            if inChaos != None:
+                print("still in the last chaos run, quitting")
+                quitChaos()
+
             # wait until loaded
             while True:
                 if gameCrashCheck():
@@ -1233,7 +1241,7 @@ def clickTower():
         states["moveToY"] = y + 190
         pyautogui.click(x=states["moveToX"], y=states["moveToY"], button=config["move"])
         print("clicked rift core")
-        sleep(900, 920)
+        sleep(100, 120)
         pyautogui.press(config["meleeAttack"])
         sleep(300, 360)
         pyautogui.press(config["meleeAttack"])
@@ -1249,7 +1257,7 @@ def clickTower():
         states["moveToY"] = y + 190
         pyautogui.click(x=states["moveToX"], y=states["moveToY"], button=config["move"])
         print("clicked rift core")
-        sleep(900, 920)
+        sleep(100, 120)
         pyautogui.press(config["meleeAttack"])
         sleep(300, 360)
         pyautogui.press(config["meleeAttack"])
@@ -1849,9 +1857,7 @@ def offlineCheck():
     ok = pyautogui.locateCenterOnScreen(
         "./screenshots/ok.png", region=config["regions"]["center"], confidence=0.75
     )
-    enterServer = pyautogui.locateCenterOnScreen(
-        "./screenshots/enterServer.png", confidence=0.75
-    )
+    enterServer = pyautogui.locateCenterOnScreen("./screenshots/enterServer.png")
     if dc != None or ok != None or enterServer != None:
         currentTime = int(time.time_ns() / 1000000)
         dc = pyautogui.screenshot()
@@ -1884,9 +1890,7 @@ def closeGameByClickingDialogue():
         ok = pyautogui.locateCenterOnScreen(
             "./screenshots/ok.png", region=config["regions"]["center"], confidence=0.75
         )
-        enterServer = pyautogui.locateCenterOnScreen(
-            "./screenshots/enterServer.png", confidence=0.75
-        )
+        enterServer = pyautogui.locateCenterOnScreen("./screenshots/enterServer.png")
         if ok != None:
             x, y = ok
             pyautogui.moveTo(x=x, y=y)
@@ -1917,9 +1921,7 @@ def restartGame():
             "./screenshots/steamConfirm.png", confidence=0.75
         )
         sleep(500, 600)
-        enterServer = pyautogui.locateCenterOnScreen(
-            "./screenshots/enterServer.png", confidence=0.75
-        )
+        enterServer = pyautogui.locateCenterOnScreen("./screenshots/enterServer.png")
         sleep(500, 600)
         inTown = pyautogui.locateCenterOnScreen(
             "./screenshots/inTown.png",
@@ -1965,9 +1967,7 @@ def restartGame():
         sleep(1200, 1300)
     sleep(5200, 6300)
     while True:
-        enterServer = pyautogui.locateCenterOnScreen(
-            "./screenshots/enterServer.png", confidence=0.75
-        )
+        enterServer = pyautogui.locateCenterOnScreen("./screenshots/enterServer.png")
         enterGame = pyautogui.locateCenterOnScreen(
             "./screenshots/steamPlay.png", confidence=0.75
         )
@@ -2066,7 +2066,17 @@ def guildDonation():
     pyautogui.press("u")
     sleep(100, 200)
     pyautogui.keyUp("alt")
-    sleep(1100, 1200)
+    sleep(2100, 3200)
+
+    ok = pyautogui.locateCenterOnScreen(
+        "./screenshots/ok.png", region=config["regions"]["center"], confidence=0.75
+    )
+
+    if ok != None:
+        x, y = ok
+        pyautogui.moveTo(x=x, y=y)
+        sleep(300, 400)
+        pyautogui.click(x=x, y=y, button="left")
 
     pyautogui.moveTo(x=1431, y=843)
     sleep(500, 600)
