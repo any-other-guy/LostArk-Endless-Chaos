@@ -2066,7 +2066,7 @@ def guildDonation():
     pyautogui.press("u")
     sleep(100, 200)
     pyautogui.keyUp("alt")
-    sleep(2100, 3200)
+    sleep(3100, 4200)
 
     ok = pyautogui.locateCenterOnScreen(
         "./screenshots/ok.png", region=config["regions"]["center"], confidence=0.75
@@ -2077,6 +2077,7 @@ def guildDonation():
         pyautogui.moveTo(x=x, y=y)
         sleep(300, 400)
         pyautogui.click(x=x, y=y, button="left")
+    sleep(1500, 1600)
 
     pyautogui.moveTo(x=1431, y=843)
     sleep(500, 600)
@@ -2104,15 +2105,12 @@ def guildDonation():
         pyautogui.click(button="left")
         sleep(1500, 1600)
 
-        cannotSupportResearch = pyautogui.locateCenterOnScreen(
-            "./screenshots/cannotSupportResearch.png",
+        canSupportResearch = pyautogui.locateCenterOnScreen(
+            "./screenshots/canSupportResearch.png",
             confidence=0.8,
         )
 
-        if cannotSupportResearch != None:
-            pyautogui.press("esc")
-            sleep(800, 900)
-        else:
+        if canSupportResearch != None:
             pyautogui.moveTo(x=848, y=520)
             sleep(500, 600)
             pyautogui.click(button="left")
@@ -2122,6 +2120,9 @@ def guildDonation():
             sleep(500, 600)
             pyautogui.click(button="left")
             sleep(500, 600)
+        else:
+            pyautogui.press("esc")
+            sleep(800, 900)
 
     sleep(800, 900)
     pyautogui.press("esc")
@@ -2131,7 +2132,9 @@ def guildDonation():
 def doLopang():
     sleep(1000, 2000)
     print("accepting lopang daily")
-    acceptLopangDaily()
+    doDaily = acceptLopangDaily()
+    if doDaily == False:
+        return
     sleep(500, 600)
     if gameCrashCheck():
         states["status"] = "restart"
@@ -2141,165 +2144,18 @@ def doLopang():
         return
 
     sleep(3500, 4600)
-    # lopang island
-    bifrostGoTo(0)
 
-    if checkBlueCrystal():
-        pyautogui.press("esc")
-        sleep(1500, 1600)
-        pyautogui.press("esc")
-        sleep(1500, 1600)
+    # goto lopang island
+    bifrostAvailable = bifrostGoTo(0)
+    if bifrostAvailable == False:
         return
-
-    sleep(1000, 2000)
-    # wait until loaded
-    while True:
-        if gameCrashCheck():
-            states["status"] = "restart"
-            return
-        if offlineCheck():
-            closeGameByClickingDialogue()
-            return
-        sleep(1000, 1200)
-        inTown = pyautogui.locateCenterOnScreen(
-            "./screenshots/inTown.png",
-            confidence=0.75,
-            region=(1870, 133, 25, 30),
-        )
-        if inTown != None:
-            print("city loaded")
-            break
-        sleep(1400, 1600)
-
-    sleep(1000, 2000)
     walkLopang()
-    sleep(1000, 2000)
     bifrostGoTo(1)
-
-    if checkBlueCrystal():
-        pyautogui.press("esc")
-        sleep(1500, 1600)
-        pyautogui.press("esc")
-        sleep(1500, 1600)
-        return
-
-    sleep(1000, 2000)
-    # wait until loaded
-    while True:
-        if gameCrashCheck():
-            states["status"] = "restart"
-            return
-        if offlineCheck():
-            closeGameByClickingDialogue()
-            return
-        sleep(1000, 1200)
-        inTown = pyautogui.locateCenterOnScreen(
-            "./screenshots/inTown.png",
-            confidence=0.75,
-            region=(1870, 133, 25, 30),
-        )
-        if inTown != None:
-            print("city loaded")
-            break
-        sleep(1400, 1600)
-
     spamG(10000)
     bifrostGoTo(3)
-
-    if checkBlueCrystal():
-        pyautogui.press("esc")
-        sleep(1500, 1600)
-        pyautogui.press("esc")
-        sleep(1500, 1600)
-        return
-
-    sleep(1000, 2000)
-    # wait until loaded
-    while True:
-        if gameCrashCheck():
-            states["status"] = "restart"
-            return
-        if offlineCheck():
-            closeGameByClickingDialogue()
-            return
-        sleep(1000, 1200)
-        inTown = pyautogui.locateCenterOnScreen(
-            "./screenshots/inTown.png",
-            confidence=0.75,
-            region=(1870, 133, 25, 30),
-        )
-        if inTown != None:
-            print("city loaded")
-            break
-        sleep(1400, 1600)
-
     spamG(10000)
     bifrostGoTo(4)
-
-    if checkBlueCrystal():
-        pyautogui.press("esc")
-        sleep(1500, 1600)
-        pyautogui.press("esc")
-        sleep(1500, 1600)
-        return
-
-    sleep(1000, 2000)
-    # wait until loaded
-    while True:
-        if gameCrashCheck():
-            states["status"] = "restart"
-            return
-        if offlineCheck():
-            closeGameByClickingDialogue()
-            return
-        sleep(1000, 1200)
-        inTown = pyautogui.locateCenterOnScreen(
-            "./screenshots/inTown.png",
-            confidence=0.75,
-            region=(1870, 133, 25, 30),
-        )
-        if inTown != None:
-            print("city loaded")
-            break
-        sleep(1400, 1600)
-
     spamG(10000)
-
-
-def walkLopang():
-    print("walking lopang")
-    spamG(1000)
-    walkWithAlt(315, 473, 1500)
-    walkWithAlt(407, 679, 1300)
-    walkWithAlt(584, 258, 1000)
-    walkWithAlt(1043, 240, 1200)
-    walkWithAlt(1339, 246, 1300)
-    walkWithAlt(1223, 406, 800)
-    walkWithAlt(1223, 406, 800)
-    walkWithAlt(1263, 404, 800)
-    spamG(1000)
-    walkWithAlt(496, 750, 800)
-    walkWithAlt(496, 750, 800)
-    walkWithAlt(496, 750, 800)
-    walkWithAlt(653, 737, 800)
-    walkWithAlt(653, 737, 800)
-    walkWithAlt(674, 264, 800)
-    walkWithAlt(573, 301, 1200)
-    walkWithAlt(820, 240, 800)
-    spamG(1000)
-
-
-def checkBlueCrystal():
-    blueCrystal = pyautogui.locateCenterOnScreen(
-        "./screenshots/blueCrystal.png",
-        confidence=0.75,
-        region=config["regions"]["center"],
-    )
-
-    if blueCrystal != None:
-        return True
-    else:
-        return False
 
 
 def bifrostGoTo(option):
@@ -2321,10 +2177,15 @@ def bifrostGoTo(option):
     pyautogui.moveTo(x=bifrostXY[option][0], y=bifrostXY[option][1])
     sleep(500, 600)
     pyautogui.click(button="left")
-    sleep(500, 600)
+    sleep(1500, 1600)
 
+    # potentially unnecessary check
     if checkBlueCrystal():
-        return
+        pyautogui.press("esc")
+        sleep(1500, 1600)
+        pyautogui.press("esc")
+        sleep(1500, 1600)
+        return False
     else:
         # ok
         pyautogui.moveTo(x=918, y=617)
@@ -2351,7 +2212,7 @@ def bifrostGoTo(option):
             print("city loaded")
             break
         sleep(1400, 1600)
-    sleep(2000, 3000)
+    sleep(500, 600)
 
     if gameCrashCheck():
         states["status"] = "restart"
@@ -2359,6 +2220,50 @@ def bifrostGoTo(option):
     if offlineCheck():
         closeGameByClickingDialogue()
         return
+    sleep(4000, 5000)
+
+
+def walkLopang():
+    print("walking lopang")
+    spamG(1000)
+    walkWithAlt(315, 473, 1500)
+    walkWithAlt(407, 679, 1300)
+    walkWithAlt(584, 258, 1000)
+    walkWithAlt(1043, 240, 1200)
+    walkWithAlt(1339, 246, 1300)
+    walkWithAlt(1223, 406, 800)
+    walkWithAlt(1223, 406, 800)
+    walkWithAlt(1263, 404, 800)
+    spamG(1000)
+    walkWithAlt(496, 750, 800)
+    walkWithAlt(496, 750, 800)
+    walkWithAlt(496, 750, 800)
+    walkWithAlt(653, 737, 800)
+    walkWithAlt(653, 737, 800)
+    walkWithAlt(674, 264, 800)
+    walkWithAlt(573, 301, 1200)
+    walkWithAlt(820, 240, 800)
+    spamG(1000)
+    sleep(1000, 2000)
+
+
+def checkBlueCrystal():
+    # blueCrystal = pyautogui.locateCenterOnScreen(
+    #     "./screenshots/blueCrystal.png",
+    #     confidence=0.75,
+    #     region=config["regions"]["center"],
+    # )
+
+    silver1k = pyautogui.locateCenterOnScreen(
+        "./screenshots/silver1k.png",
+        confidence=0.75,
+        region=config["regions"]["center"],
+    )
+
+    if silver1k != None:
+        return False
+    else:
+        return True
 
 
 def acceptLopangDaily():
@@ -2380,6 +2285,17 @@ def acceptLopangDaily():
     pyautogui.click(button="left")
     sleep(500, 600)
 
+    sleep(1500, 1600)
+    dailyCompleted = pyautogui.locateCenterOnScreen(
+        "./screenshots/dailyCompleted.png",
+        confidence=0.75,
+    )
+
+    if dailyCompleted != None:
+        pyautogui.press("esc")
+        sleep(1500, 1600)
+        return False
+
     pyautogui.moveTo(x=1206, y=398)
     sleep(500, 600)
     pyautogui.click(button="left")
@@ -2393,8 +2309,8 @@ def acceptLopangDaily():
     pyautogui.moveTo(x=1206, y=512)
     sleep(500, 600)
     pyautogui.click(button="left")
-    sleep(500, 600)
 
+    sleep(1500, 1600)
     pyautogui.press("esc")
     sleep(1500, 1600)
 
