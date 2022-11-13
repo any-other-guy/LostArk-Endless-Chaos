@@ -2029,6 +2029,7 @@ def restartGame():
             break
         sleep(2200, 3300)
     states["gameRestartCount"] = states["gameRestartCount"] + 1
+    states["currentCharacter"] = config["mainCharacter"]
     sleep(12200, 13300)
 
 
