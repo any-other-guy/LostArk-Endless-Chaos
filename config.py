@@ -1,4 +1,7 @@
-# Must be set up correctly in order for the bot to work properly on your machine
+"""
+    Must be set up correctly in order for the bot to work properly on your machine.
+    Refer to the inline comments below:
+"""
 config = {
     "mainCharacter": 0,  # must be in number 0 to 5 (0 is the first character)
     "enableLopang": False,  # NOTE: you need to setup bifrost locations properly for this, at very specific locations
