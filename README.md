@@ -52,9 +52,9 @@ minimap zoom-in (at top right corner): 65%\
 \
 Please change game settings to EXACTLY these ^^ numbers
 
-### 2. Configure character ability settings in /config.py
+### 2. Configure character ability settings in ./config.py and ./abilities.py
 IMPORTANT: \
-please carefully setup paramters in /config.py\
+please carefully setup paramters in ./config.py and ./abilities.py
 refering to the comments for now.\
 lots of things can be customized for your best experience.
 
