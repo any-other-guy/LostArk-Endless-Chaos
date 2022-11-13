@@ -29,7 +29,9 @@ Utilities:
 ## Getting started (Please read)
 
 ### 0. Prerequisites:
-Install pip (if you dont have) from your terminal:
+- Install/Open a Command Line/Terminal app in your operating system.
+- Install Python3 (if you dont have)
+- Install pip (if you dont have) from your terminal:
 ```
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 python3 get-pip.py
