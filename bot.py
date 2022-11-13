@@ -97,11 +97,15 @@ def main():
             if states["multiCharacterMode"]:
                 if sum(states["multiCharacterModeState"]) == 0:
                     # guild dono
-                    sleep(1400, 1600)
-                    guildDonation()
-                    sleep(1400, 1600)
+                    if config["doGuildDonation"]:
+                        sleep(1400, 1600)
+                        doGuildDonation()
+                        sleep(1400, 1600)
                     # lopang
-                    if config["characters"][states["currentCharacter"]]["lopang"]:
+                    if (
+                        config["doLopang"]
+                        and config["characters"][states["currentCharacter"]]["lopang"]
+                    ):
                         # do lopang
                         print("doing lopang on : {}".format(states["currentCharacter"]))
                         doLopang()
@@ -124,11 +128,16 @@ def main():
                     continue
                 elif states["multiCharacterModeState"][states["currentCharacter"]] <= 0:
                     # guild dono
-                    sleep(1400, 1600)
-                    guildDonation()
+                    if config["doGuildDonation"]:
+                        sleep(1400, 1600)
+                        doGuildDonation()
+                        sleep(1400, 1600)
                     # lopang
                     sleep(1400, 1600)
-                    if config["characters"][states["currentCharacter"]]["lopang"]:
+                    if (
+                        config["doLopang"]
+                        and config["characters"][states["currentCharacter"]]["lopang"]
+                    ):
                         # do lopang
                         print("doing lopang on : {}".format(states["currentCharacter"]))
                         doLopang()
@@ -2067,7 +2076,7 @@ def switchToCharacter(index):
     sleep(10000, 12000)
 
 
-def guildDonation():
+def doGuildDonation():
     pyautogui.keyDown("alt")
     sleep(100, 200)
     pyautogui.press("u")

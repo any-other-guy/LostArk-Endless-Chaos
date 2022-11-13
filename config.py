@@ -1,7 +1,9 @@
 config = {
     "mainCharacter": 0,
-    "mainCharacterGameLaunchX": 500,
+    "mainCharacterGameLaunchX": 500,  # for now: very first character in the character selection menu during game launching
     "mainCharacterGameLaunchY": 827,
+    "doLopang": False,
+    "doGuildDonation": False,
     "characters": [
         {
             "index": 0,
