@@ -30,7 +30,6 @@ newStates = {
     "maxTime": -1,
     "floor3Mode": False,
     "multiCharacterMode": False,
-    "mainCharacter": config["mainCharacter"],
     "currentCharacter": config["mainCharacter"],
     "multiCharacterModeState": [],
 }
@@ -97,13 +96,13 @@ def main():
             if states["multiCharacterMode"]:
                 if sum(states["multiCharacterModeState"]) == 0:
                     # guild dono
-                    if config["doGuildDonation"]:
+                    if config["enableGuildDonation"]:
                         sleep(1400, 1600)
                         doGuildDonation()
                         sleep(1400, 1600)
                     # lopang
                     if (
-                        config["doLopang"]
+                        config["enableLopang"]
                         and config["characters"][states["currentCharacter"]]["lopang"]
                     ):
                         # do lopang
@@ -124,18 +123,18 @@ def main():
                     )
                     states["multiCharacterMode"] = False
                     states["multiCharacterModeState"] = []
-                    switchToCharacter(states["mainCharacter"])
+                    switchToCharacter(config["mainCharacter"])
                     continue
                 elif states["multiCharacterModeState"][states["currentCharacter"]] <= 0:
                     # guild dono
-                    if config["doGuildDonation"]:
+                    if config["enableGuildDonation"]:
                         sleep(1400, 1600)
                         doGuildDonation()
                         sleep(1400, 1600)
                     # lopang
                     sleep(1400, 1600)
                     if (
-                        config["doLopang"]
+                        config["enableLopang"]
                         and config["characters"][states["currentCharacter"]]["lopang"]
                     ):
                         # do lopang
@@ -320,7 +319,7 @@ def enterChaos():
             if aor != None and config["performance"] == False:
                 states["floor3Mode"] = True
                 if (
-                    states["currentCharacter"] == states["mainCharacter"]
+                    states["currentCharacter"] == config["mainCharacter"]
                     and states["multiCharacterMode"] == False
                 ):
                     states["multiCharacterMode"] = True
@@ -612,7 +611,7 @@ def doFloor3Portal():
     if bossBar != None:
         print("purple boss bar located")
         states["purplePortalCount"] = states["purplePortalCount"] + 1
-        pyautogui.press("V")
+        pyautogui.press(config["awakening"])
         useAbilities()
 
         if offlineCheck():
@@ -1340,7 +1339,7 @@ def fightFloor2Boss():
         print("boss bar located")
         # pyautogui.moveTo(x=states["moveToX"], y=states["moveToY"])
         # sleep(80, 100)
-        pyautogui.press("V")
+        pyautogui.press(config["awakening"])
 
 
 def calculateMinimapRelative(x, y):
@@ -1751,7 +1750,7 @@ def doRepair():
 
 
 def healthCheck():
-    if config["usePotion"] == False:
+    if config["useHealthPot"] == False:
         return
     x = int(
         config["healthCheckX"]
@@ -1760,7 +1759,7 @@ def healthCheck():
     y = config["healthCheckY"]
     r, g, b = pyautogui.pixel(x, y)
     # print(x, r, g, b)
-    if r < 70 and config["useHealthPot"]:
+    if r < 70:
         leaveButton = pyautogui.locateCenterOnScreen(
             "./screenshots/leave.png",
             grayscale=True,
@@ -2011,8 +2010,8 @@ def restartGame():
             sleep(4000, 5000)
             print("clicking mainCharacter")
             pyautogui.moveTo(
-                x=config["mainCharacterGameLaunchX"],
-                y=config["mainCharacterGameLaunchY"],
+                x=config["charPositionsAtCharSelect"][config["mainCharacter"]][0],
+                y=config["charPositionsAtCharSelect"][config["mainCharacter"]][1],
             )
             sleep(500, 600)
             pyautogui.click(x=x, y=y, button="left")

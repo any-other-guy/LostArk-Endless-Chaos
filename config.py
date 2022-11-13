@@ -1,9 +1,14 @@
+# Must be set up correctly in order for the bot to work properly on your machine
 config = {
-    "mainCharacter": 0,
-    "mainCharacterGameLaunchX": 500,  # for now: very first character in the character selection menu during game launching
-    "mainCharacterGameLaunchY": 827,
-    "doLopang": False,
-    "doGuildDonation": False,
+    "mainCharacter": 0,  # must be in number 0 to 5 (0 is the first character)
+    "enableLopang": False,  # NOTE: you need to setup bifrost locations properly for this, at very specific locations
+    "enableGuildDonation": False,  # please make sure all your characters have a guild
+    # Setup your characters below:
+    # can setup UP TO 9 characters for daily chaos/lopang/guild stuff
+    # however your main must be in character 0 to 5 (just for re-connect back after disconnection happens)
+    # ilvl-endless is the dungeon which you want to run infinitely
+    # ilvl-aor is the daily aura of resonance dungeon you only want to run TWICE per day
+    # IMPORTANT: dungeon ilvl choices are only limited to 1475, 1445, 1370, 1110 for now. I will add more later when brel comes out
     "characters": [
         {
             "index": 0,
@@ -48,23 +53,23 @@ config = {
             "lopang": True,
         },
     ],
-    "floor3Mode": False,
-    "selectLevel": True,  ## to be deprecated soon
-    "performance": False,  ## to be deprecated soon, has multiple usage now
-    "interact": "g",
-    "move": "left",
+    "floor3Mode": False,  # only enable if you ONLY want to run infinite floor3 clearing
+    "selectLevel": True,  # TODO: to be deprecated soon, DO NOT TOUCH
+    "performance": False,  # TODO: to be deprecated soon, has multiple usage now, DO NOT TOUCH
+    "interact": "g",  # change this if you have binded it to something else eg.mouse button
+    "move": "left",  # or "right"
     "blink": "space",
     "meleeAttack": "c",
     "awakening": "v",
-    "healthPot": "f1",
-    "healthPotAtPercent": 0.3,
-    "useAwakening": True,
-    "useSpeciality1": True,
-    "useSpeciality2": True,
-    "autoRepair": True,
-    "shortcutEnterChaos": True,
-    "useHealthPot": True,
-    "usePotion": True,
+    "healthPot": "f1",  # important to put your regen potion on this button
+    "healthPotAtPercent": 0.3,  # health threshold to trigger potion
+    # "useAwakening": True, # not checking this for now
+    # "useSpeciality1": True, # not checking this for now
+    # "useSpeciality2": True, # not checking this for now
+    "autoRepair": True,  # you want to use True
+    "shortcutEnterChaos": True,  # you want to use True
+    "useHealthPot": True,  # you want to use True
+    # You might not want to touch anything below, because I assume you have your game setup same as mine :) otherwise something might not work properly!
     "regions": {
         "minimap": (1655, 170, 260, 200),  # (1700, 200, 125, 120)
         "abilities": (625, 779, 300, 155),
@@ -80,13 +85,21 @@ config = {
     "screenCenterY": 540,
     "minimapCenterX": 1772,
     "minimapCenterY": 272,
-    "timeLimit": 420000,
-    "blackScreenTimeLimit": 30000,
+    "timeLimit": 420000,  # to prevent unexpected amount of time spent in a chaos dungeon, a tiem limit is set here, will quit after this amount of seconds
+    "blackScreenTimeLimit": 30000,  # if stuck in nothing for this amount of time, alt f4 game, restart and resume.
     "delayedStart": 3300,
     "healthCheckX": 690,
     "healthCheckY": 854,
     "charSwitchX": 540,
     "charSwitchY": 683,
+    "charPositionsAtCharSelect": [
+        [500, 827],
+        [681, 827],
+        [874, 827],
+        [1050, 827],
+        [1237, 827],
+        [1425, 827],
+    ],
     "charPositions": [
         [760, 440],
         [960, 440],
