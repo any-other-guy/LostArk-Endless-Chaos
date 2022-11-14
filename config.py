@@ -1,5 +1,18 @@
 """
-    Must be set up correctly in order for the bot to work properly on your machine.
+    IMPORTANT #1:
+    Please change game settings to EXACTLY these numbers:
+    desktop resolution: 1920x1080
+    In-game Video settings:
+
+    Resolution: 1920x1080
+    Screen: Borderless
+    Force 21:9 Aspect Ratio checked
+    In-game Gameplay -> Controls and Display -> HUD size: 110%
+    minimap transparency (at top right corner): 100%
+    minimap zoom-in (at top right corner): 65%
+
+    IMPORTANT #2: 
+    config must be set up correctly in order for the bot to work properly on your machine.
     Refer to the inline comments below:
 """
 config = {
@@ -51,8 +64,8 @@ config = {
         {
             "index": 5,
             "class": "deathblade",
-            "ilvl-endless": 1370,
-            "ilvl-aor": 1370,
+            "ilvl-endless": 1100,
+            "ilvl-aor": 1100,
             "lopang": True,
         },
     ],
