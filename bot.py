@@ -256,6 +256,7 @@ def main():
             sleep(10000, 12200)
             states["multiCharacterMode"] = False  # for now
             states["multiCharacterModeState"] = []  # for now
+            states["currentCharacter"] = config["mainCharacter"]
             restartGame()
             while True:
                 im = pyautogui.screenshot(region=(1652, 168, 240, 210))
@@ -458,14 +459,22 @@ def enterChaos():
                 print("entering chaos...")
                 pyautogui.press(config["interact"])
                 break
-            sleep(100, 200)
-    sleep(100, 200)
+            sleep(200, 300)
+    sleep(500, 600)
     while True:
         if gameCrashCheck():
             return
         # if offlineCheck():
         #     closeGameByClickingDialogue()
         #     return
+        dc = pyautogui.locateOnScreen(
+            "./screenshots/dc.png",
+            region=config["regions"]["center"],
+        )
+        if dc != None:
+            closeGameByClickingDialogue()
+            return
+
         acceptButton = pyautogui.locateCenterOnScreen(
             "./screenshots/acceptButton.png",
             confidence=0.75,
@@ -481,7 +490,7 @@ def enterChaos():
             sleep(100, 200)
             pyautogui.click(x=x, y=y, button="left")
             break
-        sleep(100, 200)
+        sleep(500, 600)
     states["status"] = "floor1"
     return
 
@@ -2029,7 +2038,6 @@ def restartGame():
             break
         sleep(2200, 3300)
     states["gameRestartCount"] = states["gameRestartCount"] + 1
-    states["currentCharacter"] = config["mainCharacter"]
     sleep(12200, 13300)
 
 
