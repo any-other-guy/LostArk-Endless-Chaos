@@ -341,7 +341,7 @@ def enterChaos():
             if states["multiCharacterMode"] or aor != None:
                 if _curr["ilvl-aor"] == 1445:
                     # south vern
-                    pyautogui.moveTo(1408, 307)
+                    pyautogui.moveTo(1266, 307)
                     sleep(200, 300)
                     pyautogui.click(button="left")
                     sleep(200, 300)
@@ -352,7 +352,7 @@ def enterChaos():
                     sleep(200, 300)
                 elif _curr["ilvl-aor"] == 1475:
                     # south vern
-                    pyautogui.moveTo(1408, 307)
+                    pyautogui.moveTo(1266, 307)
                     sleep(200, 300)
                     pyautogui.click(button="left")
                     sleep(200, 300)
@@ -363,7 +363,7 @@ def enterChaos():
                     sleep(200, 300)
                 elif _curr["ilvl-aor"] == 1370:
                     # punica
-                    pyautogui.moveTo(1224, 307)
+                    pyautogui.moveTo(1112, 307)
                     sleep(200, 300)
                     pyautogui.click(button="left")
                     sleep(200, 300)
@@ -374,7 +374,7 @@ def enterChaos():
                     sleep(200, 300)
                 elif _curr["ilvl-aor"] == 1100:
                     # punica
-                    pyautogui.moveTo(1224, 307)
+                    pyautogui.moveTo(1112, 307)
                     sleep(200, 300)
                     pyautogui.click(button="left")
                     sleep(200, 300)
@@ -386,7 +386,7 @@ def enterChaos():
             else:
                 if _curr["ilvl-endless"] == 1445:
                     # south vern
-                    pyautogui.moveTo(1408, 307)
+                    pyautogui.moveTo(1266, 307)
                     sleep(200, 300)
                     pyautogui.click(button="left")
                     sleep(200, 300)
@@ -397,7 +397,7 @@ def enterChaos():
                     sleep(200, 300)
                 elif _curr["ilvl-endless"] == 1475:
                     # south vern
-                    pyautogui.moveTo(1408, 307)
+                    pyautogui.moveTo(1266, 307)
                     sleep(200, 300)
                     pyautogui.click(button="left")
                     sleep(200, 300)
@@ -408,7 +408,7 @@ def enterChaos():
                     sleep(200, 300)
                 elif _curr["ilvl-endless"] == 1370:
                     # punica
-                    pyautogui.moveTo(1224, 307)
+                    pyautogui.moveTo(1112, 307)
                     sleep(200, 300)
                     pyautogui.click(button="left")
                     sleep(200, 300)
@@ -419,7 +419,7 @@ def enterChaos():
                     sleep(200, 300)
                 elif _curr["ilvl-endless"] == 1100:
                     # punica
-                    pyautogui.moveTo(1224, 307)
+                    pyautogui.moveTo(1112, 307)
                     sleep(200, 300)
                     pyautogui.click(button="left")
                     sleep(200, 300)
@@ -1744,13 +1744,13 @@ def doRepair():
         sleep(800, 900)
         pyautogui.keyUp("alt")
         sleep(800, 900)
-        pyautogui.moveTo(1127, 660)
+        pyautogui.moveTo(1142, 661)
         sleep(600, 700)
-        pyautogui.click(1127, 660, button="left")
+        pyautogui.click(1142, 661, button="left")
         sleep(600, 700)
-        pyautogui.moveTo(1068, 644)
+        pyautogui.moveTo(1054, 455)
         sleep(600, 700)
-        pyautogui.click(1068, 644, button="left")
+        pyautogui.click(1054, 455, button="left")
         sleep(600, 700)
         pyautogui.press("esc")
         sleep(800, 900)
