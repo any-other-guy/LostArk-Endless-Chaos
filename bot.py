@@ -2016,6 +2016,18 @@ def restartGame():
             "./screenshots/enterCharacter.png", confidence=0.75
         )
         if enterCharacter != None:
+            # 点第一页
+            sleep(4000, 5000)
+            pyautogui.moveTo(x=138, y=895)
+            sleep(500, 600)
+            pyautogui.click(button="left")
+            sleep(500, 600)
+            pyautogui.click(button="left")
+            sleep(500, 600)
+            pyautogui.click(button="left")
+            sleep(500, 600)
+
+            # 点第一个角色
             sleep(4000, 5000)
             print("clicking mainCharacter")
             pyautogui.moveTo(
@@ -2023,11 +2035,11 @@ def restartGame():
                 y=config["charPositionsAtCharSelect"][config["mainCharacter"]][1],
             )
             sleep(500, 600)
-            pyautogui.click(x=x, y=y, button="left")
+            pyautogui.click(button="left")
             sleep(500, 600)
-            pyautogui.click(x=x, y=y, button="left")
+            pyautogui.click(button="left")
             sleep(500, 600)
-            pyautogui.click(x=x, y=y, button="left")
+            pyautogui.click(button="left")
             sleep(500, 600)
 
             print("clicking enterCharacter")
