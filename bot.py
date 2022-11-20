@@ -95,6 +95,10 @@ def main():
             # switch character
             if states["multiCharacterMode"]:
                 if sum(states["multiCharacterModeState"]) == 0:
+                    # repair
+                    if config["autoRepair"]:
+                        doRepair(True)
+                    sleep(1400, 1600)
                     # guild dono
                     if (
                         config["enableGuildDonation"]
@@ -131,6 +135,10 @@ def main():
                     switchToCharacter(config["mainCharacter"])
                     continue
                 elif states["multiCharacterModeState"][states["currentCharacter"]] <= 0:
+                    # repair
+                    if config["autoRepair"]:
+                        doRepair(True)
+                    sleep(1400, 1600)
                     # guild dono
                     if (
                         config["enableGuildDonation"]
@@ -510,7 +518,7 @@ def doFloor1():
     sleep(500, 550)
     # check repair
     if config["autoRepair"]:
-        doRepair()
+        doRepair(False)
     # trigger start floor 1
     pyautogui.moveTo(x=845, y=600)
     sleep(450, 500)
@@ -573,7 +581,7 @@ def doFloor2():
     sleep(500, 550)
     # check repair
     if config["autoRepair"]:
-        doRepair()
+        doRepair(False)
     # trigger start floor 2
     pyautogui.mouseDown(x=1150, y=500, button=config["move"])
     sleep(800, 900)
@@ -705,7 +713,7 @@ def doFloor3():
     sleep(500, 550)
     # check repair
     if config["autoRepair"]:
-        doRepair()
+        doRepair(False)
     # trigger start real floor 3
     useAbilities()
 
@@ -1740,9 +1748,9 @@ def diedCheck():  # get information about wait a few second to revive
     return
 
 
-def doRepair():
+def doRepair(forced):
     # Check if repair needed
-    if pyautogui.locateOnScreen(
+    if forced or pyautogui.locateOnScreen(
         "./screenshots/repair.png",
         grayscale=True,
         confidence=0.4,
