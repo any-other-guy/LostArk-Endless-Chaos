@@ -96,7 +96,12 @@ def main():
             if states["multiCharacterMode"]:
                 if sum(states["multiCharacterModeState"]) == 0:
                     # guild dono
-                    if config["enableGuildDonation"]:
+                    if (
+                        config["enableGuildDonation"]
+                        and config["characters"][states["currentCharacter"]][
+                            "guildDonation"
+                        ]
+                    ):
                         sleep(1400, 1600)
                         doGuildDonation()
                         sleep(1400, 1600)
@@ -127,7 +132,12 @@ def main():
                     continue
                 elif states["multiCharacterModeState"][states["currentCharacter"]] <= 0:
                     # guild dono
-                    if config["enableGuildDonation"]:
+                    if (
+                        config["enableGuildDonation"]
+                        and config["characters"][states["currentCharacter"]][
+                            "guildDonation"
+                        ]
+                    ):
                         sleep(1400, 1600)
                         doGuildDonation()
                         sleep(1400, 1600)
