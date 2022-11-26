@@ -42,8 +42,8 @@ def main():
     states["botStartTime"] = int(time.time_ns() / 1000000)
 
     # forceing no floor3 full clear with performance mode
-    # if config["performance"] == True:
-    #     states["floor3Mode"] = False
+    if config["performance"] == True:
+        states["floor3Mode"] = False
 
     # Instantiate the parser
     parser = argparse.ArgumentParser(description="Optional app description")
@@ -331,7 +331,8 @@ def enterChaos():
             pyautogui.press("q")
             sleep(100, 200)
             pyautogui.keyUp("alt")
-            sleep(700, 800)
+            sleep(1000, 1200)
+
             aor = pyautogui.locateCenterOnScreen(
                 "./screenshots/aor.png", confidence=0.8
             )
@@ -352,7 +353,7 @@ def enterChaos():
             pyautogui.moveTo(886, 346)
             sleep(200, 300)
             pyautogui.click(button="left")
-            sleep(300, 400)
+            sleep(1000, 1200)
 
             # select chaos dungeon level based on states
             _curr = config["characters"][states["currentCharacter"]]
