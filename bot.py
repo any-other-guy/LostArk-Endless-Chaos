@@ -1688,9 +1688,8 @@ def waitForLoading():
 
 
 def saveAbilitiesScreenshots():
-    # deprecated with multi-char mode
-    # if len(states["abilityScreenshots"]) > 4:
-    #     return
+    if config["performance"] == True and len(states["abilityScreenshots"]) > 4:
+        return
     for ability in abilities[config["characters"][states["currentCharacter"]]["class"]]:
         if ability["abilityType"] == "awakening":
             continue
