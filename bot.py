@@ -1803,7 +1803,10 @@ def healthCheck():
 
 def clearQuest():
     quest = pyautogui.locateCenterOnScreen("./screenshots/quest.png", confidence=0.75)
-    if quest != None:
+    leveledup = pyautogui.locateCenterOnScreen(
+        "./screenshots/leveledup.png", confidence=0.75
+    )
+    if quest != None or leveledup != None:
         x, y = quest
         pyautogui.moveTo(x=x, y=y)
         sleep(800, 900)
