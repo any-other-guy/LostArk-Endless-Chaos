@@ -912,7 +912,8 @@ def useAbilities():
         diedCheck()
         healthCheck()
         # windowCheck()
-        clearQuest()
+        if config["performance"] == False:
+            clearQuest()
         if gameCrashCheck():
             return
         if offlineCheck():
@@ -921,23 +922,21 @@ def useAbilities():
             return
 
         # check elite and mobs
-        if (
-            states["status"] == "floor2"
-            and config["performance"] == True
-            and checkFloor2Boss()
-        ):
-            calculateMinimapRelative(states["moveToX"], states["moveToY"])
-            moveToMinimapRelative(states["moveToX"], states["moveToY"], 950, 1050, True)
-            fightFloor2Boss()
-        elif (
-            states["status"] == "floor2" and not checkFloor2Elite() and checkFloor2Mob()
-        ):
+        if states["status"] == "floor2" and not checkFloor2Elite() and checkFloor2Mob():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
             moveToMinimapRelative(states["moveToX"], states["moveToY"], 400, 500, False)
         elif states["status"] == "floor3" and checkFloor2Elite():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
             moveToMinimapRelative(states["moveToX"], states["moveToY"], 200, 300, False)
             # pyautogui.press(config["awakening"])
+        # elif (
+        #     states["status"] == "floor2"
+        #     and config["performance"] == True
+        #     and checkFloor2Boss()
+        # ):
+        #     calculateMinimapRelative(states["moveToX"], states["moveToY"])
+        #     moveToMinimapRelative(states["moveToX"], states["moveToY"], 950, 1050, True)
+        #     fightFloor2Boss()
 
         # cast sequence
         for i in range(0, len(states["abilityScreenshots"])):
@@ -984,7 +983,7 @@ def useAbilities():
                 calculateMinimapRelative(states["moveToX"], states["moveToY"])
             elif (
                 states["status"] == "floor2"
-                and config["performance"] == False
+                # and config["performance"] == False
                 and checkFloor2Boss()
             ):
                 calculateMinimapRelative(states["moveToX"], states["moveToY"])
