@@ -1805,8 +1805,16 @@ def clearQuest():
     leveledup = pyautogui.locateCenterOnScreen(
         "./screenshots/leveledup.png", confidence=0.75
     )
-    if quest != None or leveledup != None:
+    if quest != None:
         x, y = quest
+        pyautogui.moveTo(x=x, y=y)
+        sleep(800, 900)
+        pyautogui.click()
+        sleep(800, 900)
+        pyautogui.press("esc")
+        sleep(800, 900)
+    elif leveledup != None:
+        x, y = leveledup
         pyautogui.moveTo(x=x, y=y)
         sleep(800, 900)
         pyautogui.click()
