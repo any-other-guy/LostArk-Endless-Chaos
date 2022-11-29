@@ -36,10 +36,8 @@ newStates = {
 
 
 def main():
-    print("Endless Chaos started...")
+    print("Endless Chaos starting in seconds...")
     print("Remember to turn on Auto-disassemble")
-    # save bot start time
-    states["botStartTime"] = int(time.time_ns() / 1000000)
 
     # forceing no floor3 full clear with performance mode
     if config["performance"] == True:
@@ -59,6 +57,18 @@ def main():
                 states["multiCharacterModeState"]
             )
         )
+
+    sleep(3000, 3300)
+    meleeClick = "right"
+    if config["move"] == "right":
+        meleeClick = "left"
+    pyautogui.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
+    sleep(200, 300)
+    pyautogui.click(button=meleeClick)
+    sleep(300, 400)
+
+    # save bot start time
+    states["botStartTime"] = int(time.time_ns() / 1000000)
 
     while True:
         if states["status"] == "inCity":
@@ -296,15 +306,6 @@ def main():
 
 
 def enterChaos():
-    rightClick = "right"
-    if config["move"] == "right":
-        rightClick = "left"
-
-    pyautogui.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
-    sleep(100, 200)
-    pyautogui.click(button=rightClick)
-    sleep(300, 400)
-
     blackScreenStartTime = int(time.time_ns() / 1000000)
     if config["shortcutEnterChaos"] == True:
         while True:
@@ -526,7 +527,7 @@ def doFloor1():
     pyautogui.click(button=config["move"])
 
     # delayed start for better aoe abiltiy usage at floor1 beginning
-    if config["delayedStart"] != None:
+    if config["delayedStart"] != None and config["performance"] == False:
         sleep(config["delayedStart"] - 100, config["delayedStart"] + 100)
 
     if offlineCheck():
