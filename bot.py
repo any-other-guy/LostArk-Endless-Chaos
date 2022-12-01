@@ -102,12 +102,16 @@ def main():
                     break
                 sleep(1400, 1600)
 
+            # for non-aura users: MUST have your character parked near a repairer in city before starting the script
+            if config["auraRepair"] == False:
+                doCityRepair()
+
             # switch character
             if states["multiCharacterMode"]:
                 if sum(states["multiCharacterModeState"]) == 0:
                     # repair
-                    if config["autoRepair"]:
-                        doRepair(True)
+                    if config["auraRepair"]:
+                        doAuraRepair(True)
                     sleep(1400, 1600)
                     # guild dono
                     if (
@@ -146,8 +150,8 @@ def main():
                     continue
                 elif states["multiCharacterModeState"][states["currentCharacter"]] <= 0:
                     # repair
-                    if config["autoRepair"]:
-                        doRepair(True)
+                    if config["auraRepair"]:
+                        doAuraRepair(True)
                     sleep(1400, 1600)
                     # guild dono
                     if (
@@ -519,8 +523,8 @@ def doFloor1():
     clearQuest()
     sleep(500, 550)
     # check repair
-    if config["autoRepair"]:
-        doRepair(False)
+    if config["auraRepair"]:
+        doAuraRepair(False)
     # trigger start floor 1
     pyautogui.moveTo(x=845, y=600)
     sleep(450, 500)
@@ -582,8 +586,8 @@ def doFloor2():
     clearQuest()
     sleep(500, 550)
     # check repair
-    if config["autoRepair"]:
-        doRepair(False)
+    if config["auraRepair"]:
+        doAuraRepair(False)
     # trigger start floor 2
     pyautogui.mouseDown(x=1150, y=500, button=config["move"])
     sleep(800, 900)
@@ -714,8 +718,8 @@ def doFloor3():
     clearQuest()
     sleep(500, 550)
     # check repair
-    if config["autoRepair"]:
-        doRepair(False)
+    if config["auraRepair"]:
+        doAuraRepair(False)
     # trigger start real floor 3
     useAbilities()
 
@@ -1748,7 +1752,7 @@ def diedCheck():  # get information about wait a few second to revive
     return
 
 
-def doRepair(forced):
+def doAuraRepair(forced):
     # Check if repair needed
     if forced or pyautogui.locateOnScreen(
         "./screenshots/repair.png",
@@ -1774,6 +1778,25 @@ def doRepair(forced):
         sleep(800, 900)
         pyautogui.press("esc")
         sleep(800, 900)
+
+
+def doCityRepair():
+    # for non-aura users: MUST have your character parked near a repairer in city before starting the script
+    # Check if repair needed
+    if pyautogui.locateOnScreen(
+        "./screenshots/repair.png",
+        grayscale=True,
+        confidence=0.4,
+        region=(1500, 134, 100, 100),
+    ):
+        pyautogui.press("g")
+        sleep(600, 700)
+        pyautogui.moveTo(1057, 455)
+        sleep(600, 700)
+        pyautogui.click(1057, 455, button="left")
+        sleep(600, 700)
+        pyautogui.press("esc")
+        sleep(1500, 1900)
 
 
 def healthCheck():

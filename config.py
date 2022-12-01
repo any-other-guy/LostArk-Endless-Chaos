@@ -72,7 +72,7 @@ config = {
             "ilvl-endless": 1370,
             "ilvl-aor": 1370,
             "lopang": True,
-            "guildDonation": False,
+            "guildDonation": True,
         },
         {
             "index": 6,
@@ -96,7 +96,7 @@ config = {
     # "useAwakening": True, # not checking this for now
     # "useSpeciality1": True, # not checking this for now
     # "useSpeciality2": True, # not checking this for now
-    "autoRepair": True,  # you want to use True
+    "auraRepair": True,  # True if you have aura, if not then for non-aura users: MUST have your character parked near a repairer in city before starting the script
     "shortcutEnterChaos": True,  # you want to use True
     "useHealthPot": True,  # you want to use True
     # You might not want to touch anything below, because I assume you have your game setup same as mine :) otherwise something might not work properly!
