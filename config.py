@@ -14,10 +14,15 @@
     IMPORTANT #2: 
     config must be set up correctly in order for the bot to work properly on your machine.
     Refer to the inline comments below:
+
+    For Lopang enjoyers:
+    Set your first bifrost point to be at lopang island.
+    Exact location to be right in front of the NPC machine which stands farthest to the entrance.
+    Then set your 2/4/5 (because i dont have no3 unlocked) bifrost location to be right in front of those three lopang quest hand-in NPCs.
 """
 config = {
     "mainCharacter": 0,  # must be in number 0 to 5 (0 is the first character)
-    "enableLopang": True,  # NOTE: you need to setup bifrost locations properly for this, at very specific locations
+    "enableLopang": True,  # NOTE: you need to setup bifrost locations properly for this, at very specific locations. Look up ^
     "enableGuildDonation": True,  # please make sure all your characters have a guild
     # Setup your characters below:
     # can setup UP TO 9 characters for daily chaos/lopang/guild stuff
@@ -85,7 +90,7 @@ config = {
     ],
     "floor3Mode": False,  # only enable if you ONLY want to run infinite floor3 clearing
     "selectLevel": True,  # TODO: to be deprecated soon, DO NOT TOUCH
-    "performance": False,  # TODO: to be deprecated soon, has multiple usage now, DO NOT TOUCH
+    "performance": False,  # set True for lower-end PCs
     "interact": "g",  # change this if you have binded it to something else eg.mouse button
     "move": "left",  # or "right"
     "blink": "space",
