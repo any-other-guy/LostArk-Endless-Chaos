@@ -2121,6 +2121,8 @@ def switchToCharacter(index):
         x=config["charPositions"][index][0], y=config["charPositions"][index][1]
     )
     sleep(500, 600)
+    pyautogui.scroll(5) #fix character switch if you have more then 9 characters
+    sleep(500, 600)
     pyautogui.click(button="left")
     sleep(200, 300)
     pyautogui.click(button="left")
