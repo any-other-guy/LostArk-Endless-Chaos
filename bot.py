@@ -76,12 +76,8 @@ def main():
             states["abilityScreenshots"] = []
 
             sleep(1000, 1200)
-            inChaos = pyautogui.locateCenterOnScreen(
-                "./screenshots/inChaos.png", confidence=0.75
-            )
-            if inChaos != None:
-                print("still in the last chaos run, quitting")
-                quitChaos()
+            if offlineCheck():
+                restartGame()
 
             # wait until loaded
             while True:
@@ -97,6 +93,13 @@ def main():
                     confidence=0.75,
                     region=(1870, 133, 25, 30),
                 )
+                inChaos = pyautogui.locateCenterOnScreen(
+                    "./screenshots/inChaos.png", confidence=0.75
+                )
+                if inChaos != None:
+                    print("still in the last chaos run, quitting")
+                    quitChaos()
+                    sleep(4000, 6000)
                 if inTown != None:
                     print("city loaded")
                     break
@@ -2048,6 +2051,7 @@ def restartGame():
             "./screenshots/steamPlay.png", confidence=0.75
         )
         if enterServer != None:
+            sleep(1000, 1200)
             print("clicking enterServer")
             x, y = enterServer
             pyautogui.moveTo(x=x, y=y)
@@ -2068,6 +2072,7 @@ def restartGame():
             "./screenshots/enterCharacter.png", confidence=0.75
         )
         if enterCharacter != None:
+            sleep(1000, 1200)
             # 点第一页
             sleep(4000, 5000)
             pyautogui.moveTo(x=138, y=895)
@@ -2102,6 +2107,7 @@ def restartGame():
             break
         sleep(2200, 3300)
     states["gameRestartCount"] = states["gameRestartCount"] + 1
+    pyautogui.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
     sleep(12200, 13300)
 
 
@@ -2121,7 +2127,7 @@ def switchToCharacter(index):
         x=config["charPositions"][index][0], y=config["charPositions"][index][1]
     )
     sleep(500, 600)
-    pyautogui.scroll(5) #fix character switch if you have more then 9 characters
+    pyautogui.scroll(5)  # fix character switch if you have more then 9 characters
     sleep(500, 600)
     pyautogui.click(button="left")
     sleep(200, 300)
