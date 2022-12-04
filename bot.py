@@ -998,10 +998,10 @@ def useAbilities():
                 moveToMinimapRelative(
                     states["moveToX"], states["moveToY"], 950, 1050, True
                 )
-                fightFloor2Boss()
+                # fightFloor2Boss()
             elif (
                 states["status"] == "floor2"
-                and (i == 0 or i == 4)
+                and (i == 0 or i == 3 or i == 5)
                 and checkFloor2Elite()
             ):
                 calculateMinimapRelative(states["moveToX"], states["moveToY"])
@@ -1107,6 +1107,12 @@ def checkCDandCast(ability):
         else:
             # 瞬发 ability
             pyautogui.press(ability["key"])
+            if config["performance"] == True:
+                sleep(50, 80)
+                pyautogui.press(ability["key"])
+                sleep(50, 80)
+                pyautogui.press(ability["key"])
+                return
             start_ms = int(time.time_ns() / 1000000)
             now_ms = int(time.time_ns() / 1000000)
             while pyautogui.locateOnScreen(
@@ -1236,7 +1242,6 @@ def checkFloor2Boss():
         "./screenshots/boss.png", confidence=0.65
     )
     if bossLocation != None:
-        bossLocation = tuple(bossLocation)
         left, top = bossLocation
         states["moveToX"] = left
         states["moveToY"] = top
