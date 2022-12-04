@@ -366,7 +366,106 @@ def enterChaos():
             # select chaos dungeon level based on states
             _curr = config["characters"][states["currentCharacter"]]
             if states["multiCharacterMode"] or aor != None:
-                if _curr["ilvl-aor"] == 1445:
+                if _curr["ilvl-aor"] == 1100:
+                    # punica
+                    pyautogui.moveTo(1112, 307)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                    # star 1
+                    pyautogui.moveTo(524, 398)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                elif _curr["ilvl-aor"] == 1310:
+                    # punica
+                    pyautogui.moveTo(1112, 307)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                    # star 2
+                    pyautogui.moveTo(524, 455)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                elif _curr["ilvl-aor"] == 1325:
+                    # punica
+                    pyautogui.moveTo(1112, 307)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                    # moon 1
+                    pyautogui.moveTo(524, 505)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                elif _curr["ilvl-aor"] == 1340:
+                    # punica
+                    pyautogui.moveTo(1112, 307)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                    # moon 2
+                    pyautogui.moveTo(524, 555)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                elif _curr["ilvl-aor"] == 1355:
+                    # punica
+                    pyautogui.moveTo(1112, 307)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                    # moon 2
+                    pyautogui.moveTo(524, 605)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                elif _curr["ilvl-aor"] == 1370:
+                    # punica
+                    pyautogui.moveTo(1112, 307)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                    # sun 1
+                    pyautogui.moveTo(524, 662)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                elif _curr["ilvl-aor"] == 1385:
+                    # punica
+                    pyautogui.moveTo(1112, 307)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                    # sun 2
+                    pyautogui.moveTo(524, 715)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                elif _curr["ilvl-aor"] == 1400:
+                    # punica
+                    pyautogui.moveTo(1112, 307)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                    # sun 3
+                    pyautogui.moveTo(524, 770)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)    
+                elif _curr["ilvl-aor"] == 1415:
+                    # south vern
+                    pyautogui.moveTo(1266, 307)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                    # corruption 1
+                    pyautogui.moveTo(524, 400)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                elif _curr["ilvl-aor"] == 1445:
                     # south vern
                     pyautogui.moveTo(1266, 307)
                     sleep(200, 300)
@@ -388,18 +487,8 @@ def enterChaos():
                     sleep(200, 300)
                     pyautogui.click(button="left")
                     sleep(200, 300)
-                elif _curr["ilvl-aor"] == 1370:
-                    # punica
-                    pyautogui.moveTo(1112, 307)
-                    sleep(200, 300)
-                    pyautogui.click(button="left")
-                    sleep(200, 300)
-                    # corruption 2
-                    pyautogui.moveTo(524, 662)
-                    sleep(200, 300)
-                    pyautogui.click(button="left")
-                    sleep(200, 300)
-                elif _curr["ilvl-aor"] == 1100:
+            else:
+                if _curr["ilvl-endless"] == 1100:
                     # punica
                     pyautogui.moveTo(1112, 307)
                     sleep(200, 300)
@@ -410,8 +499,95 @@ def enterChaos():
                     sleep(200, 300)
                     pyautogui.click(button="left")
                     sleep(200, 300)
-            else:
-                if _curr["ilvl-endless"] == 1445:
+                elif _curr["ilvl-endless"] == 1310:
+                    # punica
+                    pyautogui.moveTo(1112, 307)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                    # star 2
+                    pyautogui.moveTo(524, 455)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                elif _curr["ilvl-endless"] == 1325:
+                    # punica
+                    pyautogui.moveTo(1112, 307)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                    # moon 1
+                    pyautogui.moveTo(524, 505)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                elif _curr["ilvl-endless"] == 1340:
+                    # punica
+                    pyautogui.moveTo(1112, 307)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                    # moon 2
+                    pyautogui.moveTo(524, 555)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                elif _curr["ilvl-endless"] == 1355:
+                    # punica
+                    pyautogui.moveTo(1112, 307)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                    # moon 2
+                    pyautogui.moveTo(524, 605)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                elif _curr["ilvl-endless"] == 1370:
+                    # punica
+                    pyautogui.moveTo(1112, 307)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                    # sun 1
+                    pyautogui.moveTo(524, 662)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                elif _curr["ilvl-endless"] == 1385:
+                    # punica
+                    pyautogui.moveTo(1112, 307)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                    # sun 2
+                    pyautogui.moveTo(524, 715)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                elif _curr["ilvl-endless"] == 1400:
+                    # punica
+                    pyautogui.moveTo(1112, 307)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                    # sun 3
+                    pyautogui.moveTo(524, 770)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)    
+                elif _curr["ilvl-endless"] == 1415:
+                    # south vern
+                    pyautogui.moveTo(1266, 307)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                    # corruption 1
+                    pyautogui.moveTo(524, 400)
+                    sleep(200, 300)
+                    pyautogui.click(button="left")
+                    sleep(200, 300)
+                elif _curr["ilvl-endless"] == 1445:
                     # south vern
                     pyautogui.moveTo(1266, 307)
                     sleep(200, 300)
@@ -430,28 +606,6 @@ def enterChaos():
                     sleep(200, 300)
                     # corruption 3
                     pyautogui.moveTo(524, 504)
-                    sleep(200, 300)
-                    pyautogui.click(button="left")
-                    sleep(200, 300)
-                elif _curr["ilvl-endless"] == 1370:
-                    # punica
-                    pyautogui.moveTo(1112, 307)
-                    sleep(200, 300)
-                    pyautogui.click(button="left")
-                    sleep(200, 300)
-                    # corruption 2
-                    pyautogui.moveTo(524, 662)
-                    sleep(200, 300)
-                    pyautogui.click(button="left")
-                    sleep(200, 300)
-                elif _curr["ilvl-endless"] == 1100:
-                    # punica
-                    pyautogui.moveTo(1112, 307)
-                    sleep(200, 300)
-                    pyautogui.click(button="left")
-                    sleep(200, 300)
-                    # star 1
-                    pyautogui.moveTo(524, 398)
                     sleep(200, 300)
                     pyautogui.click(button="left")
                     sleep(200, 300)
