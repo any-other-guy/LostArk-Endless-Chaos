@@ -126,6 +126,16 @@ def main():
                         sleep(1400, 1600)
                         doGuildDonation()
                         sleep(1400, 1600)
+                    #rapport
+                    if (
+                        config["enableRapport"]
+                        and config["characters"][states["currentCharacter"]]["rapport"]
+                    ):
+                        sleep(500, 1000)
+                        print("Doing Rapport")
+                        doRapport()
+                        sleep(1400, 1600)
+
                     # lopang
                     if (
                         config["enableLopang"]
@@ -166,6 +176,16 @@ def main():
                         sleep(1400, 1600)
                         doGuildDonation()
                         sleep(1400, 1600)
+                    #rapport
+                    if (
+                        config["enableRapport"]
+                        and config["characters"][states["currentCharacter"]]["rapport"]
+                    ):
+                        sleep(500, 1000)
+                        print("Doing Rapport")
+                        doRapport()
+                        sleep(1400, 1600)
+                      
                     # lopang
                     sleep(1400, 1600)
                     if (
@@ -2232,6 +2252,83 @@ def doGuildDonation():
     pyautogui.press("esc")
     sleep(800, 900)
 
+def doRapport():
+    sleep(1000, 2000)
+    print("doing Rapport")
+    if gameCrashCheck():
+        states["status"] = "restart"
+        return
+    if offlineCheck():
+        closeGameByClickingDialogue()
+        return
+    sleep(3500, 4600)
+    #dorapport
+    bifrostAvailable = bifrostGoTo(2)
+    if bifrostAvailable == False:
+        return
+    songandemoterapport()
+
+def songandemoterapport():
+
+    print("song and emote for rapport")
+    pyautogui.keyDown("alt")
+    sleep(800, 900)
+    pyautogui.press("w")
+    sleep(800, 900)
+    pyautogui.keyUp("alt")
+    sleep(800, 900)
+    spamG(1000)
+    sleep(2000, 3000)
+    pyautogui.moveTo(105, 870)
+    sleep(200, 300)
+    pyautogui.click(button="left")
+    sleep(200, 300)
+    pyautogui.moveTo(1630, 403)
+    sleep(300, 600)
+    pyautogui.click(button="left")
+    sleep(300, 600)
+    pyautogui.moveTo(1676, 551)
+    sleep(300, 400)
+    pyautogui.click(button="left")
+    sleep(30000, 31000) #1songduration
+    pyautogui.moveTo(105, 870)
+    sleep(300, 600)
+    pyautogui.click(button="left")
+    sleep(300, 600)
+    pyautogui.moveTo(1676, 452)
+    sleep(300, 600)
+    pyautogui.click(button="left")
+    sleep(300, 600)
+    pyautogui.moveTo(1676, 551)
+    sleep(300, 400)
+    pyautogui.click(button="left")
+    sleep(30000, 31000) #2songduration
+    pyautogui.moveTo(118, 904)
+    sleep(300, 400)
+    pyautogui.click(button="left")
+    sleep(300, 400)
+    pyautogui.moveTo(155, 454)
+    sleep(300, 400)
+    pyautogui.click(button="left")
+    sleep(300, 400)
+    pyautogui.moveTo(203, 595)
+    sleep(300, 400)
+    pyautogui.click(button="left")
+    sleep(17000, 20000) #1emoteduration
+    pyautogui.moveTo(118, 904)
+    sleep(300, 400)
+    pyautogui.click(button="left")
+    pyautogui.moveTo(311, 454)
+    sleep(300, 400)
+    pyautogui.click(button="left")
+    sleep(300, 400)
+    pyautogui.moveTo(203, 595)
+    sleep(300, 400)
+    pyautogui.click(button="left")
+    sleep(17000, 20000) #2emoteduration
+    pyautogui.moveTo(1832, 900)
+    sleep(300, 400)
+    pyautogui.click(button="left")
 
 def doLopang():
     sleep(1000, 2000)
