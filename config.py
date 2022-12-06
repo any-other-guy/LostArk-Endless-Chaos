@@ -111,6 +111,7 @@ config = {
         "leaveMenu": (0, 154, 250, 300),
         "buffs": (625, 779, 300, 60),
         "center": (782, 353, 400, 350),
+        "portal": (228, 230, 1370, 570),
     },
     "screenResolutionX": 1920,
     "screenResolutionY": 1080,
