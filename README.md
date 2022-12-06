@@ -19,6 +19,7 @@ Basic Features:
 - [x] Auto game client restart on game crash/disconnect
 - [x] Daily Lopang (extra setup required)
 - [x] Daily Guild Donation
+- [x] Daily Rapport Tasks
 
 Utilities:
 - [x] Auto repair
