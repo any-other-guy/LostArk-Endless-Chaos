@@ -39,13 +39,10 @@ def main():
     print("Endless Chaos starting in seconds...")
     print("Remember to turn on Auto-disassemble")
 
-    # forceing no floor3 full clear with performance mode
-    if config["performance"] == True:
-        states["floor3Mode"] = False
-
     # Instantiate the parser
     parser = argparse.ArgumentParser(description="Optional app description")
     parser.add_argument("--lunshua", action="store_true", help="A boolean switch")
+    parser.add_argument("--buy", action="store_true", help="A boolean switch")
     args = parser.parse_args()
 
     if args.lunshua:
@@ -58,6 +55,9 @@ def main():
             )
         )
 
+    if args.buy:
+        buyAuctionFirstFav()
+
     sleep(3000, 3300)
     meleeClick = "right"
     if config["move"] == "right":
@@ -66,6 +66,10 @@ def main():
     sleep(200, 300)
     pyautogui.click(button=meleeClick)
     sleep(300, 400)
+
+    # forceing no floor3 full clear with performance mode
+    if config["performance"] == True:
+        states["floor3Mode"] = False
 
     # save bot start time
     states["botStartTime"] = int(time.time_ns() / 1000000)
@@ -126,7 +130,7 @@ def main():
                         sleep(1400, 1600)
                         doGuildDonation()
                         sleep(1400, 1600)
-                    #rapport
+                    # rapport
                     if (
                         config["enableRapport"]
                         and config["characters"][states["currentCharacter"]]["rapport"]
@@ -176,7 +180,7 @@ def main():
                         sleep(1400, 1600)
                         doGuildDonation()
                         sleep(1400, 1600)
-                    #rapport
+                    # rapport
                     if (
                         config["enableRapport"]
                         and config["characters"][states["currentCharacter"]]["rapport"]
@@ -185,7 +189,7 @@ def main():
                         print("Doing Rapport")
                         doRapport()
                         sleep(1400, 1600)
-                      
+
                     # lopang
                     sleep(1400, 1600)
                     if (
@@ -473,7 +477,7 @@ def enterChaos():
                     pyautogui.moveTo(524, 770)
                     sleep(200, 300)
                     pyautogui.click(button="left")
-                    sleep(200, 300)    
+                    sleep(200, 300)
                 elif _curr["ilvl-aor"] == 1415:
                     # south vern
                     pyautogui.moveTo(1266, 307)
@@ -595,7 +599,7 @@ def enterChaos():
                     pyautogui.moveTo(524, 770)
                     sleep(200, 300)
                     pyautogui.click(button="left")
-                    sleep(200, 300)    
+                    sleep(200, 300)
                 elif _curr["ilvl-endless"] == 1415:
                     # south vern
                     pyautogui.moveTo(1266, 307)
@@ -1116,7 +1120,7 @@ def useAbilities():
         elif states["status"] == "floor3" and checkFloor2Elite():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
             moveToMinimapRelative(states["moveToX"], states["moveToY"], 200, 300, False)
-            # pyautogui.press(config["awakening"])
+            pyautogui.press(config["awakening"])
         # elif (
         #     states["status"] == "floor2"
         #     and config["performance"] == True
@@ -2480,6 +2484,7 @@ def doGuildDonation():
     pyautogui.press("esc")
     sleep(800, 900)
 
+
 def doRapport():
     sleep(1000, 2000)
     print("doing Rapport")
@@ -2490,11 +2495,12 @@ def doRapport():
         closeGameByClickingDialogue()
         return
     sleep(3500, 4600)
-    #dorapport
+    # dorapport
     bifrostAvailable = bifrostGoTo(2)
     if bifrostAvailable == False:
         return
     songandemoterapport()
+
 
 def songandemoterapport():
 
@@ -2518,7 +2524,7 @@ def songandemoterapport():
     pyautogui.moveTo(1676, 551)
     sleep(300, 400)
     pyautogui.click(button="left")
-    sleep(30000, 31000) #1songduration
+    sleep(30000, 31000)  # 1songduration
     pyautogui.moveTo(105, 870)
     sleep(300, 600)
     pyautogui.click(button="left")
@@ -2530,7 +2536,7 @@ def songandemoterapport():
     pyautogui.moveTo(1676, 551)
     sleep(300, 400)
     pyautogui.click(button="left")
-    sleep(30000, 31000) #2songduration
+    sleep(30000, 31000)  # 2songduration
     pyautogui.moveTo(118, 904)
     sleep(300, 400)
     pyautogui.click(button="left")
@@ -2542,7 +2548,7 @@ def songandemoterapport():
     pyautogui.moveTo(203, 595)
     sleep(300, 400)
     pyautogui.click(button="left")
-    sleep(17000, 20000) #1emoteduration
+    sleep(17000, 20000)  # 1emoteduration
     pyautogui.moveTo(118, 904)
     sleep(300, 400)
     pyautogui.click(button="left")
@@ -2553,10 +2559,11 @@ def songandemoterapport():
     pyautogui.moveTo(203, 595)
     sleep(300, 400)
     pyautogui.click(button="left")
-    sleep(17000, 20000) #2emoteduration
+    sleep(17000, 20000)  # 2emoteduration
     pyautogui.moveTo(1832, 900)
     sleep(300, 400)
     pyautogui.click(button="left")
+
 
 def doLopang():
     sleep(1000, 2000)
@@ -2775,6 +2782,72 @@ def spamG(milliseconds):
         pyautogui.press("g")
         sleep(90, 120)
         timeCount = timeCount - 1
+
+
+def buyAuctionFirstFav():
+    while True:
+        # buying first fav item for 2g or under
+        gold2 = pyautogui.locateCenterOnScreen(
+            "./screenshots/gold2.png",
+            region=(934, 415, 36, 20),
+        )
+        if gold2 != None:
+            # click price input
+            pyautogui.moveTo(x=977, y=504)
+            sleep(200, 300)
+            pyautogui.click(button="left")
+            sleep(300, 400)
+            pyautogui.press("9")
+            sleep(110, 120)
+            pyautogui.press("9")
+            sleep(110, 120)
+            pyautogui.press("9")
+            sleep(110, 120)
+            # click buy
+            pyautogui.moveTo(x=956, y=726)
+            sleep(200, 300)
+            pyautogui.click(button="left")
+            sleep(300, 400)
+            # click ok
+            pyautogui.moveTo(x=959, y=562)
+            sleep(200, 300)
+            pyautogui.click(button="left")
+            sleep(5300, 5400)
+
+            # click mail
+            pyautogui.moveTo(x=304, y=144)
+            sleep(200, 300)
+            pyautogui.click(button="left")
+            sleep(300, 400)
+            # click first mail
+            pyautogui.moveTo(x=212, y=219)
+            sleep(200, 300)
+            pyautogui.click(button="left")
+            # click accept
+            pyautogui.moveTo(x=440, y=515)
+            sleep(200, 300)
+            pyautogui.click(button="left")
+            # click delete
+            pyautogui.moveTo(x=518, y=515)
+            sleep(200, 300)
+            pyautogui.click(button="left")
+            sleep(5300, 5400)
+            # click
+            pyautogui.moveTo(x=1320, y=355)
+            sleep(200, 300)
+            pyautogui.click(button="left")
+            sleep(300, 400)
+            # click bottom right buy
+            pyautogui.moveTo(x=1416, y=828)
+            sleep(200, 300)
+            pyautogui.click(button="left")
+            sleep(300, 400)
+        else:
+            # click refresh
+            pyautogui.moveTo(x=1062, y=298)
+            sleep(200, 300)
+            pyautogui.click(button="left")
+            sleep(300, 400)
 
 
 if __name__ == "__main__":
