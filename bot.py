@@ -498,7 +498,8 @@ def enterChaos():
             "./screenshots/dc.png",
             region=config["regions"]["center"],
         )
-        if dc != None:
+        enterServer = pyautogui.locateCenterOnScreen("./screenshots/enterServer.png")
+        if dc != None or enterServer != None:
             closeGameByClickingDialogue()
             return
 
