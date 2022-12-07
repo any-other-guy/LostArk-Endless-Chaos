@@ -24,6 +24,7 @@ config = {
     "mainCharacter": 0,  # must be in number 0 to 5 (0 is the first character)
     "enableLopang": True,  # NOTE: you need to setup bifrost locations properly for this, at very specific locations. Look up ^
     "enableGuildDonation": True,  # please make sure all your characters have a guild
+    "enableRapport": True, #NOTE: you need to setup bifrost no3 infront of a rapport NPC
     # Setup your characters below:
     # can setup UP TO 9 characters for daily chaos/lopang/guild stuff
     # however your main must be in character 0 to 5 (just for re-connect back after disconnection happens)
@@ -38,6 +39,7 @@ config = {
             "ilvl-aor": 1475,
             "lopang": False,
             "guildDonation": True,
+            "rapport": False,
         },
         {
             "index": 1,
@@ -46,6 +48,7 @@ config = {
             "ilvl-aor": 1475,
             "lopang": False,
             "guildDonation": True,
+            "rapport": False,
         },
         {
             "index": 2,
@@ -54,6 +57,7 @@ config = {
             "ilvl-aor": 1445,
             "lopang": True,
             "guildDonation": True,
+            "rapport": False,
         },
         {
             "index": 3,
@@ -62,6 +66,7 @@ config = {
             "ilvl-aor": 1370,
             "lopang": True,
             "guildDonation": True,
+            "rapport": False,
         },
         {
             "index": 4,
@@ -70,6 +75,7 @@ config = {
             "ilvl-aor": 1370,
             "lopang": True,
             "guildDonation": True,
+            "rapport": False,
         },
         {
             "index": 5,
@@ -78,6 +84,7 @@ config = {
             "ilvl-aor": 1370,
             "lopang": True,
             "guildDonation": True,
+            "rapport": False,
         },
         {
             "index": 6,
@@ -86,6 +93,7 @@ config = {
             "ilvl-aor": 1100,
             "lopang": True,
             "guildDonation": True,
+            "rapport": False,
         },
     ],
     "floor3Mode": False,  # only enable if you ONLY want to run infinite floor3 clearing
