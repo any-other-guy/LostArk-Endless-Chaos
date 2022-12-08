@@ -2792,7 +2792,11 @@ def buyAuctionFirstFav():
             "./screenshots/gold2.png",
             region=(934, 415, 36, 20),
         )
-        if gold2 != None:
+        gold1 = pyautogui.locateCenterOnScreen(
+            "./screenshots/gold1.png",
+            region=(934, 415, 36, 20),
+        )
+        if gold2 != None or gold1 != None:
             # click price input
             pyautogui.moveTo(x=977, y=504)
             sleep(200, 300)
