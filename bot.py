@@ -371,7 +371,8 @@ def enterChaos():
             if aor != None and config["performance"] == False:
                 states["floor3Mode"] = True
                 if (
-                    states["currentCharacter"] == config["mainCharacter"]
+                    config["enableMultiCharacterMode"] == True
+                    and states["currentCharacter"] == config["mainCharacter"]
                     and states["multiCharacterMode"] == False
                 ):
                     states["multiCharacterMode"] = True

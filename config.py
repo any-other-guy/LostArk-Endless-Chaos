@@ -22,6 +22,7 @@
 """
 config = {
     "mainCharacter": 0,  # must be in number 0 to 5 (0 is the first character)
+    "enableMultiCharacterMode": True,  # must be in number 0 to 5 (0 is the first character)
     "enableLopang": True,  # NOTE: you need to setup bifrost locations properly for this, at very specific locations. Look up ^
     "enableGuildDonation": True,  # please make sure all your characters have a guild
     "enableRapport": True,  # NOTE: you need to setup bifrost no3 infront of a rapport NPC
