@@ -4,3 +4,4 @@ numpy
 pywin32
 Pillow
 opencv-python
+pydirectinput

@@ -21,8 +21,9 @@
     Then set your 2/4/5 (because i dont have no3 unlocked) bifrost location to be right in front of those three lopang quest hand-in NPCs.
 """
 config = {
-    "mainCharacter": 0,  # must be in number 0 to 5 (0 is the first character)
-    "enableMultiCharacterMode": True,  # must be in number 0 to 5 (0 is the first character)
+    "mainCharacter": 4,  # must be in number 0 to 5 (0 is the first character)
+    "GFN": True,  # set True for GFN users
+    "enableMultiCharacterMode": False,  # this is lit
     "enableLopang": True,  # NOTE: you need to setup bifrost locations properly for this, at very specific locations. Look up ^
     "enableGuildDonation": True,  # please make sure all your characters have a guild
     "enableRapport": True,  # NOTE: you need to setup bifrost no3 infront of a rapport NPC
@@ -72,7 +73,7 @@ config = {
         {
             "index": 4,
             "class": "sorceress",
-            "ilvl-endless": 1370,
+            "ilvl-endless": 1100,
             "ilvl-aor": 1370,
             "lopang": True,
             "guildDonation": True,
@@ -114,12 +115,13 @@ config = {
     "shortcutEnterChaos": True,  # you want to use True
     "useHealthPot": True,  # you want to use True
     # You might not want to touch anything below, because I assume you have your game setup same as mine :) otherwise something might not work properly!
+    "confidenceForGFN": 0.9,
     "regions": {
         "minimap": (1655, 170, 260, 200),  # (1700, 200, 125, 120)
         "abilities": (625, 779, 300, 155),
         "leaveMenu": (0, 154, 250, 300),
         "buffs": (625, 779, 300, 60),
-        "center": (782, 353, 400, 350),
+        "center": (685, 280, 550, 420),
         "portal": (228, 230, 1370, 570),
     },
     "screenResolutionX": 1920,
