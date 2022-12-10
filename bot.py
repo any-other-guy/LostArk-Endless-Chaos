@@ -1136,9 +1136,10 @@ def printResult():
         states["minTime"] = int(min(lastRun, states["minTime"]))
         states["maxTime"] = int(max(lastRun, states["maxTime"]))
     print(
-        "floor 2 runs: {}, floor 3 runs: {}, total death: {}, timeout runs: {}, dc: {}, crash: {}, restart: {}".format(
+        "floor 2 runs: {}, floor 3 runs: {}, bad run: {}, total death: {}, timeout runs: {}, dc: {}, crash: {}, restart: {}".format(
             states["clearCount"],
             states["fullClearCount"],
+            states["badRunCount"],
             states["deathCount"],
             states["timeoutCount"],
             states["gameOfflineCount"],
@@ -1379,7 +1380,7 @@ def checkCDandCast(ability):
                 pydirectinput.press(ability["key"])
                 sleep(50, 80)
                 if states["status"] == "floor1":
-                    sleep(550, 600)
+                    sleep(300, 320)
                 return
             start_ms = int(time.time_ns() / 1000000)
             now_ms = int(time.time_ns() / 1000000)
@@ -1406,12 +1407,22 @@ def checkPortal():
         portalTop = pyautogui.locateCenterOnScreen(
             "./screenshots/portalTop.png",
             region=config["regions"]["minimap"],
-            confidence=0.6,
+            confidence=0.7,
         )
         portalBot = pyautogui.locateCenterOnScreen(
             "./screenshots/portalBot.png",
             region=config["regions"]["minimap"],
-            confidence=0.6,
+            confidence=0.7,
+        )
+        portalLeft = pyautogui.locateCenterOnScreen(
+            "./screenshots/portalLeft.png",
+            region=config["regions"]["minimap"],
+            confidence=0.8,
+        )
+        portalRight = pyautogui.locateCenterOnScreen(
+            "./screenshots/portalRight.png",
+            region=config["regions"]["minimap"],
+            confidence=0.8,
         )
         if portal != None:
             x, y = portal
@@ -1424,7 +1435,7 @@ def checkPortal():
         elif portalTop != None:
             x, y = portalTop
             states["moveToX"] = x
-            states["moveToY"] = y + 5
+            states["moveToY"] = y + 7
             print(
                 "portalTop image x: {} y: {}".format(
                     states["moveToX"], states["moveToY"]
@@ -1434,16 +1445,37 @@ def checkPortal():
         elif portalBot != None:
             x, y = portalBot
             states["moveToX"] = x
-            states["moveToY"] = y - 5
+            states["moveToY"] = y - 7
             print(
                 "portalBot image x: {} y: {}".format(
                     states["moveToX"], states["moveToY"]
                 )
             )
             return True
-
-    # # only check with portal image on floor 2 at aor
-    # if states["status"] == "floor2":  # and states["floor3Mode"] == True:
+        elif portalLeft != None:
+            x, y = portalLeft
+            states["moveToX"] = x + 3
+            states["moveToY"] = y
+            print(
+                "portalLeft image x: {} y: {}".format(
+                    states["moveToX"], states["moveToY"]
+                )
+            )
+            return True
+        elif portalRight != None:
+            x, y = portalRight
+            states["moveToX"] = x - 3
+            states["moveToY"] = y
+            print(
+                "portalRight image x: {} y: {}".format(
+                    states["moveToX"], states["moveToY"]
+                )
+            )
+            return True
+    # FIXME: very experimental
+    return False
+    # # only check with portal image at aor
+    # if states["floor3Mode"] == True:
     #     return False
 
     minimap = pyautogui.screenshot(region=config["regions"]["minimap"])  # Top Right
@@ -1559,9 +1591,9 @@ def checkFloor3GoldMob():
         inRange = False
         if config["GFN"] == True:
             inRange = (
-                (r in range(248, 256))
-                and (g in range(181, 195))
-                and (b in range(23, 37))
+                (r in range(242, 256))
+                and (g in range(181, 196))
+                and (b in range(29, 40))
             )
         else:
             inRange = r == 255 and g == 188 and b == 30
@@ -1689,13 +1721,13 @@ def checkFloor3Tower():
     elif towerTop != None:
         x, y = towerTop
         states["moveToX"] = x
-        states["moveToY"] = y + 5
+        states["moveToY"] = y + 7
         print("towerTop image x: {} y: {}".format(states["moveToX"], states["moveToY"]))
         return True
     elif towerBot != None:
         x, y = towerBot
         states["moveToX"] = x
-        states["moveToY"] = y - 5
+        states["moveToY"] = y - 7
         print("towerBot image x: {} y: {}".format(states["moveToX"], states["moveToY"]))
         return True
 
@@ -2387,8 +2419,8 @@ def checkTimeout():
     # hacky way of quitting
     if states["instanceStartTime"] == -1:
         print("hacky timeout")
-        # timeout = pyautogui.screenshot()
-        # timeout.save("./timeout/weird" + str(currentTime) + ".png")
+        dc = pyautogui.screenshot()
+        dc.save("./debug/badRun" + str(currentTime) + ".png")
         states["badRunCount"] = states["badRunCount"] + 1
         return True
     if currentTime - states["instanceStartTime"] > config["timeLimit"]:
@@ -2443,7 +2475,7 @@ def offlineCheck():
     if dc != None or ok != None or enterServer != None:
         currentTime = int(time.time_ns() / 1000000)
         dc = pyautogui.screenshot()
-        dc.save("./dc/dc" + str(currentTime) + ".png")
+        dc.save("./debug/dc" + str(currentTime) + ".png")
         print(
             "disconnection detected...currentTime : {} dc:{} ok:{} enterServer:{}".format(
                 currentTime, dc, ok, enterServer
