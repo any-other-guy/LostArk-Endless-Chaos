@@ -116,6 +116,9 @@ def main():
                     break
                 sleep(1400, 1600)
 
+            pydirectinput.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
+            sleep(100, 200)
+
             if offlineCheck():
                 closeGameByClickingDialogue()
                 continue
@@ -264,10 +267,11 @@ def main():
 
         elif states["status"] == "floor1":
             print("floor1")
-            # pydirectinput.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
             sleep(1000, 1300)
             # wait for loading
             waitForLoading()
+            pydirectinput.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
+            sleep(100, 200)
             if gameCrashCheck():
                 states["status"] = "restart"
                 continue
@@ -288,10 +292,11 @@ def main():
             doFloor1()
         elif states["status"] == "floor2":
             print("floor2")
-            pydirectinput.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
             sleep(1000, 1300)
             # wait for loading
             waitForLoading()
+            pydirectinput.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
+            sleep(100, 200)
             if gameCrashCheck():
                 states["status"] = "restart"
                 continue
@@ -306,13 +311,11 @@ def main():
             doFloor2()
         elif states["status"] == "floor3":
             print("floor3")
-            clearQuest()
-
-            pydirectinput.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
             sleep(1000, 1300)
-
             # wait for loading
             waitForLoading()
+            pydirectinput.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
+            sleep(100, 200)
             if gameCrashCheck():
                 states["status"] = "restart"
                 continue
@@ -783,22 +786,24 @@ def doFloor1():
     # if config["performance"] == True:
     #     pydirectinput.press(config["awakening"])
 
-    # smash available abilities
-    useAbilities()
+    while True:
+        # smash available abilities
+        useAbilities()
 
-    if offlineCheck():
-        closeGameByClickingDialogue()
-        return
-    if gameCrashCheck():
-        states["status"] = "restart"
-        return
-    if checkTimeout():
-        quitChaos()
-        return
+        if offlineCheck():
+            closeGameByClickingDialogue()
+            return
+        if gameCrashCheck():
+            states["status"] = "restart"
+            return
+        if checkTimeout():
+            quitChaos()
+            return
 
-    print("floor 1 cleared")
-    calculateMinimapRelative(states["moveToX"], states["moveToY"])
-    enterPortal()
+        print("floor 1 cleared")
+        calculateMinimapRelative(states["moveToX"], states["moveToY"])
+        if enterPortal():
+            break
 
     if offlineCheck():
         closeGameByClickingDialogue()
@@ -826,23 +831,25 @@ def doFloor2():
     sleep(800, 900)
     pydirectinput.click(x=945, y=550, button=config["move"])
 
-    useAbilities()
+    while True:
+        useAbilities()
 
-    if offlineCheck():
-        closeGameByClickingDialogue()
-        return
-    if gameCrashCheck():
-        states["status"] = "restart"
-        return
-    if checkTimeout():
-        quitChaos()
-        return
+        if offlineCheck():
+            closeGameByClickingDialogue()
+            return
+        if gameCrashCheck():
+            states["status"] = "restart"
+            return
+        if checkTimeout():
+            quitChaos()
+            return
 
-    print("floor 2 cleared")
-    if states["floor3Mode"] == False:
-        states["clearCount"] = states["clearCount"] + 1
-    calculateMinimapRelative(states["moveToX"], states["moveToY"])
-    enterPortal()
+        print("floor 2 cleared")
+        if states["floor3Mode"] == False:
+            states["clearCount"] = states["clearCount"] + 1
+        calculateMinimapRelative(states["moveToX"], states["moveToY"])
+        if enterPortal():
+            break
 
     if offlineCheck():
         closeGameByClickingDialogue()
@@ -880,49 +887,53 @@ def doFloor3Portal():
         print("purple boss bar located")
         states["purplePortalCount"] = states["purplePortalCount"] + 1
         pydirectinput.press(config["awakening"])
-        useAbilities()
+        while True:
+            useAbilities()
 
-        if offlineCheck():
-            closeGameByClickingDialogue()
-            return
-        if gameCrashCheck():
-            states["status"] = "restart"
-            return
-        if checkTimeout():
-            # no quitChaos() here because it does it in upper function
-            return
+            if offlineCheck():
+                closeGameByClickingDialogue()
+                return
+            if gameCrashCheck():
+                states["status"] = "restart"
+                return
+            if checkTimeout():
+                # no quitChaos() here because it does it in upper function
+                return
 
-        print("special portal cleared")
-        sleep(800, 900)
-        if states["floor3Mode"] == False:
-            return
-        calculateMinimapRelative(states["moveToX"], states["moveToY"])
+            print("special portal cleared")
+            sleep(800, 900)
+            if states["floor3Mode"] == False:
+                return
+            calculateMinimapRelative(states["moveToX"], states["moveToY"])
 
-        enterPortal()
+            if enterPortal():
+                break
         sleep(800, 900)
     elif normalMob == True:
         return
     elif goldMob == True:
         print("gold mob located")
         states["goldPortalCount"] = states["goldPortalCount"] + 1
-        useAbilities()
+        while True:
+            useAbilities()
 
-        if offlineCheck():
-            closeGameByClickingDialogue()
-            return
-        if gameCrashCheck():
-            states["status"] = "restart"
-            return
-        if checkTimeout():
-            # no quitChaos() here because it does it in upper function
-            return
+            if offlineCheck():
+                closeGameByClickingDialogue()
+                return
+            if gameCrashCheck():
+                states["status"] = "restart"
+                return
+            if checkTimeout():
+                # no quitChaos() here because it does it in upper function
+                return
 
-        print("special portal cleared")
-        sleep(800, 900)
-        if states["floor3Mode"] == False:
-            return
-        calculateMinimapRelative(states["moveToX"], states["moveToY"])
-        enterPortal()
+            print("special portal cleared")
+            sleep(800, 900)
+            if states["floor3Mode"] == False:
+                return
+            calculateMinimapRelative(states["moveToX"], states["moveToY"])
+            if enterPortal():
+                break
         sleep(800, 900)
     else:
         # hacky quit
@@ -941,6 +952,8 @@ def doFloor3Portal():
 
 def doFloor3():
     waitForLoading()
+    pydirectinput.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
+    sleep(100, 200)
     if offlineCheck():
         closeGameByClickingDialogue()
         return
@@ -1472,8 +1485,7 @@ def checkPortal():
                 )
             )
             return True
-    # FIXME: very experimental
-    return False
+
     # # only check with portal image at aor
     # if states["floor3Mode"] == True:
     #     return False
@@ -1894,7 +1906,7 @@ def moveToMinimapRelative(x, y, timeMin, timeMax, blink):
     # moving in a straight line
     if states["moveTime"] < 50:
         return
-    print("move for {} ms".format(states["moveTime"]))
+    # print("move for {} ms".format(states["moveTime"]))
     pydirectinput.keyDown("alt")
     sleep(10, 30)
     pydirectinput.click(x=x, y=y, button=config["move"])
@@ -2008,10 +2020,21 @@ def enterPortal():
     enterTime = int(time.time_ns() / 1000000)
     while True:
         nowTime = int(time.time_ns() / 1000000)
-        if nowTime - enterTime > 6000:
+        if nowTime - enterTime > 3000:
             # FIXME:
-            states["instanceStartTime"] = -1
-            return
+            # states["instanceStartTime"] = -1
+            # badRun = pyautogui.screenshot()
+            # badRun.save("./debug/badRun_" + str(nowTime) + ".png")
+            # states["badRunCount"] = states["badRunCount"] + 1
+            pydirectinput.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
+            sleep(100, 150)
+            pydirectinput.click(
+                x=config["screenCenterX"],
+                y=config["screenCenterY"],
+                button=config["move"],
+            )
+            sleep(100, 150)
+            return False
 
         # if states["status"] == "floor2" or states["status"] == "floor3":
         #     portalArea = pyautogui.screenshot(region=config["regions"]["portal"])
@@ -2090,7 +2113,8 @@ def enterPortal():
         r, g, b = im.getpixel((1772 - 1652, 272 - 168))
         if r + g + b < 10:
             print("portal entered")
-            return
+            pydirectinput.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
+            return True
 
 
 # def enterPortal():
@@ -2419,14 +2443,11 @@ def checkTimeout():
     # hacky way of quitting
     if states["instanceStartTime"] == -1:
         print("hacky timeout")
-        dc = pyautogui.screenshot()
-        dc.save("./debug/badRun" + str(currentTime) + ".png")
-        states["badRunCount"] = states["badRunCount"] + 1
         return True
     if currentTime - states["instanceStartTime"] > config["timeLimit"]:
         print("timeout triggered")
-        # timeout = pyautogui.screenshot()
-        # timeout.save("./timeout/overtime" + str(currentTime) + ".png")
+        timeout = pyautogui.screenshot()
+        timeout.save("./debug/timeout_" + str(currentTime) + ".png")
         states["timeoutCount"] = states["timeoutCount"] + 1
         return True
     return False
@@ -2475,7 +2496,7 @@ def offlineCheck():
     if dc != None or ok != None or enterServer != None:
         currentTime = int(time.time_ns() / 1000000)
         dc = pyautogui.screenshot()
-        dc.save("./debug/dc" + str(currentTime) + ".png")
+        dc.save("./debug/dc_" + str(currentTime) + ".png")
         print(
             "disconnection detected...currentTime : {} dc:{} ok:{} enterServer:{}".format(
                 currentTime, dc, ok, enterServer
