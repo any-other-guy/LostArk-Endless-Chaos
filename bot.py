@@ -1317,6 +1317,7 @@ def useAbilities():
                     states["moveToX"], states["moveToY"], 800, 900, False
                 )
 
+            """
             # # mage touch
             # if states["abilityScreenshots"][i]["key"] == config["mageTouch"]:
             #     x = 1080
@@ -1329,6 +1330,7 @@ def useAbilities():
             #     )
             #     if b > 70 and touchBuffActive != None:
             #         continue
+            """
 
             # cast spells
             checkCDandCast(states["abilityScreenshots"][i])
@@ -2508,6 +2510,7 @@ def offlineCheck():
 
 
 def closeGameByClickingDialogue():
+    """
     # ok = pyautogui.locateCenterOnScreen(
     #     "./screenshots/ok.png",
     #     region=config["regions"]["center"],
@@ -2521,6 +2524,7 @@ def closeGameByClickingDialogue():
     #     pydirectinput.moveTo(x=960, y=500)
     #     sleep(300, 400)
     #     pydirectinput.click(button="left")
+    """
     while True:
         ok = pyautogui.locateCenterOnScreen(
             "./screenshots/ok.png", region=config["regions"]["center"], confidence=0.75
@@ -3043,12 +3047,13 @@ def walkLopang():
 
 
 def checkBlueCrystal():
+    """
     # blueCrystal = pyautogui.locateCenterOnScreen(
     #     "./screenshots/blueCrystal.png",
     #     confidence=0.75,
     #     region=config["regions"]["center"],
     # )
-
+    """
     silver1k = pyautogui.locateCenterOnScreen(
         "./screenshots/silver1k.png",
         confidence=0.75,
