@@ -11,6 +11,7 @@ newStates = {
     "status": "inCity",
     "abilities": [],
     "abilityScreenshots": [],
+    "bossBarLocated": False,
     "clearCount": 0,
     "fullClearCount": 0,
     "moveToX": config["screenCenterX"],
@@ -79,6 +80,7 @@ def main():
         if states["status"] == "inCity":
             # initialize new states
             states["abilityScreenshots"] = []
+            states["bossBarLocated"] = False
 
             sleep(1000, 1200)
             if offlineCheck():
@@ -801,6 +803,8 @@ def doFloor1():
             return
 
         print("floor 1 cleared")
+        if states["status"] == "floor2":
+            return
         calculateMinimapRelative(states["moveToX"], states["moveToY"])
         if enterPortal():
             break
@@ -819,6 +823,7 @@ def doFloor1():
 
 
 def doFloor2():
+    states["bossBarLocated"] = False
     clearQuest()
     sleep(500, 550)
     # check repair
@@ -865,6 +870,7 @@ def doFloor2():
 
 
 def doFloor3Portal():
+    states["bossBarLocated"] = False
     bossBar = None
     goldMob = False
     normalMob = False
@@ -1199,6 +1205,11 @@ def useAbilities():
             print("no mob on floor 1, random move to detect portal")
             randomMove()
             sleep(200, 250)
+        elif states["status"] == "floor1" and checkFloor2Elite():
+            # 不小心randomMove进了floor2的情况
+            print("went in floor2 by accident...")
+            states["status"] = "floor2"
+            return
         elif (
             states["status"] == "floor2"
             and not checkFloor2Elite()
@@ -1803,13 +1814,20 @@ def checkChaosFinish():
 
 
 def fightFloor2Boss():
-    if pyautogui.locateOnScreen(
-        "./screenshots/bossBar.png", confidence=0.7, region=(406, 159, 1000, 200)
+    if states["status"] == "floor3" and pyautogui.locateOnScreen(
+        "./screenshots/bossBar.png", confidence=0.8, region=(406, 159, 1000, 200)
     ):
         print("boss bar located")
+        pydirectinput.press(config["awakening"])
+    elif states["bossBarLocated"] == False and pyautogui.locateOnScreen(
+        "./screenshots/bossBar.png", confidence=0.8, region=(406, 159, 1000, 200)
+    ):
         # pydirectinput.moveTo(x=states["moveToX"], y=states["moveToY"])
         # sleep(80, 100)
+        print("boss bar located")
         pydirectinput.press(config["awakening"])
+        states["bossBarLocated"] = True
+        sleep(2500, 3000)
 
 
 def calculateMinimapRelative(x, y):
@@ -2043,65 +2061,7 @@ def enterPortal():
             pydirectinput.press(states["abilityScreenshots"][0]["key"])
             sleep(100, 150)
             return False
-
-        # if states["status"] == "floor2" or states["status"] == "floor3":
-        #     portalArea = pyautogui.screenshot(region=config["regions"]["portal"])
-        #     width, height = portalArea.size
-        #     order = spiralSearch(
-        #         width, height, math.floor(width / 2), math.floor(height / 2)
-        #     )
-        #     for entry in order:
-        #         if entry[1] >= width or entry[0] >= height:
-        #             continue
-        #         if isPortalFlame(portalArea, entry[1], entry[0]):
-        #             left, top, _w, _h = config["regions"]["portal"]
-        #             states["moveToX"] = left + entry[1]
-        #             states["moveToY"] = top + entry[0]
-        #             print(
-        #                 "portal flame x: {} y: {}".format(
-        #                     states["moveToX"], states["moveToY"]
-        #                 )
-        #             )
-        #             pydirectinput.press(config["interact"])
-        #             pydirectinput.click(
-        #                 x=states["moveToX"], y=states["moveToY"], button=config["move"]
-        #             )
-        #             im = pyautogui.screenshot(region=(1652, 168, 240, 210))
-        #             r, g, b = im.getpixel((1772 - 1652, 272 - 168))
-        #             while r != 0 or g != 0 or b != 0:
-        #                 pydirectinput.press(config["interact"])
-        #                 sleep(50, 60)
-        #                 nowTime = int(time.time_ns() / 1000000)
-        #                 if nowTime - enterTime > 10000:
-        #                     # FIXME:
-        #                     states["instanceStartTime"] = -1
-        #                     return
-        #             print("portal entered")
-        #             return
-
-        # portalFlame = pyautogui.locateCenterOnScreen(
-        #     "./screenshots/portalFlame.png",
-        #     grayscale=True,
-        #     confidence=0.3,
-        # )
-        # if portalFlame != None:
-        #     x, y = portalFlame
-        #     pydirectinput.press(config["interact"])
-        #     pydirectinput.click(x=x, y=y, button=config["move"])
-        #     im = pyautogui.screenshot(region=(1652, 168, 240, 210))
-        #     r, g, b = im.getpixel((1772 - 1652, 272 - 168))
-        #     while r != 0 or g != 0 or b != 0:
-        #         pydirectinput.press(config["interact"])
-        #         sleep(50, 60)
-
-        #         nowTime = int(time.time_ns() / 1000000)
-        #         if nowTime - enterTime > 10000:
-        #             # FIXME:
-        #             states["instanceStartTime"] = -1
-        #             return
-        #     print("portal entered")
-        #     return
-
+        # hit move and press g
         if (
             states["moveToX"] == config["screenCenterX"]
             and states["moveToY"] == config["screenCenterY"]
@@ -2109,16 +2069,17 @@ def enterPortal():
             pydirectinput.press(config["interact"])
             sleep(100, 120)
         else:
+            sleep(100, 110)
             pydirectinput.press(config["interact"])
             pydirectinput.click(
                 x=states["moveToX"], y=states["moveToY"], button=config["move"]
             )
             pydirectinput.press(config["interact"])
-            sleep(60, 70)
 
         # try to enter portal until black screen
         im = pyautogui.screenshot(region=(1652, 168, 240, 210))
         r, g, b = im.getpixel((1772 - 1652, 272 - 168))
+        print(r + g + b)
         if r + g + b < 10:
             print("portal entered")
             pydirectinput.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
