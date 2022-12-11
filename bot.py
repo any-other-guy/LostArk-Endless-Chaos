@@ -874,7 +874,7 @@ def doFloor3Portal():
     bossBar = None
     goldMob = False
     normalMob = False
-    for i in range(0, 10):
+    for i in range(0, 15):
         goldMob = checkFloor3GoldMob()
         normalMob = checkFloor2Mob()
         bossBar = pyautogui.locateOnScreen(
@@ -2701,6 +2701,10 @@ def switchToCharacter(index):
     sleep(200, 300)
     pydirectinput.click(button="left")
     sleep(500, 600)
+    pydirectinput.click(button="left")
+    sleep(200, 300)
+    pydirectinput.click(button="left")
+    sleep(500, 600)
 
     pydirectinput.moveTo(
         x=config["charPositions"][index][0], y=config["charPositions"][index][1]
@@ -2712,13 +2716,22 @@ def switchToCharacter(index):
     sleep(200, 300)
     pydirectinput.click(button="left")
     sleep(500, 600)
+    pydirectinput.click(button="left")
+    sleep(200, 300)
+    pydirectinput.click(button="left")
+    sleep(500, 600)
 
     pydirectinput.moveTo(x=config["charSelectConnectX"], y=config["charSelectConnectY"])
     sleep(500, 600)
     pydirectinput.click(button="left")
     sleep(200, 300)
     pydirectinput.click(button="left")
+    sleep(500, 600)
+    pydirectinput.click(button="left")
     sleep(200, 300)
+    pydirectinput.click(button="left")
+    sleep(500, 600)
+
     pydirectinput.click(button="left")
     sleep(1000, 1000)
 
@@ -2727,9 +2740,11 @@ def switchToCharacter(index):
     pydirectinput.click(button="left")
     sleep(200, 300)
     pydirectinput.click(button="left")
-    sleep(200, 300)
+    sleep(500, 600)
     pydirectinput.click(button="left")
     sleep(200, 300)
+    pydirectinput.click(button="left")
+    sleep(500, 600)
 
     states["currentCharacter"] = index
     sleep(10000, 12000)
@@ -2743,7 +2758,7 @@ def doGuildDonation():
     pydirectinput.press("u")
     sleep(100, 200)
     pydirectinput.keyUp("alt")
-    sleep(3100, 4200)
+    sleep(4100, 5200)
 
     ok = pyautogui.locateCenterOnScreen(
         "./screenshots/ok.png", region=config["regions"]["center"], confidence=0.75
@@ -2754,20 +2769,27 @@ def doGuildDonation():
         pydirectinput.moveTo(x=x, y=y)
         sleep(300, 400)
         pydirectinput.click(x=x, y=y, button="left")
+        sleep(300, 400)
+        pydirectinput.click(x=x, y=y, button="left")
     sleep(1500, 1600)
 
     pydirectinput.moveTo(x=1431, y=843)
     sleep(500, 600)
     pydirectinput.click(button="left")
     sleep(500, 600)
+    pydirectinput.click(button="left")
+    sleep(500, 600)
 
+    # dono silver
     pydirectinput.moveTo(x=767, y=561)
+    sleep(500, 600)
+    pydirectinput.click(button="left")
     sleep(500, 600)
     pydirectinput.click(button="left")
     sleep(500, 600)
 
     pydirectinput.press("esc")
-    sleep(1500, 1600)
+    sleep(2500, 2600)
 
     supportResearch = pyautogui.locateCenterOnScreen(
         "./screenshots/supportResearch.png",
@@ -2779,6 +2801,10 @@ def doGuildDonation():
         x, y = supportResearch
         print("supportResearch")
         pydirectinput.moveTo(x=x, y=y)
+        sleep(500, 600)
+        pydirectinput.click(button="left")
+        sleep(500, 600)
+        pydirectinput.click(button="left")
         sleep(500, 600)
         pydirectinput.click(button="left")
         sleep(1500, 1600)
@@ -2794,8 +2820,16 @@ def doGuildDonation():
             sleep(500, 600)
             pydirectinput.click(button="left")
             sleep(500, 600)
+            pydirectinput.click(button="left")
+            sleep(500, 600)
+            pydirectinput.click(button="left")
+            sleep(500, 600)
 
             pydirectinput.moveTo(x=921, y=701)
+            sleep(500, 600)
+            pydirectinput.click(button="left")
+            sleep(500, 600)
+            pydirectinput.click(button="left")
             sleep(500, 600)
             pydirectinput.click(button="left")
             sleep(500, 600)
@@ -2803,9 +2837,9 @@ def doGuildDonation():
             pydirectinput.press("esc")
             sleep(800, 900)
 
-    sleep(800, 900)
+    sleep(1800, 1900)
     pydirectinput.press("esc")
-    sleep(800, 900)
+    sleep(1800, 1900)
 
 
 def doRapport():
@@ -2893,6 +2927,7 @@ def doLopang():
     sleep(1000, 2000)
     print("accepting lopang daily")
     doDaily = acceptLopangDaily()
+    sleep(1500, 1600)
     if doDaily == False:
         return
     sleep(500, 600)
@@ -2913,18 +2948,21 @@ def doLopang():
         return
     sleep(3500, 4600)
     walkLopang()
+    sleep(1500, 1600)
     bifrostGoTo(1)
     if gameCrashCheck():
         return
     if offlineCheck():
         return
     spamG(10000)
+    sleep(1500, 1600)
     bifrostGoTo(3)
     if gameCrashCheck():
         return
     if offlineCheck():
         return
     spamG(10000)
+    sleep(1500, 1600)
     bifrostGoTo(4)
     if gameCrashCheck():
         return
@@ -2947,9 +2985,13 @@ def bifrostGoTo(option):
     pydirectinput.press("w")
     sleep(300, 400)
     pydirectinput.keyUp("alt")
-    sleep(1500, 1600)
+    sleep(2500, 2600)
 
     pydirectinput.moveTo(x=bifrostXY[option][0], y=bifrostXY[option][1])
+    sleep(500, 600)
+    pydirectinput.click(button="left")
+    sleep(500, 600)
+    pydirectinput.click(button="left")
     sleep(500, 600)
     pydirectinput.click(button="left")
     sleep(1500, 1600)
@@ -2964,7 +3006,11 @@ def bifrostGoTo(option):
     else:
         # ok
         pydirectinput.moveTo(x=918, y=617)
-        sleep(1500, 1600)
+        sleep(500, 600)
+        pydirectinput.click(button="left")
+        sleep(500, 600)
+        pydirectinput.click(button="left")
+        sleep(500, 600)
         pydirectinput.click(button="left")
 
     sleep(10000, 12000)
