@@ -1155,15 +1155,15 @@ def printResult():
         states["minTime"] = int(min(lastRun, states["minTime"]))
         states["maxTime"] = int(max(lastRun, states["maxTime"]))
     print(
-        "floor 2 runs: {}, floor 3 runs: {}, total death: {}, timeout runs: {}, dc: {}, crash: {}, restart: {}".format(
+        "floor 2 runs: {}, floor 3 runs: {}, total death: {}, timeout runs: {}, dc: {}, crash: {}, restart: {}, badRunCount: {}".format(
             states["clearCount"],
             states["fullClearCount"],
-            # states["badRunCount"],
             states["deathCount"],
             states["timeoutCount"],
             states["gameOfflineCount"],
             states["gameCrashCount"],
             states["gameRestartCount"],
+            states["badRunCount"],
         )
     )
     print(
@@ -1204,11 +1204,12 @@ def useAbilities():
         elif states["status"] == "floor1" and not checkFloor2Mob():
             print("no mob on floor 1, random move to detect portal")
             randomMove()
-            sleep(200, 250)
+        # TODO: 这边改成12floor blink的random move的话，应该不用这下面的判断了
         elif states["status"] == "floor1" and checkFloor2Elite():
             # 不小心randomMove进了floor2的情况
             print("went in floor2 by accident...")
             states["status"] = "floor2"
+            states["badRunCount"] = states["badRunCount"] + 1
             return
         elif (
             states["status"] == "floor2"
@@ -1554,9 +1555,9 @@ def checkFloor2Elite():
         inRange = False
         if config["GFN"] == True:
             inRange = (
-                r in range(180, 215)
-                and g in range(125, 150)
-                and b in range(60, 80)
+                r in range(185, 215)
+                and g in range(125, 147)
+                and b in range(60, 78)
                 # or r in range(90, 110)
                 # and g in range(55, 70)
                 # and b in range(10, 40)
@@ -2004,6 +2005,12 @@ def randomMove():
         config["screenCenterY"] - config["clickableAreaY"],
         config["screenCenterY"] + config["clickableAreaY"],
     )
+    if states["status"] == "floor1" or states["status"] == "floor2":
+        pydirectinput.moveTo(x=x, y=y)
+        sleep(200, 250)
+        pydirectinput.press(config["blink"])
+        sleep(200, 250)
+        return
 
     print("random move to x: {} y: {}".format(x, y))
     pydirectinput.click(x=x, y=y, button=config["move"])
