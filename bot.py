@@ -1149,10 +1149,10 @@ def printResult():
         states["minTime"] = int(min(lastRun, states["minTime"]))
         states["maxTime"] = int(max(lastRun, states["maxTime"]))
     print(
-        "floor 2 runs: {}, floor 3 runs: {}, bad run: {}, total death: {}, timeout runs: {}, dc: {}, crash: {}, restart: {}".format(
+        "floor 2 runs: {}, floor 3 runs: {}, total death: {}, timeout runs: {}, dc: {}, crash: {}, restart: {}".format(
             states["clearCount"],
             states["fullClearCount"],
-            states["badRunCount"],
+            # states["badRunCount"],
             states["deathCount"],
             states["timeoutCount"],
             states["gameOfflineCount"],
@@ -1192,6 +1192,9 @@ def useAbilities():
         if states["status"] == "floor2" and not checkFloor2Elite() and checkFloor2Mob():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
             moveToMinimapRelative(states["moveToX"], states["moveToY"], 400, 500, False)
+        elif states["status"] == "floor2" and checkFloor2Boss():
+            # to avoid stuck on that 9 square map...
+            randomMove()
         elif states["status"] == "floor1" and not checkFloor2Mob():
             print("no mob on floor 1, random move to detect portal")
             randomMove()
@@ -2036,6 +2039,9 @@ def enterPortal():
                 button=config["move"],
             )
             sleep(100, 150)
+            # clear mobs a bit with first spell before scanning for portal again
+            pydirectinput.press(states["abilityScreenshots"][0]["key"])
+            sleep(100, 150)
             return False
 
         # if states["status"] == "floor2" or states["status"] == "floor3":
@@ -2446,12 +2452,23 @@ def checkTimeout():
     if states["instanceStartTime"] == -1:
         print("hacky timeout")
         return True
-    if currentTime - states["instanceStartTime"] > config["timeLimit"]:
+    if (
+        states["floor3Mode"] == False
+        and currentTime - states["instanceStartTime"] > config["timeLimit"]
+    ):
         print("timeout triggered")
         timeout = pyautogui.screenshot()
         timeout.save("./debug/timeout_" + str(currentTime) + ".png")
         states["timeoutCount"] = states["timeoutCount"] + 1
         return True
+    elif (
+        states["floor3Mode"] == True
+        and currentTime - states["instanceStartTime"] > config["timeLimitAor"]
+    ):
+        print("timeout on aor triggered :(")
+        timeout = pyautogui.screenshot()
+        timeout.save("./debug/timeout_aor_" + str(currentTime) + ".png")
+        states["timeoutCount"] = states["timeoutCount"] + 1
     return False
 
 
