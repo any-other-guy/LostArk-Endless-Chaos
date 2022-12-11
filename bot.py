@@ -1155,7 +1155,7 @@ def printResult():
         states["minTime"] = int(min(lastRun, states["minTime"]))
         states["maxTime"] = int(max(lastRun, states["maxTime"]))
     print(
-        "floor 2 runs: {}, floor 3 runs: {}, total death: {}, timeout runs: {}, dc: {}, crash: {}, restart: {}, badRunCount: {}".format(
+        "floor 2 runs: {}, floor 3 runs: {}, total death: {}, timeout runs: {}, dc: {}, crash: {}, restart: {}, badRunCount(not using now): {}".format(
             states["clearCount"],
             states["fullClearCount"],
             states["deathCount"],
@@ -1198,19 +1198,6 @@ def useAbilities():
         if states["status"] == "floor2" and not checkFloor2Elite() and checkFloor2Mob():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
             moveToMinimapRelative(states["moveToX"], states["moveToY"], 400, 500, False)
-        elif states["status"] == "floor2" and checkFloor2Boss():
-            # to avoid stuck on that 9 square map...
-            randomMove()
-        elif states["status"] == "floor1" and not checkFloor2Mob():
-            print("no mob on floor 1, random move to detect portal")
-            randomMove()
-        # TODO: 这边改成12floor blink的random move的话，应该不用这下面的判断了
-        elif states["status"] == "floor1" and checkFloor2Elite():
-            # 不小心randomMove进了floor2的情况
-            print("went in floor2 by accident...")
-            states["status"] = "floor2"
-            states["badRunCount"] = states["badRunCount"] + 1
-            return
         elif (
             states["status"] == "floor2"
             and not checkFloor2Elite()
@@ -1218,7 +1205,12 @@ def useAbilities():
         ):
             print("no elite/mob on floor 2, random move to detect portal")
             randomMove()
-            sleep(200, 250)
+        elif states["status"] == "floor2" and checkFloor2Boss():
+            # to avoid stuck on that 9 square map...
+            randomMove()
+        elif states["status"] == "floor1" and not checkFloor2Mob():
+            print("no mob on floor 1, random move to detect portal")
+            randomMove()
         elif states["status"] == "floor3" and checkFloor2Elite():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
             moveToMinimapRelative(states["moveToX"], states["moveToY"], 200, 300, False)
@@ -2020,7 +2012,7 @@ def randomMove():
     pydirectinput.click(
         x=config["screenCenterX"], y=config["screenCenterY"], button=config["move"]
     )
-    sleep(200, 250)
+    sleep(100, 150)
 
 
 # def isPortalFlame(image, x, y):
@@ -2074,20 +2066,19 @@ def enterPortal():
             and states["moveToY"] == config["screenCenterY"]
         ):
             pydirectinput.press(config["interact"])
-            sleep(100, 120)
+            # sleep(100, 120)
         else:
-            sleep(100, 110)
             pydirectinput.press(config["interact"])
             pydirectinput.click(
                 x=states["moveToX"], y=states["moveToY"], button=config["move"]
             )
-            pydirectinput.press(config["interact"])
+            # FIXME: might need to add sleep
 
         # try to enter portal until black screen
         im = pyautogui.screenshot(region=(1652, 168, 240, 210))
         r, g, b = im.getpixel((1772 - 1652, 272 - 168))
         print(r + g + b)
-        if r + g + b < 10:
+        if r + g + b < 60:
             print("portal entered")
             pydirectinput.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
             return True
