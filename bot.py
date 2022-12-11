@@ -1304,11 +1304,6 @@ def useAbilities():
                 moveToMinimapRelative(
                     states["moveToX"], states["moveToY"], 1200, 1300, True
                 )
-                if (
-                    config["characters"][states["currentCharacter"]]["class"]
-                    == "sorceress"
-                ):
-                    pydirectinput.press("x")
                 sleep(200, 220)
                 clickTower()
             elif states["status"] == "floor3" and checkFloor2Mob():
@@ -1436,16 +1431,18 @@ def checkPortal():
             region=config["regions"]["minimap"],
             confidence=0.7,
         )
+        """
         portalLeft = pyautogui.locateCenterOnScreen(
             "./screenshots/portalLeft.png",
             region=config["regions"]["minimap"],
-            confidence=0.8,
+            confidence=0.9,
         )
         portalRight = pyautogui.locateCenterOnScreen(
             "./screenshots/portalRight.png",
             region=config["regions"]["minimap"],
-            confidence=0.8,
+            confidence=0.9,
         )
+        """
         if portal != None:
             x, y = portal
             states["moveToX"] = x
@@ -1474,29 +1471,31 @@ def checkPortal():
                 )
             )
             return True
-        elif portalLeft != None:
-            x, y = portalLeft
-            states["moveToX"] = x + 3
-            states["moveToY"] = y
-            print(
-                "portalLeft image x: {} y: {}".format(
-                    states["moveToX"], states["moveToY"]
-                )
-            )
-            return True
-        elif portalRight != None:
-            x, y = portalRight
-            states["moveToX"] = x - 3
-            states["moveToY"] = y
-            print(
-                "portalRight image x: {} y: {}".format(
-                    states["moveToX"], states["moveToY"]
-                )
-            )
-            return True
+        # elif portalLeft != None:
+        #     x, y = portalLeft
+        #     states["moveToX"] = x + 3
+        #     states["moveToY"] = y
+        #     print(
+        #         "portalLeft image x: {} y: {}".format(
+        #             states["moveToX"], states["moveToY"]
+        #         )
+        #     )
+        #     return True
+        # elif portalRight != None:
+        #     x, y = portalRight
+        #     states["moveToX"] = x - 3
+        #     states["moveToY"] = y
+        #     print(
+        #         "portalRight image x: {} y: {}".format(
+        #             states["moveToX"], states["moveToY"]
+        #         )
+        #     )
+        #     return True
 
-    # # only check with portal image at aor
-    # if states["floor3Mode"] == True:
+    # only check with portal image at aor
+    # if states["floor3Mode"] == True and (
+    #     states["status"] == "floor2" or states["status"] == "floor3"
+    # ):
     #     return False
 
     minimap = pyautogui.screenshot(region=config["regions"]["minimap"])  # Top Right
@@ -1587,7 +1586,9 @@ def checkFloor2Mob():
                 (r in range(180, 215)) and (g in range(17, 35)) and (b in range(17, 55))
             )
         else:
-            inRange = r == 208 and g == 24 and b == 24
+            inRange = (
+                (r in range(206, 211)) and (g in range(22, 27)) and (b in range(22, 27))
+            )
         if inRange:
             left, top, _w, _h = config["regions"]["minimap"]
             states["moveToX"] = left + entry[1]
@@ -1617,7 +1618,11 @@ def checkFloor3GoldMob():
                 and (b in range(29, 40))
             )
         else:
-            inRange = r == 255 and g == 188 and b == 30
+            inRange = (
+                (r in range(253, 256))
+                and (g in range(186, 191))
+                and (b in range(28, 33))
+            )
         if inRange:
             left, top, _w, _h = config["regions"]["minimap"]
             states["moveToX"] = left + entry[1]
@@ -1752,38 +1757,38 @@ def checkFloor3Tower():
         print("towerBot image x: {} y: {}".format(states["moveToX"], states["moveToY"]))
         return True
 
-    minimap = pyautogui.screenshot(region=config["regions"]["minimap"])  # Top Right
-    width, height = minimap.size
-    order = spiralSearch(width, height, math.floor(width / 2), math.floor(height / 2))
-    for entry in order:
-        if entry[1] >= width or entry[0] >= height:
-            continue
-        r, g, b = minimap.getpixel((entry[1], entry[0]))
-        inRange = False
-        if config["GFN"] == True:
-            inRange = (
-                r in range(209, 229) and g in range(40, 60) and b in range(49, 69)
-            ) or (
-                r in range(245, 256) and g in range(163, 173) and b in range(179, 189)
-            )
-        else:
-            inRange = (
-                r in range(209, 229) and g in range(40, 60) and b in range(49, 69)
-            ) or (r == 162 and g == 162 and b == 162)
-            (r in range(245, 255) and g in range(163, 173) and b in range(179, 189))
-        if inRange:
-            left, top, _w, _h = config["regions"]["minimap"]
-            states["moveToX"] = left + entry[1]
-            states["moveToY"] = top + entry[0]
-            # pos offset
-            if r in range(245, 256) and g in range(163, 173) and b in range(179, 189):
-                states["moveToY"] = states["moveToY"] + 1
-            print(
-                "tower pixel pos x: {} y: {}, r: {} g: {} b: {}".format(
-                    states["moveToX"], states["moveToY"], r, g, b
-                )
-            )
-            return True
+    # minimap = pyautogui.screenshot(region=config["regions"]["minimap"])  # Top Right
+    # width, height = minimap.size
+    # order = spiralSearch(width, height, math.floor(width / 2), math.floor(height / 2))
+    # for entry in order:
+    #     if entry[1] >= width or entry[0] >= height:
+    #         continue
+    #     r, g, b = minimap.getpixel((entry[1], entry[0]))
+    #     inRange = False
+    #     if config["GFN"] == True:
+    #         inRange = (
+    #             r in range(209, 229) and g in range(40, 60) and b in range(49, 69)
+    #         ) or (
+    #             r in range(245, 256) and g in range(163, 173) and b in range(179, 189)
+    #         )
+    #     else:
+    #         inRange = (
+    #             r in range(209, 229) and g in range(40, 60) and b in range(49, 69)
+    #         ) or (r == 162 and g == 162 and b == 162)
+    #         (r in range(245, 255) and g in range(163, 173) and b in range(179, 189))
+    #     if inRange:
+    #         left, top, _w, _h = config["regions"]["minimap"]
+    #         states["moveToX"] = left + entry[1]
+    #         states["moveToY"] = top + entry[0]
+    #         # pos offset
+    #         if r in range(245, 256) and g in range(163, 173) and b in range(179, 189):
+    #             states["moveToY"] = states["moveToY"] + 1
+    #         print(
+    #             "tower pixel pos x: {} y: {}, r: {} g: {} b: {}".format(
+    #                 states["moveToX"], states["moveToY"], r, g, b
+    #             )
+    #         )
+    #         return True
 
     return False
 
@@ -2072,7 +2077,7 @@ def enterPortal():
         # try to enter portal until black screen
         im = pyautogui.screenshot(region=(1652, 168, 240, 210))
         r, g, b = im.getpixel((1772 - 1652, 272 - 168))
-        print(r + g + b)
+        # print(r + g + b)
         if r + g + b < 60:
             print("portal entered")
             pydirectinput.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
@@ -2936,7 +2941,7 @@ def doLopang():
     if offlineCheck():
         return
 
-    sleep(3500, 4600)
+    sleep(1500, 1600)
 
     # goto lopang island
     bifrostAvailable = bifrostGoTo(0)
@@ -2988,9 +2993,7 @@ def bifrostGoTo(option):
     sleep(2500, 2600)
 
     pydirectinput.moveTo(x=bifrostXY[option][0], y=bifrostXY[option][1])
-    sleep(500, 600)
-    pydirectinput.click(button="left")
-    sleep(500, 600)
+    sleep(1800, 1900)
     pydirectinput.click(button="left")
     sleep(500, 600)
     pydirectinput.click(button="left")
@@ -3006,7 +3009,7 @@ def bifrostGoTo(option):
     else:
         # ok
         pydirectinput.moveTo(x=918, y=617)
-        sleep(500, 600)
+        sleep(1500, 1600)
         pydirectinput.click(button="left")
         sleep(500, 600)
         pydirectinput.click(button="left")
@@ -3093,12 +3096,12 @@ def acceptLopangDaily():
     sleep(1900, 2200)
 
     pydirectinput.moveTo(x=564, y=313)
-    sleep(800, 900)
+    sleep(1800, 1900)
     pydirectinput.click(button="left")
     sleep(800, 900)
 
     pydirectinput.moveTo(x=528, y=397)
-    sleep(800, 900)
+    sleep(1800, 1900)
     pydirectinput.click(button="left")
     sleep(800, 900)
 
