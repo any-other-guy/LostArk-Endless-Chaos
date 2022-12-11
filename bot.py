@@ -2042,22 +2042,17 @@ def enterPortal():
     enterTime = int(time.time_ns() / 1000000)
     while True:
         nowTime = int(time.time_ns() / 1000000)
-        if nowTime - enterTime > 3000:
+        falseTime = 6000
+        if nowTime - enterTime > falseTime:
             # FIXME:
             # states["instanceStartTime"] = -1
             # badRun = pyautogui.screenshot()
             # badRun.save("./debug/badRun_" + str(nowTime) + ".png")
-            # states["badRunCount"] = states["badRunCount"] + 1
-            pydirectinput.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
-            sleep(100, 150)
-            pydirectinput.click(
-                x=config["screenCenterX"],
-                y=config["screenCenterY"],
-                button=config["move"],
-            )
-            sleep(100, 150)
+            states["badRunCount"] = states["badRunCount"] + 1
             # clear mobs a bit with first spell before scanning for portal again
             pydirectinput.press(states["abilityScreenshots"][0]["key"])
+            sleep(100, 150)
+            pydirectinput.press(config["meleeAttack"])
             sleep(100, 150)
             return False
         # hit move and press g
@@ -2066,13 +2061,13 @@ def enterPortal():
             and states["moveToY"] == config["screenCenterY"]
         ):
             pydirectinput.press(config["interact"])
-            # sleep(100, 120)
+            sleep(50, 60)
         else:
             pydirectinput.press(config["interact"])
             pydirectinput.click(
                 x=states["moveToX"], y=states["moveToY"], button=config["move"]
             )
-            # FIXME: might need to add sleep
+            sleep(50, 60)
 
         # try to enter portal until black screen
         im = pyautogui.screenshot(region=(1652, 168, 240, 210))
