@@ -73,7 +73,7 @@ config = {
         {
             "index": 4,
             "class": "sorceress",
-            "ilvl-endless": 1100,
+            "ilvl-endless": 1370,
             "ilvl-aor": 1370,
             "lopang": True,
             "guildDonation": True,
@@ -107,7 +107,7 @@ config = {
     "meleeAttack": "c",
     "awakening": "v",
     "healthPot": "f1",  # important to put your regen potion on this button
-    "healthPotAtPercent": 0.3,  # health threshold to trigger potion
+    "healthPotAtPercent": 0.35,  # health threshold to trigger potion
     # "useAwakening": True, # not checking this for now
     # "useSpeciality1": True, # not checking this for now
     # "useSpeciality2": True, # not checking this for now

@@ -64,7 +64,7 @@ def main():
     meleeClick = "right"
     if config["move"] == "right":
         meleeClick = "left"
-    pydirectinput.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
+    mouseMoveTo(x=config["screenCenterX"], y=config["screenCenterY"])
     sleep(200, 300)
     pydirectinput.click(button=meleeClick)
     sleep(300, 400)
@@ -118,7 +118,7 @@ def main():
                     break
                 sleep(1400, 1600)
 
-            pydirectinput.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
+            mouseMoveTo(x=config["screenCenterX"], y=config["screenCenterY"])
             sleep(100, 200)
 
             if offlineCheck():
@@ -272,7 +272,7 @@ def main():
             sleep(1000, 1300)
             # wait for loading
             waitForLoading()
-            pydirectinput.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
+            mouseMoveTo(x=config["screenCenterX"], y=config["screenCenterY"])
             sleep(100, 200)
             if gameCrashCheck():
                 states["status"] = "restart"
@@ -297,7 +297,7 @@ def main():
             sleep(1000, 1300)
             # wait for loading
             waitForLoading()
-            pydirectinput.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
+            mouseMoveTo(x=config["screenCenterX"], y=config["screenCenterY"])
             sleep(100, 200)
             if gameCrashCheck():
                 states["status"] = "restart"
@@ -316,7 +316,7 @@ def main():
             sleep(1000, 1300)
             # wait for loading
             waitForLoading()
-            pydirectinput.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
+            mouseMoveTo(x=config["screenCenterX"], y=config["screenCenterY"])
             sleep(100, 200)
             if gameCrashCheck():
                 states["status"] = "restart"
@@ -330,7 +330,7 @@ def main():
             print("floor3 loaded")
             # do floor 3
             # trigger start floor 3
-            pydirectinput.moveTo(x=760, y=750)
+            mouseMoveTo(x=760, y=750)
             sleep(100, 120)
             pydirectinput.click(button=config["move"])
             sleep(200, 300)
@@ -425,11 +425,11 @@ def enterChaos():
                             states["multiCharacterModeState"]
                         )
                     )
-            pydirectinput.moveTo(886, 346)
+            mouseMoveTo(x=886, y=346)
             sleep(500, 600)
             pydirectinput.click(button="left")
             sleep(500, 600)
-            pydirectinput.moveTo(886, 346)
+            mouseMoveTo(x=886, y=346)
             sleep(500, 600)
             pydirectinput.click(button="left")
             sleep(500, 600)
@@ -439,244 +439,244 @@ def enterChaos():
             if states["multiCharacterMode"] or aor != None:
                 if _curr["ilvl-aor"] == 1100:
                     # punica
-                    pydirectinput.moveTo(1112, 307)
+                    mouseMoveTo(x=1112, y=307)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                     # star 1
-                    pydirectinput.moveTo(524, 398)
+                    mouseMoveTo(x=524, y=398)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                 elif _curr["ilvl-aor"] == 1310:
                     # punica
-                    pydirectinput.moveTo(1112, 307)
+                    mouseMoveTo(x=1112, y=307)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                     # star 2
-                    pydirectinput.moveTo(524, 455)
+                    mouseMoveTo(x=524, y=455)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                 elif _curr["ilvl-aor"] == 1325:
                     # punica
-                    pydirectinput.moveTo(1112, 307)
+                    mouseMoveTo(x=1112, y=307)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                     # moon 1
-                    pydirectinput.moveTo(524, 505)
+                    mouseMoveTo(x=524, y=505)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                 elif _curr["ilvl-aor"] == 1340:
                     # punica
-                    pydirectinput.moveTo(1112, 307)
+                    mouseMoveTo(x=1112, y=307)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                     # moon 2
-                    pydirectinput.moveTo(524, 555)
+                    mouseMoveTo(x=524, y=555)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                 elif _curr["ilvl-aor"] == 1355:
                     # punica
-                    pydirectinput.moveTo(1112, 307)
+                    mouseMoveTo(x=1112, y=307)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                     # moon 2
-                    pydirectinput.moveTo(524, 605)
+                    mouseMoveTo(x=524, y=605)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                 elif _curr["ilvl-aor"] == 1370:
                     # punica
-                    pydirectinput.moveTo(1112, 307)
+                    mouseMoveTo(x=1112, y=307)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                     # sun 1
-                    pydirectinput.moveTo(524, 662)
+                    mouseMoveTo(x=524, y=662)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                 elif _curr["ilvl-aor"] == 1385:
                     # punica
-                    pydirectinput.moveTo(1112, 307)
+                    mouseMoveTo(x=1112, y=307)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                     # sun 2
-                    pydirectinput.moveTo(524, 715)
+                    mouseMoveTo(x=524, y=715)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                 elif _curr["ilvl-aor"] == 1400:
                     # punica
-                    pydirectinput.moveTo(1112, 307)
+                    mouseMoveTo(x=1112, y=307)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                     # sun 3
-                    pydirectinput.moveTo(524, 770)
+                    mouseMoveTo(x=524, y=770)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                 elif _curr["ilvl-aor"] == 1415:
                     # south vern
-                    pydirectinput.moveTo(1266, 307)
+                    mouseMoveTo(x=1266, y=307)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                     # corruption 1
-                    pydirectinput.moveTo(524, 400)
+                    mouseMoveTo(x=524, y=400)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                 elif _curr["ilvl-aor"] == 1445:
                     # south vern
-                    pydirectinput.moveTo(1266, 307)
+                    mouseMoveTo(x=1266, y=307)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                     # corruption 2
-                    pydirectinput.moveTo(524, 451)
+                    mouseMoveTo(x=524, y=451)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                 elif _curr["ilvl-aor"] == 1475:
                     # south vern
-                    pydirectinput.moveTo(1266, 307)
+                    mouseMoveTo(x=1266, y=307)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                     # corruption 3
-                    pydirectinput.moveTo(524, 504)
+                    mouseMoveTo(x=524, y=504)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
             else:
                 if _curr["ilvl-endless"] == 1100:
                     # punica
-                    pydirectinput.moveTo(1112, 307)
+                    mouseMoveTo(x=1112, y=307)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                     # star 1
-                    pydirectinput.moveTo(524, 398)
+                    mouseMoveTo(x=524, y=398)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                 elif _curr["ilvl-endless"] == 1310:
                     # punica
-                    pydirectinput.moveTo(1112, 307)
+                    mouseMoveTo(x=1112, y=307)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                     # star 2
-                    pydirectinput.moveTo(524, 455)
+                    mouseMoveTo(x=524, y=455)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                 elif _curr["ilvl-endless"] == 1325:
                     # punica
-                    pydirectinput.moveTo(1112, 307)
+                    mouseMoveTo(x=1112, y=307)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                     # moon 1
-                    pydirectinput.moveTo(524, 505)
+                    mouseMoveTo(x=524, y=505)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                 elif _curr["ilvl-endless"] == 1340:
                     # punica
-                    pydirectinput.moveTo(1112, 307)
+                    mouseMoveTo(x=1112, y=307)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                     # moon 2
-                    pydirectinput.moveTo(524, 555)
+                    mouseMoveTo(x=524, y=555)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                 elif _curr["ilvl-endless"] == 1355:
                     # punica
-                    pydirectinput.moveTo(1112, 307)
+                    mouseMoveTo(x=1112, y=307)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                     # moon 2
-                    pydirectinput.moveTo(524, 605)
+                    mouseMoveTo(x=524, y=605)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                 elif _curr["ilvl-endless"] == 1370:
                     # punica
-                    pydirectinput.moveTo(1112, 307)
+                    mouseMoveTo(x=1112, y=307)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                     # sun 1
-                    pydirectinput.moveTo(524, 662)
+                    mouseMoveTo(x=524, y=662)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                 elif _curr["ilvl-endless"] == 1385:
                     # punica
-                    pydirectinput.moveTo(1112, 307)
+                    mouseMoveTo(x=1112, y=307)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                     # sun 2
-                    pydirectinput.moveTo(524, 715)
+                    mouseMoveTo(x=524, y=715)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                 elif _curr["ilvl-endless"] == 1400:
                     # punica
-                    pydirectinput.moveTo(1112, 307)
+                    mouseMoveTo(x=1112, y=307)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                     # sun 3
-                    pydirectinput.moveTo(524, 770)
+                    mouseMoveTo(x=524, y=770)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                 elif _curr["ilvl-endless"] == 1415:
                     # south vern
-                    pydirectinput.moveTo(1266, 307)
+                    mouseMoveTo(x=1266, y=307)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                     # corruption 1
-                    pydirectinput.moveTo(524, 400)
+                    mouseMoveTo(x=524, y=400)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                 elif _curr["ilvl-endless"] == 1445:
                     # south vern
-                    pydirectinput.moveTo(1266, 307)
+                    mouseMoveTo(x=1266, y=307)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                     # corruption 2
-                    pydirectinput.moveTo(524, 451)
+                    mouseMoveTo(x=524, y=451)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                 elif _curr["ilvl-endless"] == 1475:
                     # south vern
-                    pydirectinput.moveTo(1266, 307)
+                    mouseMoveTo(x=1266, y=307)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
                     # corruption 3
-                    pydirectinput.moveTo(524, 504)
+                    mouseMoveTo(x=524, y=504)
                     sleep(500, 600)
                     pydirectinput.click(button="left")
                     sleep(500, 600)
@@ -688,7 +688,7 @@ def enterChaos():
             )
             if enterButton != None:
                 x, y = enterButton
-                pydirectinput.moveTo(x=x, y=y)
+                mouseMoveTo(x=x, y=y)
                 sleep(200, 300)
                 pydirectinput.click(x=x, y=y, button="left")
                 sleep(100, 200)
@@ -697,7 +697,7 @@ def enterChaos():
                 pydirectinput.click(x=x, y=y, button="left")
                 break
             else:
-                pydirectinput.moveTo(886, 346)
+                mouseMoveTo(x=886, y=346)
                 sleep(200, 300)
                 pydirectinput.click(button="left")
                 sleep(200, 300)
@@ -742,7 +742,7 @@ def enterChaos():
         )
         if acceptButton != None:
             x, y = acceptButton
-            pydirectinput.moveTo(x=x, y=y)
+            mouseMoveTo(x=x, y=y)
             sleep(200, 300)
             pydirectinput.click(x=x, y=y, button="left")
             sleep(100, 200)
@@ -762,7 +762,7 @@ def doFloor1():
     if config["auraRepair"]:
         doAuraRepair(False)
     # trigger start floor 1
-    pydirectinput.moveTo(x=845, y=600)
+    mouseMoveTo(x=845, y=600)
     sleep(450, 500)
     pydirectinput.click(button=config["move"])
 
@@ -958,7 +958,7 @@ def doFloor3Portal():
 
 def doFloor3():
     waitForLoading()
-    pydirectinput.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
+    mouseMoveTo(x=config["screenCenterX"], y=config["screenCenterY"])
     sleep(100, 200)
     if offlineCheck():
         closeGameByClickingDialogue()
@@ -1019,7 +1019,7 @@ def quitChaos():
             #     pyautogui.locateCenterOnScreen("./screenshots/ok.png", confidence=0.75)
             #     == None
             # ):
-            pydirectinput.moveTo(x=x, y=y)
+            mouseMoveTo(x=x, y=y)
             sleep(200, 300)
             pydirectinput.click(button="left")
             sleep(100, 200)
@@ -1051,15 +1051,15 @@ def quitChaos():
         )
         if okButton != None:
             x, y = okButton
-            pydirectinput.moveTo(x=x, y=y)
+            mouseMoveTo(x=x, y=y)
             sleep(200, 300)
             pydirectinput.click(button="left")
             sleep(200, 300)
-            pydirectinput.moveTo(x=x, y=y)
+            mouseMoveTo(x=x, y=y)
             sleep(100, 200)
             pydirectinput.click(button="left")
             sleep(100, 200)
-            pydirectinput.moveTo(x=x, y=y)
+            mouseMoveTo(x=x, y=y)
             sleep(100, 200)
             pydirectinput.click(button="left")
             break
@@ -1096,7 +1096,7 @@ def restartChaos():
         if selectLevelButton != None:
             x, y = selectLevelButton
 
-            pydirectinput.moveTo(x=x, y=y)
+            mouseMoveTo(x=x, y=y)
             sleep(200, 300)
             pydirectinput.click(button="left")
             sleep(100, 200)
@@ -1111,7 +1111,7 @@ def restartChaos():
         )
         if enterButton != None:
             x, y = enterButton
-            pydirectinput.moveTo(x=x, y=y)
+            mouseMoveTo(x=x, y=y)
             sleep(200, 300)
             pydirectinput.click(x=x, y=y, button="left")
             sleep(100, 200)
@@ -1129,7 +1129,7 @@ def restartChaos():
         )
         if acceptButton != None:
             x, y = acceptButton
-            pydirectinput.moveTo(x=x, y=y)
+            mouseMoveTo(x=x, y=y)
             sleep(200, 300)
             pydirectinput.click(x=x, y=y, button="left")
             sleep(100, 200)
@@ -1362,9 +1362,10 @@ def checkCDandCast(ability):
         )
     ):
         if ability["directional"] == True:
-            pydirectinput.moveTo(x=states["moveToX"], y=states["moveToY"])
+            mouseMoveTo(x=states["moveToX"], y=states["moveToY"])
         else:
-            pydirectinput.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
+            mouseMoveTo(x=config["screenCenterX"], y=config["screenCenterY"])
+        sleep(110, 120)
 
         if ability["cast"]:
             start_ms = int(time.time_ns() / 1000000)
@@ -1803,11 +1804,11 @@ def checkChaosFinish():
     if clearOk != None:
         states["fullClearCount"] = states["fullClearCount"] + 1
         x, y = clearOk
-        pydirectinput.moveTo(x=x, y=y)
+        mouseMoveTo(x=x, y=y)
         sleep(600, 800)
         pydirectinput.click(x=x, y=y, button="left")
         sleep(200, 300)
-        pydirectinput.moveTo(x=x, y=y)
+        mouseMoveTo(x=x, y=y)
         sleep(200, 300)
         pydirectinput.click(x=x, y=y, button="left")
         return True
@@ -1823,7 +1824,7 @@ def fightFloor2Boss():
     elif states["bossBarLocated"] == False and pyautogui.locateOnScreen(
         "./screenshots/bossBar.png", confidence=0.8, region=(406, 159, 1000, 200)
     ):
-        # pydirectinput.moveTo(x=states["moveToX"], y=states["moveToY"])
+        # mouseMoveTo(x=states["moveToX"], y=states["moveToY"])
         # sleep(80, 100)
         print("boss bar located")
         pydirectinput.press(config["awakening"])
@@ -1924,7 +1925,7 @@ def moveToMinimapRelative(x, y, timeMin, timeMax, blink):
     # deflect = 60
 
     if states["status"] == "floor1":
-        pydirectinput.moveTo(x=x, y=y)
+        mouseMoveTo(x=x, y=y)
         return
 
     # moving in a straight line
@@ -2006,7 +2007,7 @@ def randomMove():
         config["screenCenterY"] + config["clickableAreaY"],
     )
     if states["status"] == "floor1" or states["status"] == "floor2":
-        pydirectinput.moveTo(x=x, y=y)
+        mouseMoveTo(x=x, y=y)
         sleep(200, 250)
         pydirectinput.press(config["blink"])
         sleep(200, 250)
@@ -2083,7 +2084,7 @@ def enterPortal():
         # print(r + g + b)
         if r + g + b < 60:
             print("portal entered")
-            pydirectinput.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
+            mouseMoveTo(x=config["screenCenterX"], y=config["screenCenterY"])
             return True
 
 
@@ -2237,11 +2238,11 @@ def diedCheck():  # get information about wait a few second to revive
             )
             != None
         ):
-            pydirectinput.moveTo(1275, 454)
-            sleep(600, 800)
+            mouseMoveTo(x=1275, y=454)
+            sleep(1600, 1800)
             pydirectinput.click(1275, 454, button="left")
             sleep(600, 800)
-            pydirectinput.moveTo(config["screenCenterX"], config["screenCenterY"])
+            mouseMoveTo(x=config["screenCenterX"], y=config["screenCenterY"])
             sleep(600, 800)
             if gameCrashCheck():
                 return
@@ -2267,11 +2268,11 @@ def doAuraRepair(forced):
         sleep(800, 900)
         pydirectinput.keyUp("alt")
         sleep(800, 900)
-        pydirectinput.moveTo(1142, 661)
+        mouseMoveTo(x=1142, y=661)
         sleep(600, 700)
         pydirectinput.click(1142, 661, button="left")
         sleep(600, 700)
-        pydirectinput.moveTo(1054, 455)
+        mouseMoveTo(x=1054, y=455)
         sleep(600, 700)
         pydirectinput.click(1054, 455, button="left")
         sleep(600, 700)
@@ -2293,7 +2294,7 @@ def doCityRepair():
         print("repairing")
         pydirectinput.press("g")
         sleep(600, 700)
-        pydirectinput.moveTo(1057, 455)
+        mouseMoveTo(x=1057, y=455)
         sleep(600, 700)
         pydirectinput.click(1057, 455, button="left")
         sleep(600, 700)
@@ -2345,7 +2346,7 @@ def clearQuest():
     if quest != None:
         print("clear quest")
         x, y = quest
-        pydirectinput.moveTo(x=x, y=y)
+        mouseMoveTo(x=x, y=y)
         sleep(1800, 1900)
         pydirectinput.click(x=x, y=y, button="left")
         sleep(1800, 1900)
@@ -2354,7 +2355,7 @@ def clearQuest():
     elif leveledup != None:
         print("clear level")
         x, y = leveledup
-        pydirectinput.moveTo(x=x, y=y)
+        mouseMoveTo(x=x, y=y)
         sleep(1800, 1900)
         pydirectinput.click(x=x, y=y, button="left")
         sleep(1800, 1900)
@@ -2469,7 +2470,7 @@ def offlineCheck():
             confidence=0.9,
         )
         if sessionLimitReached != None:
-            pydirectinput.moveTo(x=1029, y=822)
+            mouseMoveTo(x=1029, y=822)
             sleep(1300, 1400)
             pydirectinput.click(x=1029, y=822, button="left")
             sleep(1300, 1400)
@@ -2496,11 +2497,11 @@ def closeGameByClickingDialogue():
     # )
     # if ok != None:
     #     x, y = ok
-    #     pydirectinput.moveTo(x=x, y=y)
+    #     mouseMoveTo(x=x, y=y)
     #     sleep(300, 400)
     #     pydirectinput.click(x=x, y=y, button="left")
     # else:
-    #     pydirectinput.moveTo(x=960, y=500)
+    #     mouseMoveTo(x=960, y=500)
     #     sleep(300, 400)
     #     pydirectinput.click(button="left")
     """
@@ -2515,7 +2516,7 @@ def closeGameByClickingDialogue():
         )
         if ok != None:
             x, y = ok
-            pydirectinput.moveTo(x=x, y=y)
+            mouseMoveTo(x=x, y=y)
             sleep(300, 400)
             pydirectinput.click(x=x, y=y, button="left")
             print("clicked ok")
@@ -2560,7 +2561,7 @@ def restartGame():
         if stopGame != None:
             print("clicking stop game on steam")
             x, y = stopGame
-            pydirectinput.moveTo(x=x, y=y)
+            mouseMoveTo(x=x, y=y)
             sleep(1200, 1300)
             pydirectinput.click(x=x, y=y, button="left")
             sleep(500, 600)
@@ -2570,21 +2571,21 @@ def restartGame():
             if confirm == None:
                 continue
             x, y = confirm
-            pydirectinput.moveTo(x=x, y=y)
+            mouseMoveTo(x=x, y=y)
             sleep(1200, 1300)
             pydirectinput.click(x=x, y=y, button="left")
             sleep(10000, 12000)
         elif confirm != None:
             print("confirming stop game")
             x, y = confirm
-            pydirectinput.moveTo(x=x, y=y)
+            mouseMoveTo(x=x, y=y)
             sleep(1200, 1300)
             pydirectinput.click(x=x, y=y, button="left")
             sleep(10000, 12000)
         elif enterGame != None:
             print("restarting Lost Ark game client...")
             x, y = enterGame
-            pydirectinput.moveTo(x=x, y=y)
+            mouseMoveTo(x=x, y=y)
             sleep(1200, 1300)
             pydirectinput.click(x=x, y=y, button="left")
             break
@@ -2602,7 +2603,7 @@ def restartGame():
             )
             if loaGFN != None:
                 x, y = loaGFN
-                pydirectinput.moveTo(x=x, y=y)
+                mouseMoveTo(x=x, y=y)
                 sleep(2200, 2300)
                 pydirectinput.click(x=x, y=y, button="left")
                 sleep(40000, 42000)
@@ -2614,7 +2615,7 @@ def restartGame():
             # )
             # if loa != None:
             #     x, y = loa
-            #     pydirectinput.moveTo(x=x, y=y)
+            #     mouseMoveTo(x=x, y=y)
             #     sleep(1200, 1300)
             #     pydirectinput.click(x=x, y=y, button="left")
             #     sleep(2200, 2300)
@@ -2634,19 +2635,19 @@ def restartGame():
             print("clicking enterServer")
             sleep(1000, 1200)
             # click first server
-            pydirectinput.moveTo(x=855, y=582)
+            mouseMoveTo(x=855, y=582)
             sleep(1200, 1300)
             pydirectinput.click(x=855, y=582, button="left")
             sleep(1000, 1200)
             x, y = enterServer
-            pydirectinput.moveTo(x=x, y=y)
+            mouseMoveTo(x=x, y=y)
             sleep(1200, 1300)
             pydirectinput.click(x=x, y=y, button="left")
             break
         elif enterGame != None:
             print("clicking enterGame")
             x, y = enterGame
-            pydirectinput.moveTo(x=x, y=y)
+            mouseMoveTo(x=x, y=y)
             sleep(200, 300)
             pydirectinput.click(x=x, y=y, button="left")
             sleep(4200, 5300)
@@ -2662,7 +2663,7 @@ def restartGame():
             sleep(1000, 1200)
             # 点第一页
             sleep(4000, 5000)
-            pydirectinput.moveTo(x=138, y=895)
+            mouseMoveTo(x=138, y=895)
             sleep(500, 600)
             pydirectinput.click(button="left")
             sleep(500, 600)
@@ -2674,7 +2675,7 @@ def restartGame():
             # 点main角色
             sleep(4000, 5000)
             print("clicking mainCharacter")
-            pydirectinput.moveTo(
+            mouseMoveTo(
                 x=config["charPositionsAtCharSelect"][config["mainCharacter"]][0],
                 y=config["charPositionsAtCharSelect"][config["mainCharacter"]][1],
             )
@@ -2688,13 +2689,13 @@ def restartGame():
 
             print("clicking enterCharacter")
             x, y = enterCharacter
-            pydirectinput.moveTo(x=x, y=y)
+            mouseMoveTo(x=x, y=y)
             sleep(200, 300)
             pydirectinput.click(x=x, y=y, button="left")
             break
         sleep(2200, 3300)
     states["gameRestartCount"] = states["gameRestartCount"] + 1
-    pydirectinput.moveTo(x=config["screenCenterX"], y=config["screenCenterY"])
+    mouseMoveTo(x=config["screenCenterX"], y=config["screenCenterY"])
     sleep(22200, 23300)
 
 
@@ -2703,7 +2704,7 @@ def switchToCharacter(index):
     print("switching to {}".format(index))
     pydirectinput.press("esc")
     sleep(1500, 1600)
-    pydirectinput.moveTo(x=config["charSwitchX"], y=config["charSwitchY"])
+    mouseMoveTo(x=config["charSwitchX"], y=config["charSwitchY"])
     sleep(500, 600)
     pydirectinput.click(button="left")
     sleep(200, 300)
@@ -2714,7 +2715,7 @@ def switchToCharacter(index):
     pydirectinput.click(button="left")
     sleep(500, 600)
 
-    pydirectinput.moveTo(
+    mouseMoveTo(
         x=config["charPositions"][index][0], y=config["charPositions"][index][1]
     )
     sleep(500, 600)
@@ -2729,7 +2730,7 @@ def switchToCharacter(index):
     pydirectinput.click(button="left")
     sleep(500, 600)
 
-    pydirectinput.moveTo(x=config["charSelectConnectX"], y=config["charSelectConnectY"])
+    mouseMoveTo(x=config["charSelectConnectX"], y=config["charSelectConnectY"])
     sleep(500, 600)
     pydirectinput.click(button="left")
     sleep(200, 300)
@@ -2743,7 +2744,7 @@ def switchToCharacter(index):
     pydirectinput.click(button="left")
     sleep(1000, 1000)
 
-    pydirectinput.moveTo(x=config["charSelectOkX"], y=config["charSelectOkY"])
+    mouseMoveTo(x=config["charSelectOkX"], y=config["charSelectOkY"])
     sleep(500, 600)
     pydirectinput.click(button="left")
     sleep(200, 300)
@@ -2774,14 +2775,14 @@ def doGuildDonation():
 
     if ok != None:
         x, y = ok
-        pydirectinput.moveTo(x=x, y=y)
+        mouseMoveTo(x=x, y=y)
         sleep(300, 400)
         pydirectinput.click(x=x, y=y, button="left")
         sleep(300, 400)
         pydirectinput.click(x=x, y=y, button="left")
     sleep(1500, 1600)
 
-    pydirectinput.moveTo(x=1431, y=843)
+    mouseMoveTo(x=1431, y=843)
     sleep(500, 600)
     pydirectinput.click(button="left")
     sleep(500, 600)
@@ -2789,7 +2790,7 @@ def doGuildDonation():
     sleep(500, 600)
 
     # dono silver
-    pydirectinput.moveTo(x=767, y=561)
+    mouseMoveTo(x=767, y=561)
     sleep(500, 600)
     pydirectinput.click(button="left")
     sleep(500, 600)
@@ -2808,7 +2809,7 @@ def doGuildDonation():
     if supportResearch != None:
         x, y = supportResearch
         print("supportResearch")
-        pydirectinput.moveTo(x=x, y=y)
+        mouseMoveTo(x=x, y=y)
         sleep(500, 600)
         pydirectinput.click(button="left")
         sleep(500, 600)
@@ -2824,7 +2825,7 @@ def doGuildDonation():
         )
 
         if canSupportResearch != None:
-            pydirectinput.moveTo(x=848, y=520)
+            mouseMoveTo(x=848, y=520)
             sleep(500, 600)
             pydirectinput.click(button="left")
             sleep(500, 600)
@@ -2833,7 +2834,7 @@ def doGuildDonation():
             pydirectinput.click(button="left")
             sleep(500, 600)
 
-            pydirectinput.moveTo(x=921, y=701)
+            mouseMoveTo(x=921, y=701)
             sleep(500, 600)
             pydirectinput.click(button="left")
             sleep(500, 600)
@@ -2879,54 +2880,54 @@ def songandemoterapport():
     sleep(800, 900)
     spamG(1000)
     sleep(2000, 3000)
-    pydirectinput.moveTo(105, 870)
+    mouseMoveTo(x=105, y=870)
     sleep(200, 300)
     pydirectinput.click(button="left")
     sleep(200, 300)
-    pydirectinput.moveTo(1630, 403)
+    mouseMoveTo(x=1630, y=403)
     sleep(300, 600)
     pydirectinput.click(button="left")
     sleep(300, 600)
-    pydirectinput.moveTo(1676, 551)
+    mouseMoveTo(x=1676, y=551)
     sleep(300, 400)
     pydirectinput.click(button="left")
     sleep(30000, 31000)  # 1songduration
-    pydirectinput.moveTo(105, 870)
+    mouseMoveTo(x=105, y=870)
     sleep(300, 600)
     pydirectinput.click(button="left")
     sleep(300, 600)
-    pydirectinput.moveTo(1676, 452)
+    mouseMoveTo(x=1676, y=452)
     sleep(300, 600)
     pydirectinput.click(button="left")
     sleep(300, 600)
-    pydirectinput.moveTo(1676, 551)
+    mouseMoveTo(x=1676, y=551)
     sleep(300, 400)
     pydirectinput.click(button="left")
     sleep(30000, 31000)  # 2songduration
-    pydirectinput.moveTo(118, 904)
+    mouseMoveTo(x=118, y=904)
     sleep(300, 400)
     pydirectinput.click(button="left")
     sleep(300, 400)
-    pydirectinput.moveTo(155, 454)
+    mouseMoveTo(x=155, y=454)
     sleep(300, 400)
     pydirectinput.click(button="left")
     sleep(300, 400)
-    pydirectinput.moveTo(203, 595)
+    mouseMoveTo(x=203, y=595)
     sleep(300, 400)
     pydirectinput.click(button="left")
     sleep(17000, 20000)  # 1emoteduration
-    pydirectinput.moveTo(118, 904)
+    mouseMoveTo(x=118, y=904)
     sleep(300, 400)
     pydirectinput.click(button="left")
-    pydirectinput.moveTo(311, 454)
+    mouseMoveTo(x=311, y=454)
     sleep(300, 400)
     pydirectinput.click(button="left")
     sleep(300, 400)
-    pydirectinput.moveTo(203, 595)
+    mouseMoveTo(x=203, y=595)
     sleep(300, 400)
     pydirectinput.click(button="left")
     sleep(17000, 20000)  # 2emoteduration
-    pydirectinput.moveTo(1832, 900)
+    mouseMoveTo(x=1832, y=900)
     sleep(300, 400)
     pydirectinput.click(button="left")
 
@@ -2995,7 +2996,7 @@ def bifrostGoTo(option):
     pydirectinput.keyUp("alt")
     sleep(2500, 2600)
 
-    pydirectinput.moveTo(x=bifrostXY[option][0], y=bifrostXY[option][1])
+    mouseMoveTo(x=bifrostXY[option][0], y=bifrostXY[option][1])
     sleep(1800, 1900)
     pydirectinput.click(button="left")
     sleep(500, 600)
@@ -3011,7 +3012,7 @@ def bifrostGoTo(option):
         return False
     else:
         # ok
-        pydirectinput.moveTo(x=918, y=617)
+        mouseMoveTo(x=918, y=617)
         sleep(1500, 1600)
         pydirectinput.click(button="left")
         sleep(500, 600)
@@ -3098,12 +3099,12 @@ def acceptLopangDaily():
     pydirectinput.keyUp("alt")
     sleep(1900, 2200)
 
-    pydirectinput.moveTo(x=564, y=313)
+    mouseMoveTo(x=564, y=313)
     sleep(1800, 1900)
     pydirectinput.click(button="left")
     sleep(800, 900)
 
-    pydirectinput.moveTo(x=528, y=397)
+    mouseMoveTo(x=528, y=397)
     sleep(1800, 1900)
     pydirectinput.click(button="left")
     sleep(800, 900)
@@ -3120,17 +3121,17 @@ def acceptLopangDaily():
         sleep(1900, 2200)
         return False
 
-    pydirectinput.moveTo(x=1206, y=398)
+    mouseMoveTo(x=1206, y=398)
     sleep(800, 900)
     pydirectinput.click(button="left")
     sleep(800, 900)
 
-    pydirectinput.moveTo(x=1206, y=455)
+    mouseMoveTo(x=1206, y=455)
     sleep(800, 900)
     pydirectinput.click(button="left")
     sleep(800, 900)
 
-    pydirectinput.moveTo(x=1206, y=512)
+    mouseMoveTo(x=1206, y=512)
     sleep(800, 900)
     pydirectinput.click(button="left")
 
@@ -3143,7 +3144,7 @@ def walkWithAlt(lopangX, lopangY, milliseconds):
     lopangX = lopangX
     lopangY = lopangY
     pydirectinput.keyDown("alt")
-    pydirectinput.moveTo(x=lopangX, y=lopangY)
+    mouseMoveTo(x=lopangX, y=lopangY)
     sleep(100, 100)
     pydirectinput.click(button=config["move"])
     sleep(milliseconds / 2, milliseconds / 2)
@@ -3156,7 +3157,7 @@ def walkPressG(lopangX, lopangY, milliseconds):
     while timeCount != 0:
         lopangX = lopangX
         lopangY = lopangY
-        pydirectinput.moveTo(x=lopangX, y=lopangY)
+        mouseMoveTo(x=lopangX, y=lopangY)
         sleep(100, 100)
         pydirectinput.click(button=config["move"])
         timeCount = timeCount - 1
@@ -3183,7 +3184,7 @@ def buyAuctionFirstFav():
         )
         if gold2 != None or gold1 != None:
             # click price input
-            pydirectinput.moveTo(x=977, y=504)
+            mouseMoveTo(x=977, y=504)
             sleep(200, 300)
             pydirectinput.click(button="left")
             sleep(300, 400)
@@ -3194,50 +3195,56 @@ def buyAuctionFirstFav():
             pydirectinput.press("9")
             sleep(110, 120)
             # click buy
-            pydirectinput.moveTo(x=956, y=726)
+            mouseMoveTo(x=956, y=726)
             sleep(200, 300)
             pydirectinput.click(button="left")
             sleep(300, 400)
             # click ok
-            pydirectinput.moveTo(x=959, y=562)
+            mouseMoveTo(x=959, y=562)
             sleep(200, 300)
             pydirectinput.click(button="left")
             sleep(5300, 5400)
 
             # click mail
-            pydirectinput.moveTo(x=304, y=144)
+            mouseMoveTo(x=304, y=144)
             sleep(200, 300)
             pydirectinput.click(button="left")
             sleep(300, 400)
             # click first mail
-            pydirectinput.moveTo(x=212, y=219)
+            mouseMoveTo(x=212, y=219)
             sleep(200, 300)
             pydirectinput.click(button="left")
             # click accept
-            pydirectinput.moveTo(x=440, y=515)
+            mouseMoveTo(x=440, y=515)
             sleep(200, 300)
             pydirectinput.click(button="left")
             # click delete
-            pydirectinput.moveTo(x=518, y=515)
+            mouseMoveTo(x=518, y=515)
             sleep(200, 300)
             pydirectinput.click(button="left")
             sleep(5300, 5400)
             # click
-            pydirectinput.moveTo(x=1320, y=355)
+            mouseMoveTo(x=1320, y=355)
             sleep(200, 300)
             pydirectinput.click(button="left")
             sleep(300, 400)
             # click bottom right buy
-            pydirectinput.moveTo(x=1416, y=828)
+            mouseMoveTo(x=1416, y=828)
             sleep(200, 300)
             pydirectinput.click(button="left")
             sleep(300, 400)
         else:
             # click refresh
-            pydirectinput.moveTo(x=1062, y=298)
+            mouseMoveTo(x=1062, y=298)
             sleep(200, 300)
             pydirectinput.click(button="left")
             sleep(300, 400)
+
+
+def mouseMoveTo(**kwargs):
+    x = kwargs["x"]
+    y = kwargs["y"]
+    pyautogui.moveTo(x=x, y=y)
 
 
 if __name__ == "__main__":
