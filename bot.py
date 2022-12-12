@@ -1155,15 +1155,15 @@ def printResult():
         states["minTime"] = int(min(lastRun, states["minTime"]))
         states["maxTime"] = int(max(lastRun, states["maxTime"]))
     print(
-        "floor 2 runs: {}, floor 3 runs: {}, total death: {}, timeout runs: {}, dc: {}, crash: {}, restart: {}, badRunCount(not using now): {}".format(
+        "floor 2 runs: {}, floor 3 runs: {}, timeout runs: {}, death: {}, dc: {}, crash: {}, restart: {}".format(
             states["clearCount"],
             states["fullClearCount"],
-            states["deathCount"],
             states["timeoutCount"],
+            states["deathCount"],
             states["gameOfflineCount"],
             states["gameCrashCount"],
             states["gameRestartCount"],
-            states["badRunCount"],
+            # states["badRunCount"],
         )
     )
     print(
@@ -1347,7 +1347,10 @@ def useAbilities():
 
 
 def checkCDandCast(ability):
-    if config["characters"][states["currentCharacter"]]["class"] == "arcana":
+    if (
+        config["characters"][states["currentCharacter"]]["class"] == "arcana"
+        or config["characters"][states["currentCharacter"]]["class"] == "deathblade"
+    ):
         pydirectinput.press("x")
         pydirectinput.press("z")
     if (
@@ -2053,7 +2056,7 @@ def enterPortal():
             # states["instanceStartTime"] = -1
             # badRun = pyautogui.screenshot()
             # badRun.save("./debug/badRun_" + str(nowTime) + ".png")
-            states["badRunCount"] = states["badRunCount"] + 1
+            # states["badRunCount"] = states["badRunCount"] + 1
             # clear mobs a bit with first spell before scanning for portal again
             pydirectinput.press(states["abilityScreenshots"][0]["key"])
             sleep(100, 150)

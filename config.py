@@ -73,7 +73,7 @@ config = {
         {
             "index": 4,
             "class": "sorceress",
-            "ilvl-endless": 1370,
+            "ilvl-endless": 1100,
             "ilvl-aor": 1370,
             "lopang": True,
             "guildDonation": True,
