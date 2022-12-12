@@ -1155,7 +1155,7 @@ def printResult():
         states["minTime"] = int(min(lastRun, states["minTime"]))
         states["maxTime"] = int(max(lastRun, states["maxTime"]))
     print(
-        "floor 2 runs: {}, floor 3 runs: {}, timeout runs: {}, death: {}, dc: {}, crash: {}, restart: {}".format(
+        "floor 2 runs: {}, floor 3 runs: {}, timeout runs: {}, death: {}, dc: {}, crash: {}, restart: {}, badRunCount: {}".format(
             states["clearCount"],
             states["fullClearCount"],
             states["timeoutCount"],
@@ -1163,7 +1163,7 @@ def printResult():
             states["gameOfflineCount"],
             states["gameCrashCount"],
             states["gameRestartCount"],
-            # states["badRunCount"],
+            states["badRunCount"],
         )
     )
     print(
@@ -1211,6 +1211,14 @@ def useAbilities():
         elif states["status"] == "floor1" and not checkFloor2Mob():
             print("no mob on floor 1, random move to detect portal")
             randomMove()
+        elif states["status"] == "floor1" and checkFloor2Elite():
+            print("accidentally entered floor 2")
+            states["status"] = "floor2"
+            nowTime = int(time.time_ns() / 1000000)
+            badRun = pyautogui.screenshot()
+            badRun.save("./debug/badRun_" + str(nowTime) + ".png")
+            states["badRunCount"] = states["badRunCount"] + 1
+            return
         elif states["status"] == "floor3" and checkFloor2Elite():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
             moveToMinimapRelative(states["moveToX"], states["moveToY"], 200, 300, False)
@@ -2228,6 +2236,7 @@ def diedCheck():  # get information about wait a few second to revive
         confidence=0.9,
         region=(917, 145, 630, 550),
     ):
+        print("died")
         states["deathCount"] = states["deathCount"] + 1
         sleep(5000, 5500)
         while (
@@ -2240,6 +2249,7 @@ def diedCheck():  # get information about wait a few second to revive
         ):
             mouseMoveTo(x=1275, y=454)
             sleep(1600, 1800)
+            print("rez clicked")
             pydirectinput.click(1275, 454, button="left")
             sleep(600, 800)
             mouseMoveTo(x=config["screenCenterX"], y=config["screenCenterY"])
