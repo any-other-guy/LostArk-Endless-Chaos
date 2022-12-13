@@ -21,7 +21,7 @@
     Then set your 2/4/5 (because i dont have no3 unlocked) bifrost location to be right in front of those three lopang quest hand-in NPCs.
 """
 config = {
-    "mainCharacter": 4,  # must be in number 0 to 5 (0 is the first character)
+    "mainCharacter": 3,  # must be in number 0 to 5 (0 is the first character)
     "GFN": True,  # set True for GFN users
     "enableMultiCharacterMode": False,  # this is lit
     "enableLopang": True,  # NOTE: you need to setup bifrost locations properly for this, at very specific locations. Look up ^
@@ -64,7 +64,7 @@ config = {
         {
             "index": 3,
             "class": "sorceress",
-            "ilvl-endless": 1370,
+            "ilvl-endless": 1100,
             "ilvl-aor": 1370,
             "lopang": True,
             "guildDonation": True,
@@ -73,7 +73,7 @@ config = {
         {
             "index": 4,
             "class": "sorceress",
-            "ilvl-endless": 1100,
+            "ilvl-endless": 1370,
             "ilvl-aor": 1370,
             "lopang": True,
             "guildDonation": True,
@@ -132,8 +132,8 @@ config = {
     "screenCenterY": 540,
     "minimapCenterX": 1772,
     "minimapCenterY": 272,
-    "timeLimit": 360000,  # to prevent unexpected amount of time spent in a chaos dungeon, a tiem limit is set here, will quit after this amount of seconds
-    "timeLimitAor": 600000,  # to prevent unexpected amount of time spent in a chaos dungeon, a tiem limit is set here, will quit after this amount of seconds
+    "timeLimit": 480000,  # to prevent unexpected amount of time spent in a chaos dungeon, a tiem limit is set here, will quit after this amount of seconds
+    "timeLimitAor": 900000,  # to prevent unexpected amount of time spent in a chaos dungeon, a tiem limit is set here, will quit after this amount of seconds
     "blackScreenTimeLimit": 30000,  # if stuck in nothing for this amount of time, alt f4 game, restart and resume.
     "delayedStart": 3000,
     "healthCheckX": 690,

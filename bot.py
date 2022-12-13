@@ -803,6 +803,7 @@ def doFloor1():
             return
 
         print("floor 1 cleared")
+        # 不小心进下个门但没识别到
         if states["status"] == "floor2":
             return
         calculateMinimapRelative(states["moveToX"], states["moveToY"])
@@ -850,6 +851,16 @@ def doFloor2():
             return
 
         print("floor 2 cleared")
+        # 不小心进下个门但没识别到
+        if states["status"] == "floor3":
+            # 要接着打
+            if states["floor3Mode"] == True:
+                return
+            # 下一把
+            else:
+                states["clearCount"] = states["clearCount"] + 1
+                quitChaos()
+                return
         if states["floor3Mode"] == False:
             states["clearCount"] = states["clearCount"] + 1
         calculateMinimapRelative(states["moveToX"], states["moveToY"])
@@ -882,7 +893,7 @@ def doFloor3Portal():
         )
         if normalMob == True:
             return
-        if goldMob == True or bossBar != None:
+        elif goldMob == True or bossBar != None:
             break
         sleep(500, 550)
 
@@ -942,6 +953,8 @@ def doFloor3Portal():
                 break
         sleep(800, 900)
     else:
+        # 不小心进下个门但没识别到: checkFloor3Tower
+        states["floor3Mode"] = False
         # hacky quit
         states["instanceStartTime"] = -1
         return
@@ -977,7 +990,7 @@ def doFloor3():
     # check repair
     if config["auraRepair"]:
         doAuraRepair(False)
-    # trigger start real floor 3
+
     useAbilities()
 
     if offlineCheck():
@@ -1089,8 +1102,7 @@ def restartChaos():
     while True:
         selectLevelButton = pyautogui.locateCenterOnScreen(
             "./screenshots/selectLevel.png",
-            grayscale=True,
-            confidence=0.7,
+            confidence=0.8,
             region=config["regions"]["leaveMenu"],
         )
         if selectLevelButton != None:
@@ -1194,6 +1206,24 @@ def useAbilities():
         if checkTimeout():
             return
 
+        # check for accident
+        if states["status"] == "floor1" and checkFloor2Elite():
+            print("accidentally entered floor 2")
+            states["status"] = "floor2"
+            nowTime = int(time.time_ns() / 1000000)
+            badRun = pyautogui.screenshot()
+            badRun.save("./debug/badRun_" + str(nowTime) + ".png")
+            states["badRunCount"] = states["badRunCount"] + 1
+            return
+        elif states["status"] == "floor2" and checkFloor3Tower():
+            print("accidentally entered floor 3")
+            states["status"] = "floor3"
+            nowTime = int(time.time_ns() / 1000000)
+            badRun = pyautogui.screenshot()
+            badRun.save("./debug/badRun_" + str(nowTime) + ".png")
+            states["badRunCount"] = states["badRunCount"] + 1
+            return
+
         # check elite and mobs, lower priority cuz it only runs check once a cycle
         if states["status"] == "floor2" and not checkFloor2Elite() and checkFloor2Mob():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
@@ -1211,14 +1241,6 @@ def useAbilities():
         elif states["status"] == "floor1" and not checkFloor2Mob():
             print("no mob on floor 1, random move to detect portal")
             randomMove()
-        elif states["status"] == "floor1" and checkFloor2Elite():
-            print("accidentally entered floor 2")
-            states["status"] = "floor2"
-            nowTime = int(time.time_ns() / 1000000)
-            badRun = pyautogui.screenshot()
-            badRun.save("./debug/badRun_" + str(nowTime) + ".png")
-            states["badRunCount"] = states["badRunCount"] + 1
-            return
         elif states["status"] == "floor3" and checkFloor2Elite():
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
             moveToMinimapRelative(states["moveToX"], states["moveToY"], 200, 300, False)
@@ -1312,6 +1334,11 @@ def useAbilities():
                 moveToMinimapRelative(
                     states["moveToX"], states["moveToY"], 1200, 1300, True
                 )
+                # if (
+                #     config["characters"][states["currentCharacter"]]["class"]
+                #     == "sorceress"
+                # ):
+                #     pyautogui.press("x")
                 sleep(200, 220)
                 clickTower()
             elif states["status"] == "floor3" and checkFloor2Mob():
@@ -1373,7 +1400,6 @@ def checkCDandCast(ability):
             mouseMoveTo(x=states["moveToX"], y=states["moveToY"])
         else:
             mouseMoveTo(x=config["screenCenterX"], y=config["screenCenterY"])
-        sleep(110, 120)
 
         if ability["cast"]:
             start_ms = int(time.time_ns() / 1000000)
@@ -1809,6 +1835,11 @@ def checkChaosFinish():
     clearOk = pyautogui.locateCenterOnScreen(
         "./screenshots/clearOk.png", confidence=0.75, region=(625, 779, 500, 155)
     )
+    selectLevelButton = pyautogui.locateCenterOnScreen(
+        "./screenshots/selectLevel.png",
+        confidence=0.8,
+        region=config["regions"]["leaveMenu"],
+    )
     if clearOk != None:
         states["fullClearCount"] = states["fullClearCount"] + 1
         x, y = clearOk
@@ -1817,8 +1848,17 @@ def checkChaosFinish():
         pydirectinput.click(x=x, y=y, button="left")
         sleep(200, 300)
         mouseMoveTo(x=x, y=y)
-        sleep(200, 300)
+        sleep(600, 800)
         pydirectinput.click(x=x, y=y, button="left")
+        return True
+    elif selectLevelButton != None:
+        # edge case clearok
+        mouseMoveTo(x=959, y=851)
+        sleep(1600, 1800)
+        pydirectinput.click(button="left")
+        sleep(200, 300)
+        pydirectinput.click(button="left")
+        sleep(600, 800)
         return True
     return False
 
@@ -1926,11 +1966,6 @@ def moveToMinimapRelative(x, y, timeMin, timeMax, blink):
         and states["moveToY"] == config["screenCenterY"]
     ):
         return
-    print("moving to pos x: {} y: {}".format(states["moveToX"], states["moveToY"]))
-
-    # count = 0
-    # turn = True
-    # deflect = 60
 
     if states["status"] == "floor1":
         mouseMoveTo(x=x, y=y)
@@ -1939,7 +1974,11 @@ def moveToMinimapRelative(x, y, timeMin, timeMax, blink):
     # moving in a straight line
     if states["moveTime"] < 50:
         return
-    # print("move for {} ms".format(states["moveTime"]))
+    print(
+        "moving to pos x: {} y: {} for {} ms".format(
+            states["moveToX"], states["moveToY"], states["moveTime"]
+        )
+    )
     pydirectinput.keyDown("alt")
     sleep(10, 30)
     pydirectinput.click(x=x, y=y, button=config["move"])
@@ -1963,46 +2002,14 @@ def moveToMinimapRelative(x, y, timeMin, timeMax, blink):
         if states["moveTime"] > 1200:
             if config["characters"][states["currentCharacter"]]["class"] == "sorceress":
                 pydirectinput.press("x")
-            sleep(300, 320)
+            sleep(250, 270)
         pydirectinput.press(config["blink"])
-        sleep(300, 320)
+        sleep(250, 270)
 
+    pydirectinput.click(
+        x=config["screenCenterX"], y=config["screenCenterY"], button=config["move"]
+    )
     return
-
-    # # snake moving
-    # while count < 3:
-    #     if x > 960 and y < 540:
-    #         if turn:
-    #             x = x - deflect* 2.5
-    #             y = y - deflect
-    #         else:
-    #             x = x + deflect* 2.5
-    #             y = y + deflect
-    #     elif x > 960 and y > 540:
-    #         if turn:
-    #             x = x + deflect* 2.5
-    #             y = y - deflect
-    #         else:
-    #             x = x - deflect * 2.5
-    #             y = y + deflect
-    #     elif x < 960 and y > 540:
-    #         if turn:
-    #             x = x + deflect* 2.5
-    #             y = y + deflect
-    #         else:
-    #             x = x - deflect* 2.5
-    #             y = y - deflect
-    #     elif x < 960 and y < 540:
-    #         if turn:
-    #             x = x - deflect* 2.5
-    #             y = y + deflect
-    #         else:
-    #             x = x + deflect* 2.5
-    #             y = y - deflect
-    #     pydirectinput.click(x=x, y=y, button=config['move'])
-    #     sleep(math.floor(timeMin / 3), math.floor(timeMax / 3))
-    #     turn = not turn
-    #     count = count + 1
 
 
 def randomMove():
@@ -2058,6 +2065,15 @@ def enterPortal():
 
     enterTime = int(time.time_ns() / 1000000)
     while True:
+        # try to enter portal until black screen
+        im = pyautogui.screenshot(region=(1652, 168, 240, 210))
+        r, g, b = im.getpixel((1772 - 1652, 272 - 168))
+        # print(r + g + b)
+        if r + g + b < 60:
+            print("portal entered")
+            mouseMoveTo(x=config["screenCenterX"], y=config["screenCenterY"])
+            return True
+
         nowTime = int(time.time_ns() / 1000000)
         falseTime = 6000
         if nowTime - enterTime > falseTime:
@@ -2078,22 +2094,13 @@ def enterPortal():
             and states["moveToY"] == config["screenCenterY"]
         ):
             pydirectinput.press(config["interact"])
-            sleep(50, 60)
+            sleep(100, 120)
         else:
             pydirectinput.press(config["interact"])
             pydirectinput.click(
                 x=states["moveToX"], y=states["moveToY"], button=config["move"]
             )
-            sleep(50, 60)
-
-        # try to enter portal until black screen
-        im = pyautogui.screenshot(region=(1652, 168, 240, 210))
-        r, g, b = im.getpixel((1772 - 1652, 272 - 168))
-        # print(r + g + b)
-        if r + g + b < 60:
-            print("portal entered")
-            mouseMoveTo(x=config["screenCenterX"], y=config["screenCenterY"])
-            return True
+            sleep(60, 70)
 
 
 # def enterPortal():
@@ -2442,6 +2449,7 @@ def checkTimeout():
         timeout = pyautogui.screenshot()
         timeout.save("./debug/timeout_aor_" + str(currentTime) + ".png")
         states["timeoutCount"] = states["timeoutCount"] + 1
+        return True
     return False
 
 
