@@ -2,7 +2,8 @@
 
 A Lost Ark chaos dungeon(PvE) farming bot.\
 Fully automatic mob/elite/boss detecting and clearing, based on image recognition.\
-Background running is capable and tested, by using Remote Desktop (RDP Wrapper) and Nvidia GeForce Now.
+Background running is capable and tested, by using Remote Desktop (RDP Wrapper) and Nvidia GeForce Now.\
+UPDATE: Major improvements on efficiency and accuracy updated!! (12/14/2022 right before brel update in the west) Please re-install and go through all config files again.
 
 What it does:
 * Infinite Chaos Dungeon clears for any selected character
