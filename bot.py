@@ -1586,12 +1586,12 @@ def checkFloor3Tower():
     towerTop = pyautogui.locateCenterOnScreen(
         "./screenshots/towerTop.png",
         region=config["regions"]["minimap"],
-        confidence=0.6,
+        confidence=0.7,
     )
     towerBot = pyautogui.locateCenterOnScreen(
         "./screenshots/towerBot.png",
         region=config["regions"]["minimap"],
-        confidence=0.6,
+        confidence=0.7,
     )
     if tower != None:
         x, y = tower
@@ -1670,6 +1670,7 @@ def checkChaosFinish():
         sleep(200, 300)
         return True
     elif selectLevelButton != None:
+        states["fullClearCount"] = states["fullClearCount"] + 1
         # edge case clearok
         mouseMoveTo(x=959, y=851)
         sleep(800, 900)
