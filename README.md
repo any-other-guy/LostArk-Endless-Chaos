@@ -2,24 +2,24 @@
 
 A Lost Ark chaos dungeon(PvE) farming bot.\
 Fully automatic mob/elite/boss detecting and clearing, based on image recognition.\
-~~Background running is supported with RDP Wrapper(Remote Desktop)~~
+Background running is capable and tested, by using Remote Desktop (RDP Wrapper) and Nvidia GeForce Now.
 
 What it does:
-* Infinite Chaos Dungeon clearing for your main character
-* Daily 2x Chaos Dungeon FULL runs; automatically detecting and rotating through UP TO 9 characters, then goes back to your main for more infinite runs.
-* Daily Lopang runs on selected Character
-* Daily Guild Donations on all characters
+* Infinite Chaos Dungeon clears for any selected character
+* Daily x2 Chaos Dungeon FULL runs. Able to rotate through UP to 9 characters, then switch back to your main character for more infinite run cycles.
+* Daily Lopang runs on selected/all characters
+* Daily Guild Donations on selected/all characters
+* Daily Rapport Tasks on selected/all characters
 
 Basic Features:
 - [x] Floor 1 clearing
 - [x] Floor 2 clearing
 - [x] Gold Portal clearing
 - [x] Purple Boss Portal clearing
-- [x] Optional Floor 3 indefinite clearing for silver earning
-- [x] Auto game client restart on game crash/disconnect
-- [x] Daily Lopang (extra setup required)
-- [x] Daily Guild Donation
-- [x] Daily Rapport Tasks
+- [x] Auto game restart on EAC offline or crash, for Steam and/or Nvidia GeForce Now players
+- [x] Daily Lopang (extra setup required, pls refer to the pinned post in Issues)
+- [x] Daily Guild Donation and research support
+- [x] Daily Rapport Task on selected NPC
 
 Utilities:
 - [x] Auto repair
