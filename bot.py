@@ -1672,8 +1672,12 @@ def checkChaosFinish():
         sleep(200, 300)
         return True
     elif selectLevelButton != None:
-        states["fullClearCount"] = states["fullClearCount"] + 1
         # edge case clearok
+        states["fullClearCount"] = states["fullClearCount"] + 1
+        currentTime = int(time.time_ns() / 1000000)
+        timeout = pyautogui.screenshot()
+        timeout.save("./debug/timeoutSelectLevel_" + str(currentTime) + ".png")
+        states["timeoutCount"] = states["timeoutCount"] + 1
         mouseMoveTo(x=959, y=851)
         sleep(800, 900)
         pydirectinput.click(button="left")
