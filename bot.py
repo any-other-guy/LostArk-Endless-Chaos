@@ -678,6 +678,7 @@ def doFloor2():
         if states["floor3Mode"] == False:
             states["clearCount"] = states["clearCount"] + 1
         calculateMinimapRelative(states["moveToX"], states["moveToY"])
+        sleep(config["portalPause"] - 50, config["portalPause"] + 50)
         if enterPortal():
             break
 
@@ -736,7 +737,7 @@ def doFloor3Portal():
             if states["floor3Mode"] == False:
                 return
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
-
+            sleep(config["portalPause"] - 50, config["portalPause"] + 50)
             if enterPortal():
                 break
         sleep(800, 900)
@@ -763,6 +764,7 @@ def doFloor3Portal():
             if states["floor3Mode"] == False:
                 return
             calculateMinimapRelative(states["moveToX"], states["moveToY"])
+            sleep(config["portalPause"] - 50, config["portalPause"] + 50)
             if enterPortal():
                 break
         sleep(800, 900)
@@ -1217,7 +1219,7 @@ def checkCDandCast(ability):
             mouseMoveTo(x=states["moveToX"], y=states["moveToY"])
         else:
             mouseMoveTo(x=config["screenCenterX"], y=config["screenCenterY"])
-        # sleep(50, 60)
+        sleep(50, 60)
 
         if ability["cast"]:
             start_ms = int(time.time_ns() / 1000000)
@@ -1830,6 +1832,7 @@ def moveToMinimapRelative(x, y, timeMin, timeMax, blink):
     pydirectinput.click(
         x=config["screenCenterX"], y=config["screenCenterY"], button=config["move"]
     )
+    sleep(50, 60)
     return
 
 

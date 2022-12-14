@@ -144,6 +144,7 @@ config = {
     "timeLimitAor": 900000,  # to prevent unexpected amount of time spent in a chaos dungeon, a tiem limit is set here, will quit after this amount of seconds
     "blackScreenTimeLimit": 30000,  # if stuck in nothing for this amount of time, alt f4 game, restart and resume.
     "delayedStart": 3000,
+    "portalPause": 700,
     "healthCheckX": 690,
     "healthCheckY": 854,
     "charSwitchX": 540,
