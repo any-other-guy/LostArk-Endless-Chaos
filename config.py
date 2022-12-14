@@ -15,17 +15,19 @@
     config must be set up correctly in order for the bot to work properly on your machine.
     Refer to the inline comments below:
 
-    For Lopang enjoyers:
+    For Lopang enjoyers: https://github.com/any-other-guy/LostArk-Endless-Chaos/issues/15
     Set your first bifrost point to be at lopang island.
     Exact location to be right in front of the NPC machine which stands farthest to the entrance.
     Then set your 2/4/5 (because i dont have no3 unlocked) bifrost location to be right in front of those three lopang quest hand-in NPCs.
 """
 config = {
-    "mainCharacter": 0,  # must be in number 0 to 5 (0 is the first character)
-    "enableMultiCharacterMode": True,  # must be in number 0 to 5 (0 is the first character)
+    "mainCharacter": 3,  # must be in number 0 to 5 (0 is the first character)
+    "GFN": True,  # set True for Geforce Now users
+    "enableMultiCharacterMode": False,  # this is lit
     "enableLopang": True,  # NOTE: you need to setup bifrost locations properly for this, at very specific locations. Look up ^
     "enableGuildDonation": True,  # please make sure all your characters have a guild
     "enableRapport": True,  # NOTE: you need to setup bifrost no3 infront of a rapport NPC
+    "floor3Mode": True,  # only enable if you ONLY want to run infinite floor3 clearing
     # Setup your characters below:
     # can setup UP TO 9 characters for daily chaos/lopang/guild stuff
     # however your main must be in character 0 to 5 (just for re-connect back after disconnection happens)
@@ -36,8 +38,8 @@ config = {
         {
             "index": 0,
             "class": "sorceress",
-            "ilvl-endless": 1475,
-            "ilvl-aor": 1475,
+            "ilvl-endless": 1490,
+            "ilvl-aor": 1520,
             "lopang": False,
             "guildDonation": True,
             "rapport": False,
@@ -45,8 +47,8 @@ config = {
         {
             "index": 1,
             "class": "arcana",
-            "ilvl-endless": 1370,
-            "ilvl-aor": 1475,
+            "ilvl-endless": 1490,
+            "ilvl-aor": 1490,
             "lopang": False,
             "guildDonation": True,
             "rapport": False,
@@ -63,7 +65,7 @@ config = {
         {
             "index": 3,
             "class": "sorceress",
-            "ilvl-endless": 1370,
+            "ilvl-endless": 1100,
             "ilvl-aor": 1370,
             "lopang": True,
             "guildDonation": True,
@@ -97,8 +99,6 @@ config = {
             "rapport": False,
         },
     ],
-    "floor3Mode": False,  # only enable if you ONLY want to run infinite floor3 clearing
-    "selectLevel": True,  # TODO: to be deprecated soon, DO NOT TOUCH
     "performance": False,  # set True for lower-end PCs
     "interact": "g",  # change this if you have binded it to something else eg.mouse button
     "move": "left",  # or "right"
@@ -106,7 +106,7 @@ config = {
     "meleeAttack": "c",
     "awakening": "v",
     "healthPot": "f1",  # important to put your regen potion on this button
-    "healthPotAtPercent": 0.3,  # health threshold to trigger potion
+    "healthPotAtPercent": 0.35,  # health threshold to trigger potion
     # "useAwakening": True, # not checking this for now
     # "useSpeciality1": True, # not checking this for now
     # "useSpeciality2": True, # not checking this for now
@@ -114,12 +114,13 @@ config = {
     "shortcutEnterChaos": True,  # you want to use True
     "useHealthPot": True,  # you want to use True
     # You might not want to touch anything below, because I assume you have your game setup same as mine :) otherwise something might not work properly!
+    "confidenceForGFN": 0.9,
     "regions": {
         "minimap": (1655, 170, 260, 200),  # (1700, 200, 125, 120)
         "abilities": (625, 779, 300, 155),
         "leaveMenu": (0, 154, 250, 300),
         "buffs": (625, 779, 300, 60),
-        "center": (782, 353, 400, 350),
+        "center": (685, 280, 550, 420),
         "portal": (228, 230, 1370, 570),
     },
     "screenResolutionX": 1920,
@@ -130,7 +131,8 @@ config = {
     "screenCenterY": 540,
     "minimapCenterX": 1772,
     "minimapCenterY": 272,
-    "timeLimit": 420000,  # to prevent unexpected amount of time spent in a chaos dungeon, a tiem limit is set here, will quit after this amount of seconds
+    "timeLimit": 480000,  # to prevent unexpected amount of time spent in a chaos dungeon, a tiem limit is set here, will quit after this amount of seconds
+    "timeLimitAor": 900000,  # to prevent unexpected amount of time spent in a chaos dungeon, a tiem limit is set here, will quit after this amount of seconds
     "blackScreenTimeLimit": 30000,  # if stuck in nothing for this amount of time, alt f4 game, restart and resume.
     "delayedStart": 3000,
     "healthCheckX": 690,
