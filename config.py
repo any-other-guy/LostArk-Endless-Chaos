@@ -22,11 +22,12 @@
 """
 config = {
     "mainCharacter": 3,  # must be in number 0 to 5 (0 is the first character)
-    "GFN": True,  # set True for GFN users
+    "GFN": True,  # set True for Geforce Now users
     "enableMultiCharacterMode": False,  # this is lit
     "enableLopang": True,  # NOTE: you need to setup bifrost locations properly for this, at very specific locations. Look up ^
     "enableGuildDonation": True,  # please make sure all your characters have a guild
     "enableRapport": True,  # NOTE: you need to setup bifrost no3 infront of a rapport NPC
+    "floor3Mode": True,  # only enable if you ONLY want to run infinite floor3 clearing
     # Setup your characters below:
     # can setup UP TO 9 characters for daily chaos/lopang/guild stuff
     # however your main must be in character 0 to 5 (just for re-connect back after disconnection happens)
@@ -37,8 +38,8 @@ config = {
         {
             "index": 0,
             "class": "sorceress",
-            "ilvl-endless": 1475,
-            "ilvl-aor": 1475,
+            "ilvl-endless": 1490,
+            "ilvl-aor": 1520,
             "lopang": False,
             "guildDonation": True,
             "rapport": False,
@@ -46,8 +47,8 @@ config = {
         {
             "index": 1,
             "class": "arcana",
-            "ilvl-endless": 1370,
-            "ilvl-aor": 1475,
+            "ilvl-endless": 1490,
+            "ilvl-aor": 1490,
             "lopang": False,
             "guildDonation": True,
             "rapport": False,
@@ -98,8 +99,6 @@ config = {
             "rapport": False,
         },
     ],
-    "floor3Mode": True,  # only enable if you ONLY want to run infinite floor3 clearing
-    "selectLevel": True,  # TODO: to be deprecated soon, DO NOT TOUCH
     "performance": False,  # set True for lower-end PCs
     "interact": "g",  # change this if you have binded it to something else eg.mouse button
     "move": "left",  # or "right"
