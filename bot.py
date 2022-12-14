@@ -1215,6 +1215,7 @@ def checkCDandCast(ability):
             mouseMoveTo(x=states["moveToX"], y=states["moveToY"])
         else:
             mouseMoveTo(x=config["screenCenterX"], y=config["screenCenterY"])
+        sleep(50, 60)
 
         if ability["cast"]:
             start_ms = int(time.time_ns() / 1000000)
@@ -1222,7 +1223,7 @@ def checkCDandCast(ability):
             # spam until cast time before checking cd, to prevent 击倒后情况
             while now_ms - start_ms < ability["castTime"]:
                 pydirectinput.press(ability["key"])
-                sleep(30, 50)
+                sleep(50, 60)
                 now_ms = int(time.time_ns() / 1000000)
             # while pyautogui.locateOnScreen(
             #     ability["image"], region=config["regions"]["abilities"]
@@ -1245,9 +1246,9 @@ def checkCDandCast(ability):
             # 瞬发 ability
             if config["performance"] == True or config["GFN"] == True:
                 pydirectinput.press(ability["key"])
-                sleep(50, 80)
+                sleep(50, 60)
                 pydirectinput.press(ability["key"])
-                sleep(50, 80)
+                sleep(50, 60)
                 pydirectinput.press(ability["key"])
                 return
             pydirectinput.press(ability["key"])
@@ -1258,7 +1259,7 @@ def checkCDandCast(ability):
                 region=config["regions"]["abilities"],
             ):
                 pydirectinput.press(ability["key"])
-                sleep(50, 80)
+                sleep(50, 60)
                 now_ms = int(time.time_ns() / 1000000)
                 if now_ms - start_ms > 15000:
                     print("unable to use spell for 15s, check if disconnected")
@@ -2284,6 +2285,9 @@ def gameCrashCheck():
     sum = r1 + g1 + b1 + r2 + g2 + b2 + r3 + g3 + b3 + r4 + g4 + b4
     if sum > 10:
         print("game crashed, restarting game client...")
+        currentTime = int(time.time_ns() / 1000000)
+        crash = pyautogui.screenshot()
+        crash.save("./debug/crash_" + str(currentTime) + ".png")
         states["gameCrashCount"] = states["gameCrashCount"] + 1
         return True
     return False
@@ -2448,6 +2452,23 @@ def restartGame():
                 pydirectinput.click(x=x, y=y, button="left")
                 sleep(40000, 42000)
                 break
+            afkGFN = pyautogui.locateCenterOnScreen(
+                "./screenshots/afkGFN.png",
+                region=config["regions"]["center"],
+                confidence=0.75,
+            )
+            closeGFN = pyautogui.locateCenterOnScreen(
+                "./screenshots/closeGFN.png",
+                confidence=0.75,
+            )
+            if afkGFN != None and closeGFN != None:
+                print("afk GFN")
+                x, y = closeGFN
+                mouseMoveTo(x=x, y=y)
+                sleep(1300, 1400)
+                pydirectinput.click(x=x, y=y, button="left")
+                sleep(1300, 1400)
+                continue
             # # i think eventually GFN would restart?
             # loa = pyautogui.locateCenterOnScreen(
             #     "./screenshots/loa.png",
