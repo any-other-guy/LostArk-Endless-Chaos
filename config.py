@@ -21,13 +21,13 @@
     Then set your 2/4/5 (because i dont have no3 unlocked) bifrost location to be right in front of those three lopang quest hand-in NPCs.
 """
 config = {
-    "mainCharacter": 3,  # must be in number 0 to 5 (0 is the first character)
+    "mainCharacter": 1,  # must be in number 0 to 5 (0 is the first character)
     "GFN": True,  # set True for Geforce Now users
-    "enableMultiCharacterMode": False,  # this is lit
+    "enableMultiCharacterMode": True,  # this is lit
     "enableLopang": True,  # NOTE: you need to setup bifrost locations properly for this, at very specific locations. Look up ^
     "enableGuildDonation": True,  # please make sure all your characters have a guild
     "enableRapport": True,  # NOTE: you need to setup bifrost no3 infront of a rapport NPC
-    "floor3Mode": True,  # only enable if you ONLY want to run infinite floor3 clearing
+    "floor3Mode": False,  # only enable if you ONLY want to run infinite floor3 clearing
     # Setup your characters below:
     # can setup UP TO 9 characters for daily chaos/lopang/guild stuff
     # however your main must be in character 0 to 5 (just for re-connect back after disconnection happens)
@@ -65,7 +65,7 @@ config = {
         {
             "index": 3,
             "class": "sorceress",
-            "ilvl-endless": 1100,
+            "ilvl-endless": 1370,
             "ilvl-aor": 1370,
             "lopang": True,
             "guildDonation": True,
@@ -98,6 +98,15 @@ config = {
             "guildDonation": True,
             "rapport": False,
         },
+        # {
+        #     "index": 7,
+        #     "class": "summoner",
+        #     "ilvl-endless": 1370,
+        #     "ilvl-aor": 1370,
+        #     "lopang": True,
+        #     "guildDonation": True,
+        #     "rapport": False,
+        # },
     ],
     "performance": False,  # set True for lower-end PCs
     "interact": "g",  # change this if you have binded it to something else eg.mouse button
