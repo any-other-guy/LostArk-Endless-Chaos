@@ -1217,7 +1217,7 @@ def checkCDandCast(ability):
             mouseMoveTo(x=states["moveToX"], y=states["moveToY"])
         else:
             mouseMoveTo(x=config["screenCenterX"], y=config["screenCenterY"])
-        sleep(50, 60)
+        # sleep(50, 60)
 
         if ability["cast"]:
             start_ms = int(time.time_ns() / 1000000)
@@ -1250,8 +1250,8 @@ def checkCDandCast(ability):
                 pydirectinput.press(ability["key"])
                 sleep(50, 60)
                 pydirectinput.press(ability["key"])
-                sleep(50, 60)
-                pydirectinput.press(ability["key"])
+                # sleep(50, 60)
+                # pydirectinput.press(ability["key"])
                 return
             pydirectinput.press(ability["key"])
             start_ms = int(time.time_ns() / 1000000)
@@ -1822,9 +1822,9 @@ def moveToMinimapRelative(x, y, timeMin, timeMax, blink):
         if states["moveTime"] > 1200:
             if config["characters"][states["currentCharacter"]]["class"] == "sorceress":
                 pydirectinput.press("x")
-            sleep(250, 270)
+            sleep(120, 160)
         pydirectinput.press(config["blink"])
-        sleep(250, 270)
+        sleep(120, 170)
 
     pydirectinput.click(
         x=config["screenCenterX"], y=config["screenCenterY"], button=config["move"]
@@ -2621,8 +2621,8 @@ def switchToCharacter(index):
     states["currentCharacter"] = index
     states["abilityScreenshots"] = []
     sleep(10000, 12000)
-    if config["GFM"] == True:
-        sleep(10000, 12000)
+    if config["GFN"] == True:
+        sleep(8000, 9000)
 
 
 def doGuildDonation():
