@@ -128,6 +128,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# timeout screenshots
-timeout/
+# debug screenshots
+debug/
 .vscode/
