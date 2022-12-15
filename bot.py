@@ -2578,7 +2578,7 @@ def switchToCharacter(index):
     pydirectinput.press("esc")
     sleep(1500, 1600)
     mouseMoveTo(x=config["charSwitchX"], y=config["charSwitchY"])
-    sleep(500, 600)
+    sleep(1500, 1600)
     pydirectinput.click(button="left")
     sleep(200, 300)
     pydirectinput.click(button="left")
@@ -2591,7 +2591,7 @@ def switchToCharacter(index):
     mouseMoveTo(
         x=config["charPositions"][index][0], y=config["charPositions"][index][1]
     )
-    sleep(500, 600)
+    sleep(1500, 1600)
     pyautogui.scroll(5)  # fix character switch if you have more then 9 characters
     sleep(500, 600)
     pydirectinput.click(button="left")
@@ -2604,7 +2604,7 @@ def switchToCharacter(index):
     sleep(500, 600)
 
     mouseMoveTo(x=config["charSelectConnectX"], y=config["charSelectConnectY"])
-    sleep(500, 600)
+    sleep(1500, 1600)
     pydirectinput.click(button="left")
     sleep(200, 300)
     pydirectinput.click(button="left")
@@ -2618,7 +2618,7 @@ def switchToCharacter(index):
     sleep(1000, 1000)
 
     mouseMoveTo(x=config["charSelectOkX"], y=config["charSelectOkY"])
-    sleep(500, 600)
+    sleep(1500, 1600)
     pydirectinput.click(button="left")
     sleep(200, 300)
     pydirectinput.click(button="left")
