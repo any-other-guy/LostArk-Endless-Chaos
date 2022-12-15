@@ -21,7 +21,7 @@
     Then set your 2/4/5 (because i dont have no3 unlocked) bifrost location to be right in front of those three lopang quest hand-in NPCs.
 """
 config = {
-    "mainCharacter": 1,  # must be in number 0 to 5 (0 is the first character)
+    "mainCharacter": 0,  # must be in number 0 to 5 (0 is the first character)
     "GFN": True,  # set True for Geforce Now users
     "enableMultiCharacterMode": True,  # this is lit
     "enableLopang": True,  # NOTE: you need to setup bifrost locations properly for this, at very specific locations. Look up ^
@@ -38,7 +38,7 @@ config = {
         {
             "index": 0,
             "class": "sorceress",
-            "ilvl-endless": 1490,
+            "ilvl-endless": 1520,
             "ilvl-aor": 1520,
             "lopang": False,
             "guildDonation": True,
@@ -47,8 +47,8 @@ config = {
         {
             "index": 1,
             "class": "arcana",
-            "ilvl-endless": 1490,
-            "ilvl-aor": 1490,
+            "ilvl-endless": 1520,
+            "ilvl-aor": 1520,
             "lopang": False,
             "guildDonation": True,
             "rapport": False,

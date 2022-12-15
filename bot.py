@@ -1654,11 +1654,13 @@ def checkChaosFinish():
     clearOk = pyautogui.locateCenterOnScreen(
         "./screenshots/clearOk.png", confidence=0.75, region=(625, 779, 500, 155)
     )
+    """
     selectLevelButton = pyautogui.locateCenterOnScreen(
-        "./screenshots/selectLevel.png",
-        confidence=0.8,
-        region=config["regions"]["leaveMenu"],
+    "./screenshots/selectLevel.png",
+    confidence=0.8,
+    region=config["regions"]["leaveMenu"],
     )
+    """
     if clearOk != None:
         states["fullClearCount"] = states["fullClearCount"] + 1
         x, y = clearOk
@@ -1671,22 +1673,22 @@ def checkChaosFinish():
         pydirectinput.click(x=x, y=y, button="left")
         sleep(200, 300)
         return True
-    elif selectLevelButton != None:
-        # edge case clearok
-        states["fullClearCount"] = states["fullClearCount"] + 1
-        currentTime = int(time.time_ns() / 1000000)
-        timeout = pyautogui.screenshot()
-        timeout.save("./debug/timeoutSelectLevel_" + str(currentTime) + ".png")
-        states["timeoutCount"] = states["timeoutCount"] + 1
-        mouseMoveTo(x=959, y=851)
-        sleep(800, 900)
-        pydirectinput.click(button="left")
-        sleep(200, 300)
-        mouseMoveTo(x=959, y=851)
-        sleep(600, 800)
-        pydirectinput.click(button="left")
-        sleep(200, 300)
-        return True
+    # elif selectLevelButton != None:
+    #     # edge case clearok
+    #     states["fullClearCount"] = states["fullClearCount"] + 1
+    #     currentTime = int(time.time_ns() / 1000000)
+    #     timeout = pyautogui.screenshot()
+    #     timeout.save("./debug/timeoutSelectLevel_" + str(currentTime) + ".png")
+    #     states["timeoutCount"] = states["timeoutCount"] + 1
+    #     mouseMoveTo(x=959, y=851)
+    #     sleep(800, 900)
+    #     pydirectinput.click(button="left")
+    #     sleep(200, 300)
+    #     mouseMoveTo(x=959, y=851)
+    #     sleep(600, 800)
+    #     pydirectinput.click(button="left")
+    #     sleep(200, 300)
+    #     return True
     return False
 
 
