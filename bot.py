@@ -39,6 +39,8 @@ newStates = {
 
 
 def main():
+    sleep(1000, 1200)
+    walkLopang()
     print("Endless Chaos starting in seconds...")
     print("Remember to turn on Auto-disassemble")
 
@@ -983,7 +985,7 @@ def printResult():
         states["minTime"] = int(min(lastRun, states["minTime"]))
         states["maxTime"] = int(max(lastRun, states["maxTime"]))
     print(
-        "floor 2 runs: {}, floor 3 runs: {}, timeout runs: {}, death: {}, dc: {}, crash: {}, restart: {}, portalReEnter: {}, lowHpCount : {}".format(
+        "floor 2 runs: {}, floor 3 runs: {}, timeout runs: {}, death: {}, dc: {}, crash: {}, restart: {}, accidentalEnter: {}, lowHpCount : {}".format(
             states["clearCount"],
             states["fullClearCount"],
             states["timeoutCount"],
@@ -1798,6 +1800,7 @@ def moveToMinimapRelative(x, y, timeMin, timeMax, blink):
 
     if states["status"] == "floor1":
         mouseMoveTo(x=x, y=y)
+        sleep(100, 120)
         return
 
     # moving in a straight line
@@ -1838,7 +1841,7 @@ def moveToMinimapRelative(x, y, timeMin, timeMax, blink):
     pydirectinput.click(
         x=config["screenCenterX"], y=config["screenCenterY"], button=config["move"]
     )
-    sleep(50, 60)
+    sleep(100, 120)
     return
 
 
@@ -2115,19 +2118,19 @@ def doAuraRepair(forced):
         pydirectinput.press("p")
         sleep(800, 900)
         pydirectinput.keyUp("alt")
-        sleep(800, 900)
+        sleep(1500, 1600)
         mouseMoveTo(x=1142, y=661)
-        sleep(600, 700)
+        sleep(1500, 1600)
         pydirectinput.click(1142, 661, button="left")
         sleep(600, 700)
         mouseMoveTo(x=1054, y=455)
-        sleep(600, 700)
+        sleep(1500, 1600)
         pydirectinput.click(1054, 455, button="left")
         sleep(600, 700)
         pydirectinput.press("esc")
-        sleep(800, 900)
+        sleep(1500, 1600)
         pydirectinput.press("esc")
-        sleep(800, 900)
+        sleep(1500, 1600)
 
 
 def doCityRepair():
@@ -2921,8 +2924,13 @@ def bifrostGoTo(option):
 
 
 def walkLopang():
+    pydirectinput.PAUSE = 0.1
+    sleep(1000, 2000)
     print("walking lopang")
     spamG(1000)
+    # nowTime = int(time.time_ns() / 1000000)
+    # lopangDebug = pyautogui.screenshot()
+    # lopangDebug.save("./debug/lopangDebug_" + str(nowTime) + ".png")
     walkWithAlt(315, 473, 1500)
     walkWithAlt(407, 679, 1300)
     walkWithAlt(584, 258, 1000)
@@ -2932,6 +2940,9 @@ def walkLopang():
     walkWithAlt(1223, 406, 800)
     walkWithAlt(1263, 404, 800)
     spamG(1000)
+    # nowTime = int(time.time_ns() / 1000000)
+    # lopangDebug = pyautogui.screenshot()
+    # lopangDebug.save("./debug/lopangDebug_" + str(nowTime) + ".png")
     walkWithAlt(496, 750, 800)
     walkWithAlt(496, 750, 800)
     walkWithAlt(496, 750, 800)
@@ -2941,6 +2952,11 @@ def walkLopang():
     walkWithAlt(573, 301, 1200)
     walkWithAlt(820, 240, 800)
     spamG(1000)
+    # nowTime = int(time.time_ns() / 1000000)
+    # lopangDebug = pyautogui.screenshot()
+    # lopangDebug.save("./debug/lopangDebug_" + str(nowTime) + ".png")
+    sleep(1000, 2000)
+    pydirectinput.PAUSE = 0.05
     sleep(1000, 2000)
 
 

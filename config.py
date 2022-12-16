@@ -38,7 +38,7 @@ config = {
         {
             "index": 0,
             "class": "sorceress",
-            "ilvl-endless": 1520,
+            "ilvl-endless": 1490,
             "ilvl-aor": 1520,
             "lopang": False,
             "guildDonation": True,
@@ -47,7 +47,7 @@ config = {
         {
             "index": 1,
             "class": "arcana",
-            "ilvl-endless": 1520,
+            "ilvl-endless": 1490,
             "ilvl-aor": 1520,
             "lopang": False,
             "guildDonation": True,
