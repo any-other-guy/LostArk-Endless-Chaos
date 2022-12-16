@@ -39,8 +39,6 @@ newStates = {
 
 
 def main():
-    sleep(1000, 1200)
-    walkLopang()
     print("Endless Chaos starting in seconds...")
     print("Remember to turn on Auto-disassemble")
 
