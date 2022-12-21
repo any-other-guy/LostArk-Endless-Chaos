@@ -834,31 +834,24 @@ def quitChaos():
     print("quitting chaos")
     sleep(100, 200)
     while True:
+        if offlineCheck():
+            closeGameByClickingDialogue()
+            return
+        if gameCrashCheck():
+            states["status"] = "restart"
+            return
         leaveButton = pyautogui.locateCenterOnScreen(
             "./screenshots/leave.png",
             grayscale=True,
             confidence=0.7,
             region=config["regions"]["leaveMenu"],
         )
-
         if leaveButton != None:
             x, y = leaveButton
-
-            # while (
-            #     pyautogui.locateCenterOnScreen("./screenshots/ok.png", confidence=0.75)
-            #     == None
-            # ):
             mouseMoveTo(x=x, y=y)
-            sleep(200, 300)
+            sleep(500, 600)
             pydirectinput.click(button="left")
-            sleep(100, 200)
-        else:
-            if offlineCheck():
-                closeGameByClickingDialogue()
-                return
-            if gameCrashCheck():
-                states["status"] = "restart"
-                return
+            sleep(200, 300)
         sleep(300, 400)
         # leave ok
         okButton = pyautogui.locateCenterOnScreen(
@@ -1207,6 +1200,12 @@ def checkCDandCast(ability):
     ):
         pydirectinput.press("x")
         pydirectinput.press("z")
+    elif config["characters"][states["currentCharacter"]]["class"] == "summoner":
+        # mouseMoveTo(x=config["screenCenterX"], y=config["screenCenterY"])
+        pydirectinput.press("z")
+        sleep(150, 160)
+        pydirectinput.press("z")
+
     if (
         config["performance"] == True
         or config["GFN"] == True
@@ -1693,20 +1692,32 @@ def checkChaosFinish():
 
 
 def fightFloor2Boss():
-    if states["status"] == "floor3" and pyautogui.locateOnScreen(
+    if pyautogui.locateOnScreen(
         "./screenshots/bossBar.png", confidence=0.8, region=(406, 159, 1000, 200)
     ):
         print("boss bar located")
+        mouseMoveTo(x=states["moveToX"], y=states["moveToY"])
+        sleep(80, 100)
         pydirectinput.press(config["awakening"])
-    elif states["bossBarLocated"] == False and pyautogui.locateOnScreen(
-        "./screenshots/bossBar.png", confidence=0.8, region=(406, 159, 1000, 200)
-    ):
-        # mouseMoveTo(x=states["moveToX"], y=states["moveToY"])
-        # sleep(80, 100)
-        print("boss bar located")
-        pydirectinput.press(config["awakening"])
-        states["bossBarLocated"] = True
-        sleep(2500, 3000)
+
+
+# def fightFloor2Boss():
+#     if states["status"] == "floor3" and pyautogui.locateOnScreen(
+#         "./screenshots/bossBar.png", confidence=0.8, region=(406, 159, 1000, 200)
+#     ):
+#         print("boss bar located")
+#         mouseMoveTo(x=states["moveToX"], y=states["moveToY"])
+#         sleep(80, 100)
+#         pydirectinput.press(config["awakening"])
+#     elif states["bossBarLocated"] == False and pyautogui.locateOnScreen(
+#         "./screenshots/bossBar.png", confidence=0.8, region=(406, 159, 1000, 200)
+#     ):
+#         mouseMoveTo(x=states["moveToX"], y=states["moveToY"])
+#         sleep(80, 100)
+#         print("boss bar located")
+#         pydirectinput.press(config["awakening"])
+#         states["bossBarLocated"] = True
+#         sleep(2500, 3000)
 
 
 def calculateMinimapRelative(x, y):
