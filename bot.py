@@ -106,13 +106,13 @@ def main():
                     confidence=0.75,
                     region=(247, 146, 222, 50),
                 )
+                if inTown != None:
+                    print("city loaded")
+                    break
                 if inChaos != None:
                     print("still in the last chaos run, quitting")
                     quitChaos()
                     sleep(4000, 6000)
-                if inTown != None:
-                    print("city loaded")
-                    break
                 sleep(1400, 1600)
 
             mouseMoveTo(x=config["screenCenterX"], y=config["screenCenterY"])
@@ -509,12 +509,21 @@ def enterChaos():
                 pydirectinput.click(x=x, y=y, button="left")
                 sleep(100, 200)
                 pydirectinput.click(x=x, y=y, button="left")
+                sleep(100, 200)
+                pydirectinput.click(x=x, y=y, button="left")
+                sleep(100, 200)
+                pydirectinput.click(x=x, y=y, button="left")
                 break
             else:
                 mouseMoveTo(x=886, y=346)
                 sleep(800, 900)
                 pydirectinput.click(button="left")
                 sleep(200, 300)
+                pydirectinput.click(button="left")
+                sleep(200, 300)
+                pydirectinput.click(button="left")
+                sleep(1800, 1900)
+
     else:
         while True:
             if gameCrashCheck():
@@ -862,6 +871,18 @@ def quitChaos():
         if okButton != None:
             break
         sleep(300, 400)
+        """
+        # incity check
+        inTown = pyautogui.locateCenterOnScreen(
+            "./screenshots/inTown.png",
+            confidence=0.75,
+            region=(1870, 133, 25, 30),
+        )
+        if inTown != None:
+            print("city loaded")
+            states["status"] = "inCity"
+            return
+        """
     sleep(100, 200)
     checkChaosFinish()
     sleep(100, 200)
@@ -1166,6 +1187,28 @@ def useAbilities():
                     states["moveToX"], states["moveToY"], 800, 900, False
                 )
 
+            # class specific stuff
+            if (
+                config["characters"][states["currentCharacter"]]["class"] == "arcana"
+                or config["characters"][states["currentCharacter"]]["class"]
+                == "deathblade"
+            ):
+                pydirectinput.press("x")
+                pydirectinput.press("z")
+            elif config["characters"][states["currentCharacter"]][
+                "class"
+            ] == "summoner" and (i == 2 or i == 6):
+                mouseMoveTo(x=config["screenCenterX"], y=config["screenCenterY"])
+                sleep(150, 160)
+                pydirectinput.press("z")
+                sleep(50, 60)
+                pydirectinput.press("z")
+                sleep(150, 160)
+                pydirectinput.press("z")
+                sleep(50, 60)
+                pydirectinput.press("z")
+                sleep(50, 60)
+                pydirectinput.press("z")
             """
             # # mage touch
             # if states["abilityScreenshots"][i]["key"] == config["mageTouch"]:
@@ -1195,20 +1238,8 @@ def useAbilities():
 
 def checkCDandCast(ability):
     if (
-        config["characters"][states["currentCharacter"]]["class"] == "arcana"
-        or config["characters"][states["currentCharacter"]]["class"] == "deathblade"
-    ):
-        pydirectinput.press("x")
-        pydirectinput.press("z")
-    elif config["characters"][states["currentCharacter"]]["class"] == "summoner":
-        # mouseMoveTo(x=config["screenCenterX"], y=config["screenCenterY"])
-        pydirectinput.press("z")
-        sleep(150, 160)
-        pydirectinput.press("z")
-
-    if (
-        config["performance"] == True
-        or config["GFN"] == True
+        config["GFN"] == True
+        or config["performance"] == True
         or pyautogui.locateOnScreen(
             ability["image"],
             region=config["regions"]["abilities"],
@@ -2331,6 +2362,7 @@ def offlineCheck():
         confidence=config["confidenceForGFN"],
         region=(885, 801, 160, 55),
     )
+    # should put these in crash check instead? No because it requires one more click
     if config["GFN"] == True:
         sessionLimitReached = pyautogui.locateCenterOnScreen(
             "./screenshots/sessionLimitReached.png",
@@ -2342,6 +2374,21 @@ def offlineCheck():
             sleep(1300, 1400)
             pydirectinput.click(x=1029, y=822, button="left")
             sleep(1300, 1400)
+            return True
+        inactiveGFN = pyautogui.locateCenterOnScreen(
+            "./screenshots/inactiveGFN.png",
+            region=config["regions"]["center"],
+            confidence=0.9,
+        )
+        if inactiveGFN != None:
+            mouseMoveTo(x=1148, y=822)
+            sleep(1300, 1400)
+            pydirectinput.click(x=1148, y=822, button="left")
+            sleep(1300, 1400)
+
+            currentTime = int(time.time_ns() / 1000000)
+            inactive = pyautogui.screenshot()
+            inactive.save("./debug/inactive_" + str(currentTime) + ".png")
             return True
     if dc != None or ok != None or enterServer != None:
         currentTime = int(time.time_ns() / 1000000)
@@ -2898,13 +2945,27 @@ def bifrostGoTo(option):
         return False
     else:
         # ok
-        mouseMoveTo(x=918, y=617)
-        sleep(1500, 1600)
-        pydirectinput.click(button="left")
-        sleep(500, 600)
-        pydirectinput.click(button="left")
-        sleep(500, 600)
-        pydirectinput.click(button="left")
+        while True:
+            okButton = pyautogui.locateCenterOnScreen(
+                "./screenshots/ok.png",
+                confidence=0.75,
+                region=config["regions"]["center"],
+            )
+            if okButton != None:
+                x, y = okButton
+                mouseMoveTo(x=x, y=y)
+                sleep(200, 300)
+                pydirectinput.click(button="left")
+                sleep(100, 200)
+                pydirectinput.click(button="left")
+                sleep(600, 800)
+                mouseMoveTo(x=x, y=y)
+                sleep(500, 600)
+                pydirectinput.click(button="left")
+                sleep(200, 300)
+                pydirectinput.click(button="left")
+                break
+            sleep(300, 400)
 
     sleep(10000, 12000)
 

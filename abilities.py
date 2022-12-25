@@ -383,7 +383,7 @@ abilities = {
             "hold": False,
             "holdTime": None,
             "cast": True,
-            "castTime": 2500,
+            "castTime": 2700,
             "position": {"left": 797, "top": 907, "width": 15, "height": 15},
             "directional": False,
         },
@@ -395,7 +395,7 @@ abilities = {
             "cast": False,
             "castTime": None,
             "position": {"left": 835, "top": 907, "width": 15, "height": 15},
-            "directional": False,
+            "directional": True,
         },
         {
             "key": "f",
