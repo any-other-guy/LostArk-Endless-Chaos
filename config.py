@@ -19,6 +19,7 @@
     Set your first bifrost point to be at lopang island.
     Exact location to be right in front of the NPC machine which stands farthest to the entrance.
     Then set your 2/4/5 (because i dont have no3 unlocked) bifrost location to be right in front of those three lopang quest hand-in NPCs.
+    Set your lopang quests as your ONLY 3 favourite quests
 """
 config = {
     "mainCharacter": 1,  # must be in between number 0 to 5 (0 is the first character)
@@ -64,7 +65,7 @@ config = {
         },
         {
             "index": 3,
-            "class": "sorceress",
+            "class": "summoner",
             "ilvl-endless": 1370,
             "ilvl-aor": 1370,
             "lopang": True,
@@ -91,18 +92,18 @@ config = {
         },
         {
             "index": 6,
-            "class": "deathblade",
-            "ilvl-endless": 1100,
-            "ilvl-aor": 1100,
+            "class": "sorceress",
+            "ilvl-endless": 1370,
+            "ilvl-aor": 1370,
             "lopang": True,
             "guildDonation": True,
             "rapport": False,
         },
         {
             "index": 7,
-            "class": "summoner",
-            "ilvl-endless": 1370,
-            "ilvl-aor": 1370,
+            "class": "deathblade",
+            "ilvl-endless": 1100,
+            "ilvl-aor": 1100,
             "lopang": True,
             "guildDonation": True,
             "rapport": False,
