@@ -1195,9 +1195,11 @@ def useAbilities():
             ):
                 pydirectinput.press("x")
                 pydirectinput.press("z")
-            elif config["characters"][states["currentCharacter"]][
-                "class"
-            ] == "summoner" and (i == 2 or i == 6):
+            elif (
+                config["characters"][states["currentCharacter"]]["class"] == "summoner"
+                or config["characters"][states["currentCharacter"]]["class"] == "bard"
+                and (i == 2 or i == 6)
+            ):
                 mouseMoveTo(x=config["screenCenterX"], y=config["screenCenterY"])
                 sleep(150, 160)
                 pydirectinput.press("z")

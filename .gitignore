@@ -129,5 +129,5 @@ dmypy.json
 .pyre/
 
 # debug screenshots
-debug/
+# debug/
 .vscode/
