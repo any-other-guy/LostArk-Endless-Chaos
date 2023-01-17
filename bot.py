@@ -184,6 +184,7 @@ def main():
                     )
                     states["multiCharacterMode"] = False
                     states["multiCharacterModeState"] = []
+                    sleep(3400, 3600)
                     switchToCharacter(config["mainCharacter"])
                     continue
                 elif states["multiCharacterModeState"][states["currentCharacter"]] <= 0:
@@ -243,6 +244,7 @@ def main():
                             states["currentCharacter"], nextIndex
                         )
                     )
+                    sleep(3400, 3600)
                     switchToCharacter(nextIndex)
                     continue
 
@@ -1197,7 +1199,7 @@ def useAbilities():
                 pydirectinput.press("z")
             elif (
                 config["characters"][states["currentCharacter"]]["class"] == "summoner"
-                or config["characters"][states["currentCharacter"]]["class"] == "bard"
+                # or config["characters"][states["currentCharacter"]]["class"] == "bard"
                 and (i == 2 or i == 6)
             ):
                 mouseMoveTo(x=config["screenCenterX"], y=config["screenCenterY"])
@@ -1211,6 +1213,41 @@ def useAbilities():
                 pydirectinput.press("z")
                 sleep(50, 60)
                 pydirectinput.press("z")
+
+            # bard courage
+            if config["characters"][states["currentCharacter"]]["class"] == "bard":
+                courageBuffActive = pyautogui.locateOnScreen(
+                    "./screenshots/bardCourage100.png",
+                    region=config["regions"]["buffs"],
+                    confidence=0.75,
+                )
+                rZ, gZ, bZ = pyautogui.pixel(920, 866)
+                rX, gX, bX = pyautogui.pixel(1006, 875)
+                if rZ - gZ > 80 and courageBuffActive == None:
+                    print("bard courage Z")
+                    pydirectinput.press("z")
+                    sleep(50, 60)
+                    pydirectinput.press("z")
+                    sleep(150, 160)
+                    pydirectinput.press("z")
+                    sleep(50, 60)
+                    pydirectinput.press("z")
+                    sleep(50, 60)
+                    pydirectinput.press("z")
+                elif bX - gX > 70 and courageBuffActive != None:
+                    print("bard jiaxue X")
+                    mouseMoveTo(x=config["screenCenterX"], y=config["screenCenterY"])
+                    sleep(150, 160)
+                    pydirectinput.press("x")
+                    sleep(50, 60)
+                    pydirectinput.press("x")
+                    sleep(150, 160)
+                    pydirectinput.press("x")
+                    sleep(50, 60)
+                    pydirectinput.press("x")
+                    sleep(50, 60)
+                    pydirectinput.press("x")
+
             """
             # # mage touch
             # if states["abilityScreenshots"][i]["key"] == config["mageTouch"]:
@@ -1732,6 +1769,11 @@ def fightFloor2Boss():
         mouseMoveTo(x=states["moveToX"], y=states["moveToY"])
         sleep(80, 100)
         pydirectinput.press(config["awakening"])
+        if config["characters"][states["currentCharacter"]]["class"] == "summoner":
+            sleep(80, 100)
+            pydirectinput.press(config["awakening"])
+            sleep(80, 100)
+            pydirectinput.press(config["awakening"])
 
 
 # def fightFloor2Boss():
@@ -2160,19 +2202,19 @@ def doAuraRepair(forced):
         pydirectinput.press("p")
         sleep(800, 900)
         pydirectinput.keyUp("alt")
-        sleep(1500, 1600)
+        sleep(2500, 2600)
         mouseMoveTo(x=1142, y=661)
-        sleep(1500, 1600)
+        sleep(2500, 2600)
         pydirectinput.click(1142, 661, button="left")
-        sleep(600, 700)
+        sleep(5500, 5600)
         mouseMoveTo(x=1054, y=455)
-        sleep(1500, 1600)
+        sleep(2500, 2600)
         pydirectinput.click(1054, 455, button="left")
-        sleep(600, 700)
+        sleep(2500, 2600)
         pydirectinput.press("esc")
-        sleep(1500, 1600)
+        sleep(2500, 2600)
         pydirectinput.press("esc")
-        sleep(1500, 1600)
+        sleep(2500, 2600)
 
 
 def doCityRepair():
@@ -2647,14 +2689,17 @@ def switchToCharacter(index):
     pydirectinput.click(button="left")
     sleep(200, 300)
     pydirectinput.click(button="left")
-    sleep(500, 600)
+    sleep(1500, 1600)
 
     mouseMoveTo(
         x=config["charPositions"][index][0], y=config["charPositions"][index][1]
     )
     sleep(1500, 1600)
     pyautogui.scroll(5)  # fix character switch if you have more then 9 characters
-    sleep(500, 600)
+    sleep(1500, 1600)
+    if index > 8:
+        pyautogui.scroll(-5)
+        sleep(1500, 1600)
     pydirectinput.click(button="left")
     sleep(200, 300)
     pydirectinput.click(button="left")
@@ -2662,7 +2707,7 @@ def switchToCharacter(index):
     pydirectinput.click(button="left")
     sleep(200, 300)
     pydirectinput.click(button="left")
-    sleep(500, 600)
+    sleep(1500, 1600)
 
     mouseMoveTo(x=config["charSelectConnectX"], y=config["charSelectConnectY"])
     sleep(1500, 1600)
@@ -3144,63 +3189,63 @@ def buyAuctionFirstFav():
         gold1 = pyautogui.locateCenterOnScreen(
             "./screenshots/gold1.png", region=(934, 415, 36, 20), confidence=0.9
         )
-        if gold2 != None or gold1 != None:
+        if gold1 != None:
             # click price input
             mouseMoveTo(x=977, y=504)
-            sleep(200, 300)
+            sleep(700, 800)
             pydirectinput.click(button="left")
-            sleep(300, 400)
+            sleep(700, 800)
             pydirectinput.press("9")
-            sleep(110, 120)
+            sleep(220, 230)
             pydirectinput.press("9")
-            sleep(110, 120)
+            sleep(220, 230)
             pydirectinput.press("9")
-            sleep(110, 120)
+            sleep(220, 230)
             # click buy
             mouseMoveTo(x=956, y=726)
-            sleep(200, 300)
+            sleep(700, 800)
             pydirectinput.click(button="left")
-            sleep(300, 400)
+            sleep(700, 800)
             # click ok
             mouseMoveTo(x=959, y=562)
-            sleep(200, 300)
+            sleep(1500, 1600)
             pydirectinput.click(button="left")
-            sleep(5300, 5400)
+            sleep(3000, 3500)
 
             # click mail
             mouseMoveTo(x=304, y=144)
-            sleep(200, 300)
+            sleep(700, 800)
             pydirectinput.click(button="left")
-            sleep(300, 400)
+            sleep(1700, 1800)
             # click first mail
             mouseMoveTo(x=212, y=219)
-            sleep(200, 300)
+            sleep(700, 800)
             pydirectinput.click(button="left")
             # click accept
             mouseMoveTo(x=440, y=515)
-            sleep(200, 300)
+            sleep(1700, 1800)
             pydirectinput.click(button="left")
             # click delete
             mouseMoveTo(x=518, y=515)
-            sleep(200, 300)
+            sleep(700, 800)
             pydirectinput.click(button="left")
-            sleep(5300, 5400)
+            sleep(1000, 1500)
             # click
             mouseMoveTo(x=1320, y=355)
-            sleep(200, 300)
+            sleep(700, 800)
             pydirectinput.click(button="left")
-            sleep(300, 400)
+            sleep(700, 800)
             # click bottom right buy
             mouseMoveTo(x=1416, y=828)
-            sleep(200, 300)
+            sleep(700, 800)
             pydirectinput.click(button="left")
-            sleep(300, 400)
+            sleep(500, 600)
         else:
             # click refresh
             mouseMoveTo(x=1062, y=298)
-            sleep(200, 300)
+            sleep(700, 800)
             pydirectinput.click(button="left")
-            sleep(300, 400)
+            sleep(700, 800)
 
 
 def mouseMoveTo(**kwargs):
