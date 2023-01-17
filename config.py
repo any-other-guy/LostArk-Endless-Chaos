@@ -24,7 +24,7 @@
 from characters import characters
 
 config = {
-    "mainCharacter": 0,  # must be in between number 0 to 5 (0 is the first character)
+    "mainCharacter": 0,  # must be in between number 0 to len(characters) - 1 (0 is the first character)
     "GFN": True,  # set True for Geforce Now users
     "enableMultiCharacterMode": True,  # this is lit
     "enableLopang": True,  # NOTE: you need to setup bifrost locations properly for this, at very specific locations. Look up ^
