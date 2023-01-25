@@ -169,6 +169,7 @@ def main():
                         # do lopang
                         print("doing lopang on : {}".format(states["currentCharacter"]))
                         doLopang()
+                        print("lopang done on : {}".format(states["currentCharacter"]))
                         sleep(1400, 1600)
 
                     if gameCrashCheck():
@@ -227,6 +228,7 @@ def main():
                         # do lopang
                         print("doing lopang on : {}".format(states["currentCharacter"]))
                         doLopang()
+                        print("lopang done on : {}".format(states["currentCharacter"]))
                         sleep(1400, 1600)
 
                     if gameCrashCheck():
@@ -1059,11 +1061,11 @@ def useAbilities():
             states["badRunCount"] = states["badRunCount"] + 1
             return
 
-        # check elite and mobs, lower priority cuz it only runs check once a cycle
-        if states["status"] == "floor2" and not checkFloor2Elite() and checkFloor2Mob():
-            calculateMinimapRelative(states["moveToX"], states["moveToY"])
-            moveToMinimapRelative(states["moveToX"], states["moveToY"], 400, 500, False)
-        elif (
+        # # check elite and mobs, lower priority cuz it only runs check once a cycle
+        # if states["status"] == "floor2" and not checkFloor2Elite() and checkFloor2Mob():
+        #     calculateMinimapRelative(states["moveToX"], states["moveToY"])
+        #     moveToMinimapRelative(states["moveToX"], states["moveToY"], 400, 500, False)
+        if (
             states["status"] == "floor2"
             and not checkFloor2Elite()
             and not checkFloor2Mob()
@@ -1097,6 +1099,9 @@ def useAbilities():
             healthCheck()
 
             # check portal
+            # 现在做的是：
+            # 通刷3层的话，1和2门所有怪打完再检测portal，这样减少3层时间，从而减少卡图问题长期的时间损失
+            # 如果只刷1/2层，那么1层出portal直接进; 2层刷完再进portal，因为2层怪密集，这样效率可能会高一点
             if states["status"] == "floor3" and checkPortal():
                 pydirectinput.click(
                     x=config["screenCenterX"],
@@ -1106,7 +1111,12 @@ def useAbilities():
                 sleep(100, 150)
                 checkPortal()
                 return
-            elif states["status"] == "floor2" and checkPortal():
+            # uncomment下面如果想不打完1/2层所有怪就检测portal, when states["floor3Mode"] == False
+            elif (
+                states["floor3Mode"] == False
+                and states["status"] == "floor1"
+                and checkPortal()
+            ):
                 pydirectinput.click(
                     x=config["screenCenterX"],
                     y=config["screenCenterY"],
@@ -1115,23 +1125,42 @@ def useAbilities():
                 sleep(100, 150)
                 checkPortal()
                 return
-            elif states["status"] == "floor1" and checkPortal():
-                pydirectinput.click(
-                    x=config["screenCenterX"],
-                    y=config["screenCenterY"],
-                    button=config["move"],
-                )
-                sleep(100, 150)
-                checkPortal()
-                return
+            # elif (
+            #     states["floor3Mode"] == False
+            #     and states["status"] == "floor2"
+            #     and checkPortal()
+            # ):
+            #     pydirectinput.click(
+            #         x=config["screenCenterX"],
+            #         y=config["screenCenterY"],
+            #         button=config["move"],
+            #     )
+            #     sleep(100, 150)
+            #     checkPortal()
+            #     return
 
             # click rift core
             if states["status"] == "floor3":
                 clickTower()
 
             # check high-priority mobs
-            if states["status"] == "floor1" and checkFloor2Mob():
-                calculateMinimapRelative(states["moveToX"], states["moveToY"])
+            if states["status"] == "floor1":
+                if checkFloor2Mob():
+                    calculateMinimapRelative(states["moveToX"], states["moveToY"])
+                # if nothing is on the floor1/2 on floor3Mode, then check portal
+                elif (
+                    states["floor3Mode"] == True
+                    and states["status"] == "floor1"
+                    and checkPortal()
+                ):
+                    pydirectinput.click(
+                        x=config["screenCenterX"],
+                        y=config["screenCenterY"],
+                        button=config["move"],
+                    )
+                    sleep(100, 150)
+                    checkPortal()
+                    return
             elif states["status"] == "floor2":
                 if config["performance"] == False and checkFloor2Boss():
                     calculateMinimapRelative(states["moveToX"], states["moveToY"])
@@ -1154,6 +1183,29 @@ def useAbilities():
                     moveToMinimapRelative(
                         states["moveToX"], states["moveToY"], 750, 850, False
                     )
+                elif (
+                    states["status"] == "floor2"
+                    # and not checkFloor2Elite()
+                    and checkFloor2Mob()
+                ):
+                    calculateMinimapRelative(states["moveToX"], states["moveToY"])
+                    moveToMinimapRelative(
+                        states["moveToX"], states["moveToY"], 400, 500, False
+                    )
+                # if nothing is on the floor1/2 on floor3Mode, then check portal
+                elif (
+                    states["floor3Mode"] == True
+                    and states["status"] == "floor2"
+                    and checkPortal()
+                ):
+                    pydirectinput.click(
+                        x=config["screenCenterX"],
+                        y=config["screenCenterY"],
+                        button=config["move"],
+                    )
+                    sleep(100, 150)
+                    checkPortal()
+                    return
             elif states["status"] == "floor3" and checkFloor3GoldMob():
                 calculateMinimapRelative(states["moveToX"], states["moveToY"])
                 moveToMinimapRelative(
@@ -1208,8 +1260,6 @@ def useAbilities():
                 sleep(50, 60)
                 pydirectinput.press("z")
                 sleep(150, 160)
-                pydirectinput.press("z")
-                sleep(50, 60)
                 pydirectinput.press("z")
                 sleep(50, 60)
                 pydirectinput.press("z")
@@ -2355,7 +2405,7 @@ def checkTimeout():
         print("hacky timeout")
         return True
     if (
-        states["floor3Mode"] == False
+        states["multiCharacterMode"] == False
         and currentTime - states["instanceStartTime"] > config["timeLimit"]
     ):
         print("timeout triggered")
@@ -2364,7 +2414,8 @@ def checkTimeout():
         states["timeoutCount"] = states["timeoutCount"] + 1
         return True
     elif (
-        states["floor3Mode"] == True
+        states["multiCharacterMode"] == True
+        and states["floor3Mode"] == True
         and currentTime - states["instanceStartTime"] > config["timeLimitAor"]
     ):
         print("timeout on aor triggered :(")
@@ -2682,30 +2733,65 @@ def switchToCharacter(index):
     sleep(1500, 1600)
     mouseMoveTo(x=config["charSwitchX"], y=config["charSwitchY"])
     sleep(1500, 1600)
+    mouseMoveTo(x=config["charSwitchX"], y=config["charSwitchY"])
+    mouseMoveTo(x=config["charSwitchX"], y=config["charSwitchY"])
+    sleep(1500, 1600)
     pydirectinput.click(button="left")
-    sleep(200, 300)
+    sleep(1500, 1600)
     pydirectinput.click(button="left")
     sleep(500, 600)
     pydirectinput.click(button="left")
     sleep(200, 300)
+
+    # mouseMoveTo(
+    #     x=config["charPositions"][index][0], y=config["charPositions"][index][1]
+    # )
+    # sleep(1500, 1600)
+    # pyautogui.scroll(5)  # fix character switch if you have more then 9 characters
+    # sleep(1500, 1600)
+    mouseMoveTo(x=1260, y=392)
+    sleep(1500, 1600)
+    pydirectinput.click(button="left")
+    sleep(500, 600)
+    pydirectinput.click(button="left")
+    sleep(500, 600)
+    pydirectinput.click(button="left")
+    sleep(500, 600)
     pydirectinput.click(button="left")
     sleep(1500, 1600)
+    if index > 8:
+        # mouseMoveTo(
+        #     x=config["charPositions"][index][0], y=config["charPositions"][index][1]
+        # )
+        # pyautogui.scroll(-5)
+        # sleep(1500, 1600)
+        mouseMoveTo(x=1260, y=638)
+        sleep(1500, 1600)
+        pydirectinput.click(button="left")
+        sleep(500, 600)
+        pydirectinput.click(button="left")
+        sleep(500, 600)
+        pydirectinput.click(button="left")
+        sleep(500, 600)
+        pydirectinput.click(button="left")
+        sleep(1500, 1600)
 
     mouseMoveTo(
         x=config["charPositions"][index][0], y=config["charPositions"][index][1]
     )
     sleep(1500, 1600)
-    pyautogui.scroll(5)  # fix character switch if you have more then 9 characters
-    sleep(1500, 1600)
-    if index > 8:
-        pyautogui.scroll(-5)
-        sleep(1500, 1600)
-    pydirectinput.click(button="left")
-    sleep(200, 300)
     pydirectinput.click(button="left")
     sleep(500, 600)
     pydirectinput.click(button="left")
+    sleep(500, 600)
+    mouseMoveTo(
+        x=config["charPositions"][index][0], y=config["charPositions"][index][1]
+    )
+    sleep(500, 600)
+    pydirectinput.click(button="left")
     sleep(200, 300)
+    pydirectinput.click(button="left")
+    sleep(1500, 1600)
     pydirectinput.click(button="left")
     sleep(1500, 1600)
 
@@ -2719,7 +2805,6 @@ def switchToCharacter(index):
     sleep(200, 300)
     pydirectinput.click(button="left")
     sleep(500, 600)
-
     pydirectinput.click(button="left")
     sleep(1000, 1000)
 
@@ -2728,7 +2813,7 @@ def switchToCharacter(index):
     pydirectinput.click(button="left")
     sleep(200, 300)
     pydirectinput.click(button="left")
-    sleep(500, 600)
+    sleep(1500, 1600)
     pydirectinput.click(button="left")
     sleep(200, 300)
     pydirectinput.click(button="left")
@@ -2743,9 +2828,9 @@ def switchToCharacter(index):
 
 def doGuildDonation():
     pydirectinput.keyDown("alt")
-    sleep(100, 200)
+    sleep(300, 400)
     pydirectinput.press("u")
-    sleep(100, 200)
+    sleep(300, 400)
     pydirectinput.keyUp("alt")
     sleep(4100, 5200)
 
@@ -2768,6 +2853,8 @@ def doGuildDonation():
     sleep(500, 600)
     pydirectinput.click(button="left")
     sleep(500, 600)
+    pydirectinput.click(button="left")
+    sleep(500, 600)
 
     # dono silver
     mouseMoveTo(x=767, y=561)
@@ -2776,9 +2863,11 @@ def doGuildDonation():
     sleep(500, 600)
     pydirectinput.click(button="left")
     sleep(500, 600)
+    pydirectinput.click(button="left")
+    sleep(500, 600)
 
     pydirectinput.press("esc")
-    sleep(2500, 2600)
+    sleep(3500, 3600)
 
     supportResearch = pyautogui.locateCenterOnScreen(
         "./screenshots/supportResearch.png",
@@ -2826,9 +2915,9 @@ def doGuildDonation():
             pydirectinput.press("esc")
             sleep(800, 900)
 
-    sleep(1800, 1900)
+    sleep(2800, 2900)
     pydirectinput.press("esc")
-    sleep(1800, 1900)
+    sleep(2800, 2900)
 
 
 def doRapport():
@@ -2935,7 +3024,8 @@ def doLopang():
         return
     if offlineCheck():
         return
-    sleep(3500, 4600)
+    sleep(5500, 6600)
+    spamG(3000)
     walkLopang()
     sleep(1500, 1600)
     bifrostGoTo(1)
@@ -2977,9 +3067,11 @@ def bifrostGoTo(option):
     sleep(2500, 2600)
 
     mouseMoveTo(x=bifrostXY[option][0], y=bifrostXY[option][1])
-    sleep(1800, 1900)
+    sleep(2800, 2900)
     pydirectinput.click(button="left")
     sleep(500, 600)
+    pydirectinput.click(button="left")
+    sleep(1500, 1600)
     pydirectinput.click(button="left")
     sleep(1500, 1600)
 
@@ -3001,15 +3093,9 @@ def bifrostGoTo(option):
             if okButton != None:
                 x, y = okButton
                 mouseMoveTo(x=x, y=y)
-                sleep(200, 300)
+                sleep(1200, 1300)
                 pydirectinput.click(button="left")
-                sleep(100, 200)
-                pydirectinput.click(button="left")
-                sleep(600, 800)
-                mouseMoveTo(x=x, y=y)
-                sleep(500, 600)
-                pydirectinput.click(button="left")
-                sleep(200, 300)
+                sleep(1500, 1600)
                 pydirectinput.click(button="left")
                 break
             sleep(300, 400)
@@ -3044,7 +3130,7 @@ def walkLopang():
     pydirectinput.PAUSE = 0.1
     sleep(1000, 2000)
     print("walking lopang")
-    spamG(1000)
+    spamG(2000)
     # nowTime = int(time.time_ns() / 1000000)
     # lopangDebug = pyautogui.screenshot()
     # lopangDebug.save("./debug/lopangDebug_" + str(nowTime) + ".png")
@@ -3056,7 +3142,7 @@ def walkLopang():
     walkWithAlt(1223, 406, 800)
     walkWithAlt(1223, 406, 800)
     walkWithAlt(1263, 404, 800)
-    spamG(1000)
+    spamG(2000)
     # nowTime = int(time.time_ns() / 1000000)
     # lopangDebug = pyautogui.screenshot()
     # lopangDebug.save("./debug/lopangDebug_" + str(nowTime) + ".png")
@@ -3068,7 +3154,7 @@ def walkLopang():
     walkWithAlt(674, 264, 800)
     walkWithAlt(573, 301, 1200)
     walkWithAlt(820, 240, 800)
-    spamG(1000)
+    spamG(2000)
     # nowTime = int(time.time_ns() / 1000000)
     # lopangDebug = pyautogui.screenshot()
     # lopangDebug.save("./debug/lopangDebug_" + str(nowTime) + ".png")
@@ -3104,19 +3190,19 @@ def acceptLopangDaily():
     pydirectinput.press("j")
     sleep(500, 600)
     pydirectinput.keyUp("alt")
-    sleep(1900, 2200)
+    sleep(2900, 3200)
 
     mouseMoveTo(x=564, y=313)
-    sleep(1800, 1900)
+    sleep(2800, 2900)
     pydirectinput.click(button="left")
-    sleep(800, 900)
+    sleep(2800, 2900)
 
     mouseMoveTo(x=528, y=397)
-    sleep(1800, 1900)
+    sleep(2800, 2900)
     pydirectinput.click(button="left")
-    sleep(800, 900)
+    sleep(2800, 2900)
 
-    sleep(1900, 2200)
+    sleep(2900, 3200)
     dailyCompleted = pyautogui.locateCenterOnScreen(
         "./screenshots/dailyCompleted.png",
         confidence=0.75,
@@ -3129,22 +3215,22 @@ def acceptLopangDaily():
         return False
 
     mouseMoveTo(x=1206, y=398)
-    sleep(800, 900)
+    sleep(2800, 2900)
     pydirectinput.click(button="left")
-    sleep(800, 900)
+    sleep(2800, 2900)
 
     mouseMoveTo(x=1206, y=455)
-    sleep(800, 900)
+    sleep(2800, 2900)
     pydirectinput.click(button="left")
-    sleep(800, 900)
+    sleep(2800, 2900)
 
     mouseMoveTo(x=1206, y=512)
-    sleep(800, 900)
+    sleep(2800, 2900)
     pydirectinput.click(button="left")
 
-    sleep(1900, 2200)
+    sleep(2800, 2900)
     pydirectinput.press("esc")
-    sleep(1900, 2200)
+    sleep(2800, 2900)
 
 
 def walkWithAlt(lopangX, lopangY, milliseconds):
