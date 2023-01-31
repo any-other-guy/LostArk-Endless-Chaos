@@ -70,6 +70,10 @@ def main():
     pydirectinput.click(button=meleeClick)
     sleep(300, 400)
 
+    # stay invis in friends list
+    if config["invisible"] == True:
+        goInvisible()
+
     # forceing no floor3 full clear with performance mode
     if config["performance"] == True:
         states["floor3Mode"] = False
@@ -434,11 +438,11 @@ def enterChaos():
                     )
             mouseMoveTo(x=886, y=346)
             sleep(500, 600)
-            pydirectinput.click(button="left")
+            pydirectinput.click(x=886, y=346, button="left")
             sleep(500, 600)
             mouseMoveTo(x=886, y=346)
             sleep(500, 600)
-            pydirectinput.click(button="left")
+            pydirectinput.click(x=886, y=346, button="left")
             sleep(500, 600)
 
             # select chaos dungeon level based on current Character
@@ -585,6 +589,14 @@ def enterChaos():
 def doFloor1():
     clearQuest()
     sleep(500, 550)
+
+    # switch to akir
+    if config["characters"][states["currentCharacter"]]["class"] == "summoner":
+        mouseMoveTo(x=1010, y=865)
+        sleep(800, 900)
+        pydirectinput.click(x=1010, y=865, button="left")
+        sleep(800, 900)
+
     # check repair
     if config["auraRepair"]:
         doAuraRepair(False)
@@ -1252,7 +1264,7 @@ def useAbilities():
             elif (
                 config["characters"][states["currentCharacter"]]["class"] == "summoner"
                 # or config["characters"][states["currentCharacter"]]["class"] == "bard"
-                and (i == 2 or i == 6)
+                and (i == 1 or i == 3 or i == 5 or i == 7)
             ):
                 mouseMoveTo(x=config["screenCenterX"], y=config["screenCenterY"])
                 sleep(150, 160)
@@ -3067,8 +3079,8 @@ def bifrostGoTo(option):
     sleep(2500, 2600)
 
     mouseMoveTo(x=bifrostXY[option][0], y=bifrostXY[option][1])
-    sleep(2800, 2900)
-    pydirectinput.click(button="left")
+    sleep(1500, 1600)
+    pydirectinput.click(x=bifrostXY[option][0], y=bifrostXY[option][1], button="left")
     sleep(500, 600)
     pydirectinput.click(button="left")
     sleep(1500, 1600)
@@ -3192,6 +3204,13 @@ def acceptLopangDaily():
     pydirectinput.keyUp("alt")
     sleep(2900, 3200)
 
+    mouseMoveTo(x=564, y=250)
+    sleep(2800, 2900)
+    pydirectinput.click(button="left")
+    sleep(500, 600)
+    pydirectinput.click(button="left")
+    sleep(2800, 2900)
+
     mouseMoveTo(x=564, y=313)
     sleep(2800, 2900)
     pydirectinput.click(button="left")
@@ -3216,17 +3235,17 @@ def acceptLopangDaily():
 
     mouseMoveTo(x=1206, y=398)
     sleep(2800, 2900)
-    pydirectinput.click(button="left")
+    pydirectinput.click(x=1206, y=398, button="left")
     sleep(2800, 2900)
 
     mouseMoveTo(x=1206, y=455)
     sleep(2800, 2900)
-    pydirectinput.click(button="left")
+    pydirectinput.click(x=1206, y=455, button="left")
     sleep(2800, 2900)
 
     mouseMoveTo(x=1206, y=512)
     sleep(2800, 2900)
-    pydirectinput.click(button="left")
+    pydirectinput.click(x=1206, y=512, button="left")
 
     sleep(2800, 2900)
     pydirectinput.press("esc")
@@ -3338,6 +3357,19 @@ def mouseMoveTo(**kwargs):
     x = kwargs["x"]
     y = kwargs["y"]
     pydirectinput.moveTo(x=x, y=y)
+
+
+def goInvisible():
+    pydirectinput.press(config["friends"])
+    sleep(2290, 2420)
+    mouseMoveTo(x=1836, y=384)
+    sleep(700, 800)
+    pydirectinput.click(x=1836, y=384, button="left")
+    sleep(500, 600)
+    mouseMoveTo(x=1836, y=448)
+    sleep(700, 800)
+    pydirectinput.click(x=1836, y=448, button="left")
+    sleep(500, 600)
 
 
 if __name__ == "__main__":

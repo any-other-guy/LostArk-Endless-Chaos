@@ -21,7 +21,7 @@ characters = [
         "index": 2,
         "class": "summoner",
         "ilvl-endless": 1490,
-        "ilvl-aor": 1490,
+        "ilvl-aor": 1520,
         "lopang": False,
         "guildDonation": True,
         "rapport": False,
