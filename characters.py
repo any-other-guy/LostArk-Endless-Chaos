@@ -29,8 +29,8 @@ characters = [
     {
         "index": 3,
         "class": "sorceress",
-        "ilvl-endless": 1370,
-        "ilvl-aor": 1475,
+        "ilvl-endless": 1490,
+        "ilvl-aor": 1490,
         "lopang": True,
         "guildDonation": True,
         "rapport": False,

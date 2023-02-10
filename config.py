@@ -30,7 +30,7 @@ config = {
     "enableLopang": True,  # NOTE: you need to setup bifrost locations properly for this, at very specific locations. Look up ^
     "enableGuildDonation": True,  # please make sure all your characters have a guild
     "enableRapport": False,  # NOTE: you need to setup bifrost no3 infront of a rapport NPC
-    "floor3Mode": True,  # only enable if you ONLY want to run infinite floor3 clearing
+    "floor3Mode": False,  # only enable if you ONLY want to run infinite floor3 clearing
     # Setup your characters below:
     # can setup UP TO 9 characters for daily chaos/lopang/guild stuff
     # however your main must be in character 0 to 5 (just for re-connect back after disconnection happens)
@@ -72,7 +72,7 @@ config = {
     "screenCenterY": 540,
     "minimapCenterX": 1772,
     "minimapCenterY": 272,
-    "timeLimit": 360000,  # to prevent unexpected amount of time spent in a chaos dungeon, a tiem limit is set here, will quit after this amount of seconds
+    "timeLimit": 450000,  # to prevent unexpected amount of time spent in a chaos dungeon, a tiem limit is set here, will quit after this amount of seconds
     "timeLimitAor": 720000,  # to prevent unexpected amount of time spent in a chaos dungeon, a tiem limit is set here, will quit after this amount of seconds
     "blackScreenTimeLimit": 30000,  # if stuck in nothing for this amount of time, alt f4 game, restart and resume.
     "delayedStart": 3000,

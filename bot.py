@@ -1137,19 +1137,19 @@ def useAbilities():
                 sleep(100, 150)
                 checkPortal()
                 return
-            # elif (
-            #     states["floor3Mode"] == False
-            #     and states["status"] == "floor2"
-            #     and checkPortal()
-            # ):
-            #     pydirectinput.click(
-            #         x=config["screenCenterX"],
-            #         y=config["screenCenterY"],
-            #         button=config["move"],
-            #     )
-            #     sleep(100, 150)
-            #     checkPortal()
-            #     return
+            elif (
+                states["floor3Mode"] == False
+                and states["status"] == "floor2"
+                and checkPortal()
+            ):
+                pydirectinput.click(
+                    x=config["screenCenterX"],
+                    y=config["screenCenterY"],
+                    button=config["move"],
+                )
+                sleep(100, 150)
+                checkPortal()
+                return
 
             # click rift core
             if states["status"] == "floor3":
@@ -1950,8 +1950,8 @@ def moveToMinimapRelative(x, y, timeMin, timeMax, blink):
         return
 
     # moving in a straight line
-    if states["moveTime"] < 50:
-        return
+    # if states["moveTime"] < 50:
+    #     return
     print(
         "moving to pos x: {} y: {} for {} ms".format(
             states["moveToX"], states["moveToY"], states["moveTime"]
