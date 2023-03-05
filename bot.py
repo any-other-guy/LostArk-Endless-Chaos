@@ -1279,7 +1279,7 @@ def useAbilities():
             # bard courage
             if config["characters"][states["currentCharacter"]]["class"] == "bard":
                 courageBuffActive = pyautogui.locateOnScreen(
-                    "./screenshots/bardCourage100.png",
+                    "./screenshots/bardCourage120.png",
                     region=config["regions"]["buffs"],
                     confidence=0.75,
                 )
