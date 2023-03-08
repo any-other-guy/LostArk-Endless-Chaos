@@ -38,8 +38,8 @@ characters = [
     {
         "index": 4,
         "class": "bard",
-        "ilvl-endless": 1370,
-        "ilvl-aor": 1445,
+        "ilvl-endless": 1490,
+        "ilvl-aor": 1490,
         "lopang": True,
         "guildDonation": True,
         "rapport": False,
