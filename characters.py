@@ -2,7 +2,7 @@ characters = [
     {
         "index": 0,
         "class": "sorceress",
-        "ilvl-endless": 1490,
+        "ilvl-endless": 1520,
         "ilvl-aor": 1520,
         "lopang": False,
         "guildDonation": True,
@@ -11,7 +11,7 @@ characters = [
     {
         "index": 1,
         "class": "arcana",
-        "ilvl-endless": 1490,
+        "ilvl-endless": 1520,
         "ilvl-aor": 1520,
         "lopang": False,
         "guildDonation": True,
@@ -20,7 +20,7 @@ characters = [
     {
         "index": 2,
         "class": "summoner",
-        "ilvl-endless": 1490,
+        "ilvl-endless": 1520,
         "ilvl-aor": 1520,
         "lopang": False,
         "guildDonation": True,
@@ -46,11 +46,11 @@ characters = [
     },
     {
         "index": 5,
-        "class": "sorceress",
-        "ilvl-endless": 1370,
-        "ilvl-aor": 1370,
+        "class": "gunslinger",
+        "ilvl-endless": 1490,
+        "ilvl-aor": 1490,
         "lopang": True,
-        "guildDonation": True,
+        "guildDonation": False,
         "rapport": False,
     },
     {
@@ -91,6 +91,15 @@ characters = [
     },
     {
         "index": 10,
+        "class": "sorceress",
+        "ilvl-endless": 1370,
+        "ilvl-aor": 1370,
+        "lopang": True,
+        "guildDonation": True,
+        "rapport": False,
+    },
+    {
+        "index": 11,
         "class": "deathblade",
         "ilvl-endless": 1370,
         "ilvl-aor": 1370,

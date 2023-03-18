@@ -6,6 +6,7 @@ import time
 import random
 import math
 import argparse
+from datetime import date
 
 pydirectinput.PAUSE = 0.05
 newStates = {
@@ -190,6 +191,10 @@ def main():
                     states["multiCharacterMode"] = False
                     states["multiCharacterModeState"] = []
                     sleep(3400, 3600)
+                    if date.today().weekday() == 2:
+                        print("go invis again")
+                        goInvisible()
+                        sleep(3400, 3600)
                     switchToCharacter(config["mainCharacter"])
                     continue
                 elif states["multiCharacterModeState"][states["currentCharacter"]] <= 0:
@@ -251,6 +256,14 @@ def main():
                         )
                     )
                     sleep(3400, 3600)
+                    # 只有周三上线一次冒个泡
+                    if (
+                        states["currentCharacter"] == config["mainCharacter"]
+                        and date.today().weekday() == 2
+                    ):
+                        print("go online")
+                        goOnline()
+                        sleep(3400, 3600)
                     switchToCharacter(nextIndex)
                     continue
 
@@ -3063,13 +3076,21 @@ def doLopang():
 
 
 def bifrostGoTo(option):
+    # meleeClick = "right"
+    # if config["move"] == "right":
+    #     meleeClick = "left"
+    # mouseMoveTo(x=config["screenCenterX"], y=config["screenCenterY"])
+    # sleep(200, 300)
+    # pydirectinput.click(button=meleeClick)
+    # sleep(300, 400)
+
     print("bifrost to: {}".format(option))
     bifrostXY = [
-        [1343, 517],
-        [1343, 579],
-        [1343, 640],
-        [1343, 736],
-        [1343, 796],
+        [1123, 468],
+        [1123, 529],
+        [1123, 589],
+        [1123, 686],
+        [1123, 746],
     ]
     pydirectinput.keyDown("alt")
     sleep(300, 400)
@@ -3367,6 +3388,19 @@ def goInvisible():
     pydirectinput.click(x=1836, y=384, button="left")
     sleep(500, 600)
     mouseMoveTo(x=1836, y=448)
+    sleep(700, 800)
+    pydirectinput.click(x=1836, y=448, button="left")
+    sleep(500, 600)
+
+
+def goOnline():
+    pydirectinput.press(config["friends"])
+    sleep(2290, 2420)
+    mouseMoveTo(x=1836, y=384)
+    sleep(700, 800)
+    pydirectinput.click(x=1836, y=384, button="left")
+    sleep(500, 600)
+    mouseMoveTo(x=1836, y=407)
     sleep(700, 800)
     pydirectinput.click(x=1836, y=448, button="left")
     sleep(500, 600)
