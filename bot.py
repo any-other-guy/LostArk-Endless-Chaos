@@ -1330,6 +1330,23 @@ def useAbilities():
                 elif sniperStance != None:
                     pydirectinput.press("z")
                     sleep(150, 160)
+            elif (
+                config["characters"][states["currentCharacter"]]["class"] == "glavier"
+                and i == 8
+            ):
+                pydirectinput.press("z")
+                sleep(150, 160)
+            elif (
+                config["characters"][states["currentCharacter"]]["class"] == "paladin"
+            ) and (i == 1 or i == 3 or i == 5 or i == 7):
+                paladinSpecialty = pyautogui.locateOnScreen(
+                    "./screenshots/paladinSpecialty.png",
+                    region=(904, 900, 111, 35),
+                    confidence=0.9,
+                )
+                if paladinSpecialty != None:
+                    pydirectinput.press("z")
+                    sleep(150, 160)
 
             # bard courage
             if config["characters"][states["currentCharacter"]]["class"] == "bard":
@@ -1886,7 +1903,10 @@ def fightFloor2Boss():
         mouseMoveTo(x=states["moveToX"], y=states["moveToY"])
         sleep(80, 100)
         pydirectinput.press(config["awakening"])
-        if config["characters"][states["currentCharacter"]]["class"] == "summoner":
+        if (
+            config["characters"][states["currentCharacter"]]["class"] == "summoner"
+            or config["characters"][states["currentCharacter"]]["class"] == "paladin"
+        ):
             sleep(80, 100)
             pydirectinput.press(config["awakening"])
             sleep(80, 100)
