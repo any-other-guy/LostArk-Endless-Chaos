@@ -32,7 +32,7 @@ config = {
     "enableRapport": False,  # NOTE: you need to setup bifrost no3 infront of a rapport NPC
     "floor3Mode": False,  # only enable if you ONLY want to run infinite floor3 clearing
     # Setup your characters below:
-    # can setup UP TO 9 characters for daily chaos/lopang/guild stuff
+    # can setup UP TO 18(0 to 17) characters for daily chaos/lopang/guild stuff
     # however your main must be in character 0 to 5 (just for re-connect back after disconnection happens)
     # ilvl-endless is the dungeon which you want to run infinitely
     # ilvl-aor is the daily aura of resonance dungeon you only want to run TWICE per day

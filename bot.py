@@ -1288,6 +1288,48 @@ def useAbilities():
                 pydirectinput.press("z")
                 sleep(50, 60)
                 pydirectinput.press("z")
+            elif (
+                config["characters"][states["currentCharacter"]]["class"]
+                == "gunslinger"
+                and i == 0
+            ):
+                pistolStance = pyautogui.locateOnScreen(
+                    "./screenshots/pistolStance.png",
+                    region=(930, 819, 58, 56),
+                    confidence=0.75,
+                )
+                sniperStance = pyautogui.locateOnScreen(
+                    "./screenshots/sniperStance.png",
+                    region=(930, 819, 58, 56),
+                    confidence=0.75,
+                )
+                if pistolStance != None:
+                    pydirectinput.press("z")
+                    sleep(150, 160)
+                elif sniperStance != None:
+                    pydirectinput.press("x")
+                    sleep(150, 160)
+            elif (
+                config["characters"][states["currentCharacter"]]["class"]
+                == "gunslinger"
+                and i == 4
+            ):
+                shotgunStance = pyautogui.locateOnScreen(
+                    "./screenshots/shotgunStance.png",
+                    region=(930, 819, 58, 56),
+                    confidence=0.75,
+                )
+                sniperStance = pyautogui.locateOnScreen(
+                    "./screenshots/sniperStance.png",
+                    region=(930, 819, 58, 56),
+                    confidence=0.75,
+                )
+                if shotgunStance != None:
+                    pydirectinput.press("x")
+                    sleep(150, 160)
+                elif sniperStance != None:
+                    pydirectinput.press("z")
+                    sleep(150, 160)
 
             # bard courage
             if config["characters"][states["currentCharacter"]]["class"] == "bard":
