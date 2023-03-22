@@ -603,13 +603,6 @@ def doFloor1():
     clearQuest()
     sleep(500, 550)
 
-    # switch to akir
-    if config["characters"][states["currentCharacter"]]["class"] == "summoner":
-        mouseMoveTo(x=1010, y=865)
-        sleep(800, 900)
-        pydirectinput.click(x=1010, y=865, button="left")
-        sleep(800, 900)
-
     # check repair
     if config["auraRepair"]:
         doAuraRepair(False)
@@ -621,6 +614,18 @@ def doFloor1():
     # delayed start for better aoe abiltiy usage at floor1 beginning
     if config["delayedStart"] != None and config["performance"] == False:
         sleep(config["delayedStart"] - 100, config["delayedStart"] + 100)
+
+    # switch to akir
+    if config["characters"][states["currentCharacter"]]["class"] == "summoner":
+        mouseMoveTo(x=1010, y=865)
+        sleep(800, 900)
+        pydirectinput.click(x=1010, y=865, button="left")
+        sleep(800, 900)
+
+    # berserker z
+    if config["characters"][states["currentCharacter"]]["class"] == "berserker":
+        pydirectinput.press("z")
+        sleep(800, 900)
 
     if offlineCheck():
         closeGameByClickingDialogue()
@@ -1072,17 +1077,17 @@ def useAbilities():
         if states["status"] == "floor1" and checkFloor2Elite():
             print("accidentally entered floor 2")
             states["status"] = "floor2"
-            nowTime = int(time.time_ns() / 1000000)
-            badRun = pyautogui.screenshot()
-            badRun.save("./debug/badRun_" + str(nowTime) + ".png")
+            # nowTime = int(time.time_ns() / 1000000)
+            # badRun = pyautogui.screenshot()
+            # badRun.save("./debug/badRun_" + str(nowTime) + ".png")
             states["badRunCount"] = states["badRunCount"] + 1
             return
         elif states["status"] == "floor2" and checkFloor3Tower():
             print("accidentally entered floor 3")
             states["status"] = "floor3"
-            nowTime = int(time.time_ns() / 1000000)
-            badRun = pyautogui.screenshot()
-            badRun.save("./debug/badRun_" + str(nowTime) + ".png")
+            # nowTime = int(time.time_ns() / 1000000)
+            # badRun = pyautogui.screenshot()
+            # badRun.save("./debug/badRun_" + str(nowTime) + ".png")
             states["badRunCount"] = states["badRunCount"] + 1
             return
 

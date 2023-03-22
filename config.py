@@ -103,6 +103,8 @@ config = {
         [960, 530],
         [1160, 530],
         [760, 620],
+        [960, 620],
+        [1160, 620],
     ],
     "charSelectConnectX": 1030,
     "charSelectConnectY": 684,

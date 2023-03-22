@@ -50,7 +50,7 @@ characters = [
         "ilvl-endless": 1490,
         "ilvl-aor": 1490,
         "lopang": True,
-        "guildDonation": False,
+        "guildDonation": True,
         "rapport": False,
     },
     {
@@ -100,6 +100,15 @@ characters = [
     },
     {
         "index": 11,
+        "class": "sorceress",
+        "ilvl-endless": 1370,
+        "ilvl-aor": 1370,
+        "lopang": True,
+        "guildDonation": False,
+        "rapport": False,
+    },
+    {
+        "index": 12,
         "class": "deathblade",
         "ilvl-endless": 1370,
         "ilvl-aor": 1370,
