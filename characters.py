@@ -104,7 +104,7 @@ characters = [
         "ilvl-endless": 1370,
         "ilvl-aor": 1370,
         "lopang": True,
-        "guildDonation": False,
+        "guildDonation": True,
         "rapport": False,
     },
     {

@@ -59,8 +59,7 @@ def main():
                 states["multiCharacterModeState"]
             )
         )
-
-    if args.bulunshua:
+    elif args.bulunshua:
         config["enableMultiCharacterMode"] = False
         states["multiCharacterMode"] = False
         print("bu lunshua")
