@@ -436,6 +436,31 @@ def enterChaos():
             if offlineCheck():
                 closeGameByClickingDialogue()
                 return
+            sleep(1000, 1200)
+
+            # check if in chaos from disconenct->restart
+            inChaos = pyautogui.locateCenterOnScreen(
+                "./screenshots/inChaos.png",
+                confidence=0.75,
+                region=(247, 146, 222, 50),
+            )
+            if inChaos != None:
+                print("still in the last chaos run, quitting")
+                quitChaos()
+                sleep(5000, 6000)
+                # incity check
+                while True:
+                    inTown = pyautogui.locateCenterOnScreen(
+                        "./screenshots/inTown.png",
+                        confidence=0.75,
+                        region=(1870, 133, 25, 30),
+                    )
+                    if inTown != None:
+                        print("city loaded")
+                        states["status"] = "inCity"
+                        break
+                    sleep(5000, 6000)
+
             pydirectinput.keyDown("alt")
             sleep(100, 200)
             pydirectinput.press("q")
@@ -3586,6 +3611,20 @@ def goOnline():
     sleep(1500, 1600)
     pydirectinput.press("esc")
     sleep(1500, 1600)
+
+
+def waitForCityLoaded():
+    while True:
+        inTown = pyautogui.locateCenterOnScreen(
+            "./screenshots/inTown.png",
+            confidence=0.75,
+            region=(1870, 133, 25, 30),
+        )
+        if inTown != None:
+            print("city loaded")
+            states["status"] = "inCity"
+            break
+        sleep(5000, 6000)
 
 
 def split(a, n):
