@@ -355,6 +355,9 @@ def main():
                 quitChaos()
                 continue
             print("floor3 loaded")
+            # currentTime = int(time.time_ns() / 1000000)
+            # aorRun = pyautogui.screenshot()
+            # aorRun.save("./debug/aor_" + str(currentTime) + ".png")
             # do floor 3
             # trigger start floor 3
             mouseMoveTo(x=760, y=750)
@@ -516,6 +519,8 @@ def enterChaos():
                 1475: [[1266, 307], [524, 505]],
                 1490: [[1266, 307], [524, 555]],
                 1520: [[1266, 307], [524, 605]],
+                1540: [[1266, 307], [524, 662]],
+                1560: [[1266, 307], [524, 715]],
             }
             if states["multiCharacterMode"] or aor != None:
                 mouseMoveTo(
@@ -842,11 +847,19 @@ def doFloor3Portal():
             if enterPortal():
                 break
         sleep(800, 900)
+    elif checkFloor3Tower() == True:
+        # 不小心进下个门但没识别到: checkFloor3Tower，继续
+        return
     else:
-        # 不小心进下个门但没识别到: checkFloor3Tower
-        states["floor3Mode"] = False
+        # FIXME:看看啥情况
+        # states["floor3Mode"] = False
         # hacky quit
-        states["instanceStartTime"] = -1
+        if states["floor3Mode"] == False:
+            states["instanceStartTime"] = -1
+        else:
+            currentTime = int(time.time_ns() / 1000000)
+            timeout = pyautogui.screenshot()
+            timeout.save("./debug/floor3nomob_" + str(currentTime) + ".png")
         return
 
     if offlineCheck():
@@ -2936,9 +2949,11 @@ def switchToCharacter(index):
     pydirectinput.click(x=1260, y=392, button="left")
     sleep(1500, 1600)
     pydirectinput.click(x=1260, y=392, button="left")
+    sleep(1500, 1600)
+    pydirectinput.click(x=1260, y=392, button="left")
     sleep(500, 600)
     pydirectinput.click(button="left")
-    sleep(500, 600)
+    sleep(1500, 1600)
     pydirectinput.click(button="left")
     sleep(1500, 1600)
     if index > 8:
@@ -2952,9 +2967,11 @@ def switchToCharacter(index):
         pydirectinput.click(x=1260, y=638, button="left")
         sleep(1500, 1600)
         pydirectinput.click(x=1260, y=638, button="left")
+        sleep(1500, 1600)
+        pydirectinput.click(x=1260, y=638, button="left")
         sleep(500, 600)
         pydirectinput.click(button="left")
-        sleep(500, 600)
+        sleep(1500, 1600)
         pydirectinput.click(button="left")
         sleep(1500, 1600)
 
@@ -3011,6 +3028,12 @@ def switchToCharacter(index):
     sleep(500, 600)
     pydirectinput.click(button="left")
     sleep(1000, 1000)
+
+    currentTime = int(time.time_ns() / 1000000)
+    switchToChar = pyautogui.screenshot()
+    switchToChar.save(
+        "./debug/switchToChar_" + str(index) + "_" + str(currentTime) + ".png"
+    )
 
     mouseMoveTo(x=config["charSelectOkX"], y=config["charSelectOkY"])
     sleep(1500, 1600)
@@ -3321,7 +3344,7 @@ def bifrostGoTo(option):
                     y=y,
                     button="left",
                 )
-                sleep(1500, 1600)
+                sleep(500, 600)
                 pydirectinput.click(button="left")
                 sleep(1500, 1600)
                 break
