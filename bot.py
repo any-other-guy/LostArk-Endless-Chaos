@@ -1348,10 +1348,9 @@ def useAbilities():
 
             # class specific stuff
             if (
-                config["characters"][states["currentCharacter"]]["class"] == "soulfist"
+                config["characters"][states["currentCharacter"]]["class"] == "arcana"
                 or config["characters"][states["currentCharacter"]]["class"]
-                == "deathblade" or config["characters"][states["currentCharacter"]]["class"]
-                == "sharpshooter"
+                == "deathblade"
             ):
                 pydirectinput.press("z")
             elif (
@@ -1410,12 +1409,12 @@ def useAbilities():
                 elif sniperStance != None:
                     pydirectinput.press("z")
                     sleep(150, 160)
-            elif (
-                config["characters"][states["currentCharacter"]]["class"] == "glavier"
-                and i == 8
-            ):
-                pydirectinput.press("z")
-                sleep(150, 160)
+            # elif (
+            #     config["characters"][states["currentCharacter"]]["class"] == "glavier"
+            #     and i == 8
+            # ):
+            #     pydirectinput.press("z")
+            #     sleep(150, 160)
             elif (
                 config["characters"][states["currentCharacter"]]["class"] == "paladin"
             ) and (i == 1 or i == 3 or i == 5 or i == 7):
@@ -2622,7 +2621,7 @@ def gameCrashCheck():
             print("game inactive...")
             states["gameCrashCount"] = states["gameCrashCount"] + 1
             return True
-    bottom = pyautogui.screenshot(region=(800, 960, 250, 50))
+    bottom = pyautogui.screenshot(region=(500, 960, 250, 50))
     r1, g1, b1 = bottom.getpixel((0, 0))
     r2, g2, b2 = bottom.getpixel((0, 49))
     r3, g3, b3 = bottom.getpixel((249, 0))
@@ -2823,7 +2822,7 @@ def restartGame():
                 print("clicked image restart on GFN")
                 sleep(40000, 42000)
                 break
-            if loaGFNplay != None:
+            if loaGFN != None:
                 x, y = loaGFN
                 mouseMoveTo(x=x, y=y)
                 sleep(2200, 2300)
@@ -3047,11 +3046,11 @@ def switchToCharacter(index):
     pydirectinput.click(button="left")
     sleep(1000, 1000)
 
-    currentTime = int(time.time_ns() / 1000000)
-    switchToChar = pyautogui.screenshot()
-    switchToChar.save(
-        "./debug/switchToChar_" + str(index) + "_" + str(currentTime) + ".png"
-    )
+    # currentTime = int(time.time_ns() / 1000000)
+    # switchToChar = pyautogui.screenshot()
+    # switchToChar.save(
+    #     "./debug/switchToChar_" + str(index) + "_" + str(currentTime) + ".png"
+    # )
 
     mouseMoveTo(x=config["charSelectOkX"], y=config["charSelectOkY"])
     sleep(1500, 1600)
