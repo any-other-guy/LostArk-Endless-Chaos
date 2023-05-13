@@ -1352,6 +1352,7 @@ def useAbilities():
                 or config["characters"][states["currentCharacter"]]["class"]
                 == "deathblade"
             ):
+                pydirectinput.press("x")
                 pydirectinput.press("z")
             elif (
                 config["characters"][states["currentCharacter"]]["class"] == "summoner"
@@ -2822,8 +2823,8 @@ def restartGame():
                 print("clicked image restart on GFN")
                 sleep(40000, 42000)
                 break
-            if loaGFN != None:
-                x, y = loaGFN
+            if loaGFNplay != None:
+                x, y = loaGFNplay
                 mouseMoveTo(x=x, y=y)
                 sleep(2200, 2300)
                 pydirectinput.click(x=x, y=y, button="left")
