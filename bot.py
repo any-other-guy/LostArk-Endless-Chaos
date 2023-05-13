@@ -189,6 +189,24 @@ def main():
                         closeGameByClickingDialogue()
                         continue
 
+                    # peyto
+                    if (
+                        config["enablePeyto"]
+                        and config["characters"][states["currentCharacter"]]["peyto"]
+                    ):
+                        # do lopang
+                        print("doing peyto on : {}".format(states["currentCharacter"]))
+                        doPeyto()
+                        print("peyto done on : {}".format(states["currentCharacter"]))
+                        sleep(1400, 1600)
+
+                    if gameCrashCheck():
+                        states["status"] = "restart"
+                        continue
+                    if offlineCheck():
+                        closeGameByClickingDialogue()
+                        continue
+
                     # just finished last char before main
                     print(
                         "just finished last char before main, closing multi-char mode"
@@ -505,22 +523,22 @@ def enterChaos():
             _curr = config["characters"][states["currentCharacter"]]
             chaosTabPosition = {
                 # punika
-                1100: [[1112, 307], [524, 400]],
-                1310: [[1112, 307], [524, 455]],
-                1325: [[1112, 307], [524, 505]],
-                1340: [[1112, 307], [524, 555]],
-                1355: [[1112, 307], [524, 605]],
-                1370: [[1112, 307], [524, 662]],
-                1385: [[1112, 307], [524, 715]],
-                1400: [[1112, 307], [524, 770]],
+                1100: [[1266, 307], [524, 400]],
+                1310: [[1266, 307], [524, 455]],
+                1325: [[1266, 307], [524, 505]],
+                1340: [[1266, 307], [524, 555]],
+                1355: [[1266, 307], [524, 605]],
+                1370: [[1266, 307], [524, 662]],
+                1385: [[1266, 307], [524, 715]],
+                1400: [[1266, 307], [524, 770]],
                 # south vern
-                1415: [[1266, 307], [524, 400]],
-                1445: [[1266, 307], [524, 455]],
-                1475: [[1266, 307], [524, 505]],
-                1490: [[1266, 307], [524, 555]],
-                1520: [[1266, 307], [524, 605]],
-                1540: [[1266, 307], [524, 662]],
-                1560: [[1266, 307], [524, 715]],
+                1415: [[1420, 307], [524, 400]],
+                1445: [[1420, 307], [524, 455]],
+                1475: [[1420, 307], [524, 505]],
+                1490: [[1420, 307], [524, 555]],
+                1520: [[1420, 307], [524, 605]],
+                1540: [[1420, 307], [524, 662]],
+                1560: [[1420, 307], [524, 715]],
             }
             if states["multiCharacterMode"] or aor != None:
                 mouseMoveTo(
@@ -1330,11 +1348,11 @@ def useAbilities():
 
             # class specific stuff
             if (
-                config["characters"][states["currentCharacter"]]["class"] == "arcana"
+                config["characters"][states["currentCharacter"]]["class"] == "soulfist"
                 or config["characters"][states["currentCharacter"]]["class"]
-                == "deathblade"
+                == "deathblade" or config["characters"][states["currentCharacter"]]["class"]
+                == "sharpshooter"
             ):
-                pydirectinput.press("x")
                 pydirectinput.press("z")
             elif (
                 config["characters"][states["currentCharacter"]]["class"] == "summoner"
@@ -1392,12 +1410,12 @@ def useAbilities():
                 elif sniperStance != None:
                     pydirectinput.press("z")
                     sleep(150, 160)
-            # elif (
-            #     config["characters"][states["currentCharacter"]]["class"] == "glavier"
-            #     and i == 8
-            # ):
-            #     pydirectinput.press("z")
-            #     sleep(150, 160)
+            elif (
+                config["characters"][states["currentCharacter"]]["class"] == "glavier"
+                and i == 8
+            ):
+                pydirectinput.press("z")
+                sleep(150, 160)
             elif (
                 config["characters"][states["currentCharacter"]]["class"] == "paladin"
             ) and (i == 1 or i == 3 or i == 5 or i == 7):
@@ -2604,7 +2622,7 @@ def gameCrashCheck():
             print("game inactive...")
             states["gameCrashCount"] = states["gameCrashCount"] + 1
             return True
-    bottom = pyautogui.screenshot(region=(500, 960, 250, 50))
+    bottom = pyautogui.screenshot(region=(800, 960, 250, 50))
     r1, g1, b1 = bottom.getpixel((0, 0))
     r2, g2, b2 = bottom.getpixel((0, 49))
     r3, g3, b3 = bottom.getpixel((249, 0))
@@ -2806,7 +2824,7 @@ def restartGame():
                 sleep(40000, 42000)
                 break
             if loaGFNplay != None:
-                x, y = loaGFNplay
+                x, y = loaGFN
                 mouseMoveTo(x=x, y=y)
                 sleep(2200, 2300)
                 pydirectinput.click(x=x, y=y, button="left")
@@ -3029,11 +3047,11 @@ def switchToCharacter(index):
     pydirectinput.click(button="left")
     sleep(1000, 1000)
 
-    # currentTime = int(time.time_ns() / 1000000)
-    # switchToChar = pyautogui.screenshot()
-    # switchToChar.save(
-    #     "./debug/switchToChar_" + str(index) + "_" + str(currentTime) + ".png"
-    # )
+    currentTime = int(time.time_ns() / 1000000)
+    switchToChar = pyautogui.screenshot()
+    switchToChar.save(
+        "./debug/switchToChar_" + str(index) + "_" + str(currentTime) + ".png"
+    )
 
     mouseMoveTo(x=config["charSelectOkX"], y=config["charSelectOkY"])
     sleep(1500, 1600)
@@ -3280,6 +3298,82 @@ def doLopang():
         return
     spamG(10000)
 
+def doPeyto():
+    sleep(1000, 2000)
+    print("accepting peyto daily")
+    doDaily = acceptPeytoDaily()
+    sleep(1500, 1600)
+    if doDaily == False:
+        return
+    sleep(500, 600)
+    if gameCrashCheck():
+        return
+    if offlineCheck():
+        return
+
+    sleep(1500, 1600)
+
+    # goto lopang island
+    bifrostAvailable = bifrostGoTo(0)
+    if bifrostAvailable == False:
+        return
+    if gameCrashCheck():
+        return
+    if offlineCheck():
+        return
+    sleep(1500, 1600)
+    bifrostGoTo(1)
+    if gameCrashCheck():
+        return
+    if offlineCheck():
+        return
+    sleep(1500, 1600)
+    bifrostGoTo(3)
+    if gameCrashCheck():
+        return
+    if offlineCheck():
+        return
+    sleep(1500, 1600)
+    bifrostGoTo(4)
+    if gameCrashCheck():
+        return
+    if offlineCheck():
+        return
+        
+    sleep(1500, 1600)
+    completePeyto()
+
+def completePeyto():
+    questCompleted = pyautogui.locateCenterOnScreen(
+        "./screenshots/questCompleted.png",
+        confidence=0.75,
+        region=config["regions"]["questCompleted"],
+    )
+
+    if questCompleted is not None:
+        sleep(500, 600)
+        pydirectinput.click(questCompleted.x, questCompleted.y, button="left")
+        sleep(500, 600)
+        pydirectinput.click(questCompleted.x, questCompleted.y, button="left")
+        sleep(500, 600)
+        pydirectinput.click(questCompleted.x, questCompleted.y, button="left")
+
+    sleep(2500, 2600)
+
+    completeQuest = pyautogui.locateCenterOnScreen(
+        "./screenshots/completeQuest.png",
+        confidence=0.75,
+        region=config["regions"]["completeQuest"],
+    )
+
+    if completeQuest is not None:
+        sleep(500, 600)
+        pydirectinput.click(completeQuest.x, completeQuest.y, button="left")
+        sleep(500, 600)
+        pydirectinput.click(completeQuest.x, completeQuest.y, button="left")
+        sleep(500, 600)
+        pydirectinput.click(completeQuest.x, completeQuest.y, button="left")
+
 
 def bifrostGoTo(option):
     # meleeClick = "right"
@@ -3493,6 +3587,63 @@ def acceptLopangDaily():
     mouseMoveTo(x=1206, y=512)
     sleep(2800, 2900)
     pydirectinput.click(x=1206, y=512, button="left")
+
+    sleep(2800, 2900)
+    pydirectinput.press("esc")
+    sleep(2800, 2900)
+
+def acceptPeytoDaily():
+    sleep(500, 600)
+    pydirectinput.keyDown("alt")
+    sleep(500, 600)
+    pydirectinput.press("j")
+    sleep(500, 600)
+    pydirectinput.keyUp("alt")
+    sleep(2900, 3200)
+
+    mouseMoveTo(x=564, y=250)
+    sleep(2800, 2900)
+    pydirectinput.click(x=564, y=250, button="left")
+    sleep(500, 600)
+    pydirectinput.click(x=564, y=250, button="left")
+    sleep(500, 600)
+    pydirectinput.click(x=564, y=250, button="left")
+    sleep(2800, 2900)
+
+    mouseMoveTo(x=583, y=313)
+    sleep(2800, 2900)
+    pydirectinput.click(x=583, y=313, button="left")
+    sleep(500, 600)
+    pydirectinput.click(x=583, y=313, button="left")
+    sleep(500, 600)
+    pydirectinput.click(x=583, y=313, button="left")
+    sleep(2800, 2900)
+
+    mouseMoveTo(x=583, y=404)
+    sleep(2800, 2900)
+    pydirectinput.click(x=583, y=404, button="left")
+    sleep(500, 600)
+    pydirectinput.click(x=583, y=404, button="left")
+    sleep(500, 600)
+    pydirectinput.click(x=583, y=404, button="left")
+    sleep(2800, 2900)
+
+    sleep(2900, 3200)
+    dailyCompleted = pyautogui.locateCenterOnScreen(
+        "./screenshots/dailyCompleted.png",
+        confidence=0.75,
+        region=(1143, 339, 110, 400),
+    )
+
+    if dailyCompleted != None:
+        pydirectinput.press("esc")
+        sleep(1900, 2200)
+        return False
+
+    mouseMoveTo(x=1206, y=398)
+    sleep(2800, 2900)
+    pydirectinput.click(x=1206, y=398, button="left")
+    sleep(2800, 2900)
 
     sleep(2800, 2900)
     pydirectinput.press("esc")

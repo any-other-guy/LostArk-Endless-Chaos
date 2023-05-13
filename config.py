@@ -28,6 +28,7 @@ config = {
     "GFN": True,  # set True for Geforce Now users
     "enableMultiCharacterMode": True,  # this is lit
     "enableLopang": True,  # NOTE: you need to setup bifrost locations properly for this, at very specific locations. Look up ^
+    "enablePeyto": True,  # NOTE: you need to setup bifrost locations properly for this, at very specific locations. Do the quest manually once and set the bifrosts in the quest circles.
     "enableGuildDonation": True,  # please make sure all your characters have a guild
     "enableRapport": False,  # NOTE: you need to setup bifrost no3 infront of a rapport NPC
     "floor3Mode": False,  # only enable if you ONLY want to run infinite floor3 clearing
@@ -63,6 +64,8 @@ config = {
         "buffs": (625, 780, 300, 60),
         "center": (685, 280, 600, 420),
         "portal": (228, 230, 1370, 570),
+        "questCompleted":(1650, 415, 120, 30),
+        "completeQuest":(220, 670, 100, 40)
     },
     "screenResolutionX": 1920,
     "screenResolutionY": 1080,
