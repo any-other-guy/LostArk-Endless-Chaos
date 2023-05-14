@@ -269,6 +269,25 @@ def main():
                     if offlineCheck():
                         closeGameByClickingDialogue()
                         continue
+
+                    # peyto
+                    if (
+                        config["enablePeyto"]
+                        and config["characters"][states["currentCharacter"]]["peyto"]
+                    ):
+                        # do lopang
+                        print("doing peyto on : {}".format(states["currentCharacter"]))
+                        doPeyto()
+                        print("peyto done on : {}".format(states["currentCharacter"]))
+                        sleep(1400, 1600)
+
+                    if gameCrashCheck():
+                        states["status"] = "restart"
+                        continue
+                    if offlineCheck():
+                        closeGameByClickingDialogue()
+                        continue
+                    
                     # switch to next
                     nextIndex = (states["currentCharacter"] + 1) % len(
                         states["multiCharacterModeState"]
