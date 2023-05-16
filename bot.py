@@ -505,22 +505,22 @@ def enterChaos():
             _curr = config["characters"][states["currentCharacter"]]
             chaosTabPosition = {
                 # punika
-                1100: [[1112, 307], [524, 400]],
-                1310: [[1112, 307], [524, 455]],
-                1325: [[1112, 307], [524, 505]],
-                1340: [[1112, 307], [524, 555]],
-                1355: [[1112, 307], [524, 605]],
-                1370: [[1112, 307], [524, 662]],
-                1385: [[1112, 307], [524, 715]],
-                1400: [[1112, 307], [524, 770]],
+                1100: [[1230, 307], [524, 400]],
+                1310: [[1230, 307], [524, 455]],
+                1325: [[1230, 307], [524, 505]],
+                1340: [[1230, 307], [524, 555]],
+                1355: [[1230, 307], [524, 605]],
+                1370: [[1230, 307], [524, 662]],
+                1385: [[1230, 307], [524, 715]],
+                1400: [[1230, 307], [524, 770]],
                 # south vern
-                1415: [[1266, 307], [524, 400]],
-                1445: [[1266, 307], [524, 455]],
-                1475: [[1266, 307], [524, 505]],
-                1490: [[1266, 307], [524, 555]],
-                1520: [[1266, 307], [524, 605]],
-                1540: [[1266, 307], [524, 662]],
-                1560: [[1266, 307], [524, 715]],
+                1415: [[1403, 307], [524, 400]],
+                1445: [[1403, 307], [524, 455]],
+                1475: [[1403, 307], [524, 505]],
+                1490: [[1403, 307], [524, 555]],
+                1520: [[1403, 307], [524, 605]],
+                1540: [[1403, 307], [524, 662]],
+                1560: [[1403, 307], [524, 715]],
             }
             if states["multiCharacterMode"] or aor != None:
                 mouseMoveTo(
@@ -528,18 +528,34 @@ def enterChaos():
                     y=chaosTabPosition[_curr["ilvl-aor"]][0][1],
                 )
                 sleep(800, 900)
-                pydirectinput.click(button="left")
+                pydirectinput.click(
+                    x=chaosTabPosition[_curr["ilvl-aor"]][0][0],
+                    y=chaosTabPosition[_curr["ilvl-aor"]][0][1],
+                    button="left",
+                )
                 sleep(500, 600)
-                pydirectinput.click(button="left")
+                pydirectinput.click(
+                    x=chaosTabPosition[_curr["ilvl-aor"]][0][0],
+                    y=chaosTabPosition[_curr["ilvl-aor"]][0][1],
+                    button="left",
+                )
                 sleep(500, 600)
                 mouseMoveTo(
                     x=chaosTabPosition[_curr["ilvl-aor"]][1][0],
                     y=chaosTabPosition[_curr["ilvl-aor"]][1][1],
                 )
                 sleep(800, 900)
-                pydirectinput.click(button="left")
+                pydirectinput.click(
+                    x=chaosTabPosition[_curr["ilvl-aor"]][1][0],
+                    y=chaosTabPosition[_curr["ilvl-aor"]][1][1],
+                    button="left",
+                )
                 sleep(500, 600)
-                pydirectinput.click(button="left")
+                pydirectinput.click(
+                    x=chaosTabPosition[_curr["ilvl-aor"]][1][0],
+                    y=chaosTabPosition[_curr["ilvl-aor"]][1][1],
+                    button="left",
+                )
                 sleep(500, 600)
             else:
                 mouseMoveTo(
@@ -547,18 +563,34 @@ def enterChaos():
                     y=chaosTabPosition[_curr["ilvl-endless"]][0][1],
                 )
                 sleep(800, 900)
-                pydirectinput.click(button="left")
+                pydirectinput.click(
+                    x=chaosTabPosition[_curr["ilvl-endless"]][0][0],
+                    y=chaosTabPosition[_curr["ilvl-endless"]][0][1],
+                    button="left",
+                )
                 sleep(500, 600)
-                pydirectinput.click(button="left")
+                pydirectinput.click(
+                    x=chaosTabPosition[_curr["ilvl-endless"]][0][0],
+                    y=chaosTabPosition[_curr["ilvl-endless"]][0][1],
+                    button="left",
+                )
                 sleep(500, 600)
                 mouseMoveTo(
                     x=chaosTabPosition[_curr["ilvl-endless"]][1][0],
                     y=chaosTabPosition[_curr["ilvl-endless"]][1][1],
                 )
                 sleep(800, 900)
-                pydirectinput.click(button="left")
+                pydirectinput.click(
+                    x=chaosTabPosition[_curr["ilvl-endless"]][1][0],
+                    y=chaosTabPosition[_curr["ilvl-endless"]][1][1],
+                    button="left",
+                )
                 sleep(500, 600)
-                pydirectinput.click(button="left")
+                pydirectinput.click(
+                    x=chaosTabPosition[_curr["ilvl-endless"]][1][0],
+                    y=chaosTabPosition[_curr["ilvl-endless"]][1][1],
+                    button="left",
+                )
                 sleep(500, 600)
 
             enterButton = pyautogui.locateCenterOnScreen(
@@ -583,11 +615,11 @@ def enterChaos():
             else:
                 mouseMoveTo(x=886, y=346)
                 sleep(800, 900)
-                pydirectinput.click(button="left")
+                pydirectinput.click(x=886, y=346, button="left")
                 sleep(200, 300)
-                pydirectinput.click(button="left")
+                pydirectinput.click(x=886, y=346, button="left")
                 sleep(200, 300)
-                pydirectinput.click(button="left")
+                pydirectinput.click(x=886, y=346, button="left")
                 sleep(1800, 1900)
 
     else:
@@ -1338,18 +1370,27 @@ def useAbilities():
                 pydirectinput.press("z")
             elif (
                 config["characters"][states["currentCharacter"]]["class"] == "summoner"
+                or config["characters"][states["currentCharacter"]]["class"] == "slayer"
                 # or config["characters"][states["currentCharacter"]]["class"] == "bard"
                 and (i == 1 or i == 3 or i == 5 or i == 7)
             ):
-                mouseMoveTo(x=config["screenCenterX"], y=config["screenCenterY"])
+                if (
+                    config["characters"][states["currentCharacter"]]["class"]
+                    == "summoner"
+                ):
+                    mouseMoveTo(x=config["screenCenterX"], y=config["screenCenterY"])
                 sleep(150, 160)
                 pydirectinput.press("z")
                 sleep(50, 60)
                 pydirectinput.press("z")
-                sleep(150, 160)
-                pydirectinput.press("z")
-                sleep(50, 60)
-                pydirectinput.press("z")
+                if (
+                    config["characters"][states["currentCharacter"]]["class"]
+                    == "summoner"
+                ):
+                    sleep(150, 160)
+                    pydirectinput.press("z")
+                    sleep(50, 60)
+                    pydirectinput.press("z")
             elif (
                 config["characters"][states["currentCharacter"]]["class"]
                 == "gunslinger"
@@ -3505,7 +3546,7 @@ def walkWithAlt(lopangX, lopangY, milliseconds):
     pydirectinput.keyDown("alt")
     mouseMoveTo(x=lopangX, y=lopangY)
     sleep(100, 100)
-    pydirectinput.click(button=config["move"])
+    pydirectinput.click(x=lopangX, y=lopangY, button=config["move"])
     sleep(milliseconds / 2, milliseconds / 2)
     pydirectinput.keyUp("alt")
     sleep(milliseconds / 2, milliseconds / 2)
