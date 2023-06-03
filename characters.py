@@ -20,8 +20,8 @@ characters = [
     {
         "index": 2,
         "class": "slayer",
-        "ilvl-endless": 1490,
-        "ilvl-aor": 1490,
+        "ilvl-endless": 1540,
+        "ilvl-aor": 1540,
         "lopang": False,
         "guildDonation": True,
         "rapport": False,

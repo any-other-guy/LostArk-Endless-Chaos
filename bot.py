@@ -2693,6 +2693,22 @@ def offlineCheck():
             print("session limit...")
             states["gameCrashCount"] = states["gameCrashCount"] + 1
             return True
+        updateMembership = pyautogui.locateCenterOnScreen(
+            "./screenshots/updateMembership.png",
+            region=config["regions"]["center"],
+            confidence=0.8,
+        )
+        if updateMembership != None:
+            currentTime = int(time.time_ns() / 1000000)
+            limitshot = pyautogui.screenshot()
+            limitshot.save("./debug/updateMembership" + str(currentTime) + ".png")
+            mouseMoveTo(x=1036, y=822)
+            sleep(1300, 1400)
+            pydirectinput.click(x=1036, y=822, button="left")
+            sleep(1300, 1400)
+            print("update Membership...")
+            states["gameCrashCount"] = states["gameCrashCount"] + 1
+            return True
         inactiveGFN = pyautogui.locateCenterOnScreen(
             "./screenshots/inactiveGFN.png",
             region=config["regions"]["center"],
@@ -2765,6 +2781,8 @@ def closeGameByClickingDialogue():
 
 def restartGame():
     print("restart game")
+    gameCrashCheck()
+    sleep(5000, 7000)
     states["multiCharacterMode"] = False  # for now
     states["multiCharacterModeState"] = []  # for now
     states["currentCharacter"] = config["mainCharacter"]
@@ -2976,7 +2994,7 @@ def switchToCharacter(index):
     sleep(1500, 1600)
     pydirectinput.click(x=config["charSwitchX"], y=config["charSwitchY"], button="left")
     sleep(500, 600)
-    pydirectinput.click(button="left")
+    pydirectinput.click(x=config["charSwitchX"], y=config["charSwitchY"], button="left")
     sleep(200, 300)
 
     # mouseMoveTo(
@@ -2993,9 +3011,9 @@ def switchToCharacter(index):
     sleep(1500, 1600)
     pydirectinput.click(x=1260, y=392, button="left")
     sleep(500, 600)
-    pydirectinput.click(button="left")
+    pydirectinput.click(x=1260, y=392, button="left")
     sleep(1500, 1600)
-    pydirectinput.click(button="left")
+    pydirectinput.click(x=1260, y=392, button="left")
     sleep(1500, 1600)
     if index > 8:
         # mouseMoveTo(
@@ -3011,9 +3029,9 @@ def switchToCharacter(index):
         sleep(1500, 1600)
         pydirectinput.click(x=1260, y=638, button="left")
         sleep(500, 600)
-        pydirectinput.click(button="left")
+        pydirectinput.click(x=1260, y=638, button="left")
         sleep(1500, 1600)
-        pydirectinput.click(button="left")
+        pydirectinput.click(x=1260, y=638, button="left")
         sleep(1500, 1600)
 
     mouseMoveTo(
@@ -3048,7 +3066,11 @@ def switchToCharacter(index):
         button="left",
     )
     sleep(1500, 1600)
-    pydirectinput.click(button="left")
+    pydirectinput.click(
+        x=config["charPositions"][index][0],
+        y=config["charPositions"][index][1],
+        button="left",
+    )
     sleep(1500, 1600)
 
     mouseMoveTo(x=config["charSelectConnectX"], y=config["charSelectConnectY"])
@@ -3061,13 +3083,17 @@ def switchToCharacter(index):
         x=config["charSelectConnectX"], y=config["charSelectConnectY"], button="left"
     )
     sleep(500, 600)
-    pydirectinput.click(button="left")
+    pydirectinput.click(
+        x=config["charSelectConnectX"], y=config["charSelectConnectY"], button="left"
+    )
     sleep(200, 300)
     pydirectinput.click(
         x=config["charSelectConnectX"], y=config["charSelectConnectY"], button="left"
     )
     sleep(500, 600)
-    pydirectinput.click(button="left")
+    pydirectinput.click(
+        x=config["charSelectConnectX"], y=config["charSelectConnectY"], button="left"
+    )
     sleep(1000, 1000)
 
     # currentTime = int(time.time_ns() / 1000000)
@@ -3082,13 +3108,17 @@ def switchToCharacter(index):
         x=config["charSelectOkX"], y=config["charSelectOkY"], button="left"
     )
     sleep(200, 300)
-    pydirectinput.click(button="left")
+    pydirectinput.click(
+        x=config["charSelectOkX"], y=config["charSelectOkY"], button="left"
+    )
     sleep(1500, 1600)
     pydirectinput.click(
         x=config["charSelectOkX"], y=config["charSelectOkY"], button="left"
     )
     sleep(200, 300)
-    pydirectinput.click(button="left")
+    pydirectinput.click(
+        x=config["charSelectOkX"], y=config["charSelectOkY"], button="left"
+    )
     sleep(500, 600)
 
     states["currentCharacter"] = index
