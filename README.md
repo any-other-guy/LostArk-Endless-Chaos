@@ -1,5 +1,7 @@
 # Endless-Chaos
 
+### No longer under maintenance, thank you for the support throughout the year, good luck have fun.
+
 A Lost Ark chaos dungeon(PvE) farming bot.\
 Fully automatic mob/elite/boss detecting and clearing, based on image recognition.\
 Background running is capable and tested, by using Remote Desktop (RDP Wrapper) and Nvidia GeForce Now.\
